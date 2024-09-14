@@ -2,6 +2,18 @@
 	"entries" : 
 	[
 		{
+			"name" : "BZip2_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for BZip2."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
 			"name" : "CMAKE_ADDR2LINE",
 			"properties" : 
 			[
@@ -1294,6 +1306,18 @@
 			"value" : "default"
 		},
 		{
+			"name" : "CONAN_COMMAND",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a program."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "C:/Program Files/Conan/conan/conan.exe"
+		},
+		{
 			"name" : "CONAN_HOST_PROFILE",
 			"properties" : 
 			[
@@ -1354,6 +1378,18 @@
 			"value" : "C:/Users/carme/CLionProjects/PagProyecto"
 		},
 		{
+			"name" : "ZLIB_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for ZLIB."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",
 			"properties" : 
 			[
@@ -1376,6 +1412,198 @@
 			],
 			"type" : "FILEPATH",
 			"value" : "C:/Program Files/CMake/bin/cmake.exe"
+		},
+		{
+			"name" : "_conan_gnu_libstdcxx_is_cxx11_abi",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Test _conan_gnu_libstdcxx_is_cxx11_abi"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "1"
+		},
+		{
+			"name" : "_conan_is_gnu_libstdcxx",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Test _conan_is_gnu_libstdcxx"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "1"
+		},
+		{
+			"name" : "assimp_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for assimp."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "clipper_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for clipper."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "draco_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for draco."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "glad_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for glad."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "glfw3_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for glfw3."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "glm_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for glm."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "imgui_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for imgui."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "lodepng_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for lodepng."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "minizip_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for minizip."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "openddlparser_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for openddlparser."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "opengl_system_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for opengl_system."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "poly2tri_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for poly2tri."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "pugixml_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for pugixml."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
+		},
+		{
+			"name" : "zip_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for zip."
+				}
+			],
+			"type" : "PATH",
+			"value" : "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators"
 		}
 	],
 	"kind" : "cache",

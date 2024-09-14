@@ -559,3 +559,67 @@ events:
       Running the CXX compiler's linker: "C:/Users/carme/AppData/Local/Programs/CLion/bin/mingw/bin/ld.exe" "-v"
       GNU ld (GNU Binutils) 2.40
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/carme/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.29/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Users/carme/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.29/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "conan_provider.cmake:144 (check_cxx_source_compiles)"
+      - "conan_provider.cmake:186 (detect_gnu_libstdcxx)"
+      - "conan_provider.cmake:370 (detect_lib_cxx)"
+      - "conan_provider.cmake:573 (detect_host_profile)"
+      - "CMakeLists.txt:7 (find_package)"
+    checks:
+      - "Performing Test _conan_is_gnu_libstdcxx"
+    directories:
+      source: "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-s7ehgy"
+      binary: "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-s7ehgy"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "_conan_is_gnu_libstdcxx"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-s7ehgy'
+        
+        Run Build Command(s): C:/Users/carme/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -v cmTC_8ee9e
+        [1/2] C:\\Users\\carme\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -D_conan_is_gnu_libstdcxx  -std=gnu++20 -o CMakeFiles/cmTC_8ee9e.dir/src.cxx.obj -c C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-s7ehgy/src.cxx
+        [2/2] C:\\windows\\system32\\cmd.exe /C "cd . && C:\\Users\\carme\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe   CMakeFiles/cmTC_8ee9e.dir/src.cxx.obj -o cmTC_8ee9e.exe -Wl,--out-implib,libcmTC_8ee9e.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/carme/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.29/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Users/carme/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.29/Modules/CheckCXXSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "conan_provider.cmake:152 (check_cxx_source_compiles)"
+      - "conan_provider.cmake:186 (detect_gnu_libstdcxx)"
+      - "conan_provider.cmake:370 (detect_lib_cxx)"
+      - "conan_provider.cmake:573 (detect_host_profile)"
+      - "CMakeLists.txt:7 (find_package)"
+    checks:
+      - "Performing Test _conan_gnu_libstdcxx_is_cxx11_abi"
+    directories:
+      source: "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-v8mb08"
+      binary: "C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-v8mb08"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "_conan_gnu_libstdcxx_is_cxx11_abi"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-v8mb08'
+        
+        Run Build Command(s): C:/Users/carme/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -v cmTC_5666a
+        [1/2] C:\\Users\\carme\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -D_conan_gnu_libstdcxx_is_cxx11_abi  -std=gnu++20 -o CMakeFiles/cmTC_5666a.dir/src.cxx.obj -c C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-v8mb08/src.cxx
+        [2/2] C:\\windows\\system32\\cmd.exe /C "cd . && C:\\Users\\carme\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe   CMakeFiles/cmTC_5666a.dir/src.cxx.obj -o cmTC_5666a.exe -Wl,--out-implib,libcmTC_5666a.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        
+      exitCode: 0
+...
