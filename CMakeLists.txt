@@ -3,7 +3,9 @@ project(PagProyecto)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(PagProyecto main.cpp)
+add_executable(PagProyecto main.cpp
+        Renderer.cpp
+        Renderer.h)
 find_package(assimp)
 find_package(opengl_system)
 find_package(glm)
