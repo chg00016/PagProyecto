@@ -10,8 +10,7 @@ void error_callback ( int errno, const char* desc ){
 
 // - Esta función callback será llamada cada vez que el área de dibujo
 // OpenGL deba ser redibujada.
-void window_refresh_callback ( GLFWwindow *window )
-{
+void window_refresh_callback ( GLFWwindow *window ){
     PAG::Renderer::getInstancia().refrescar();
 // - GLFW usa un doble buffer para que no haya parpadeo. Esta orden
 // intercambia el buffer back (que se ha estado dibujando) por el
@@ -23,12 +22,11 @@ void window_refresh_callback ( GLFWwindow *window )
 
 // - Esta función callback será llamada cada vez que se cambie el tamaño
 // del área de dibujo OpenGL.
-void framebuffer_size_callback ( GLFWwindow *window, int width, int height )
-{
+void framebuffer_size_callback ( GLFWwindow *window, int width, int height ){
     PAG::Renderer::getInstancia().cambioTamViewport(window, width, height);
     std::cout << "Resize callback called" << std::endl;
 }
-
+//TODO
 // - Esta función callback será llamada cada vez que se pulse una tecla
 // dirigida al área de dibujo OpenGL.
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -37,7 +35,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
     std::cout << "Key callback called" << std::endl;
 }
-
+//TODO
 // - Esta función callback será llamada cada vez que se pulse algún botón
 // del ratón sobre el área de dibujo OpenGL.
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
@@ -61,15 +59,15 @@ void scroll_callback ( GLFWwindow *window, double xoffset, double yoffset ){
 int main(){
 std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
-    // - Este callback hay que registrarlo ANTES de llamar a glfwInit
+// - Este callback hay que registrarlo ANTES de llamar a glfwInit
     glfwSetErrorCallback ( (GLFWerrorfun) error_callback );
-
+//TODO
 // - Inicializa GLFW. Es un proceso que sólo debe realizarse una vez en la aplicación
-    if ( glfwInit () != GLFW_TRUE )
-    { std::cout << "Failed to initialize GLFW" << std::endl;
+    if ( glfwInit () != GLFW_TRUE ){
+        std::cout << "Failed to initialize GLFW" << std::endl;
         return -1;
     }
-
+//TODO
 // - Definimos las características que queremos que tenga el contexto gráfico
 // OpenGL de la ventana que vamos a crear. Por ejemplo, el número de muestras o el
 // modo Core Profile.
@@ -80,31 +78,31 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
 // - Definimos el puntero para guardar la dirección de la ventana de la aplicación y
 // la creamos
-GLFWwindow *window;
+    GLFWwindow *window;
 
 // - Tamaño, título de la ventana, en ventana y no en pantalla completa,
 // sin compartir recursos con otras ventanas.
-window = glfwCreateWindow ( 1024, 576, "PAG Introduction", nullptr, nullptr );
+    window = glfwCreateWindow ( 1024, 576, "PAG Introduction", nullptr, nullptr );
 
 // - Comprobamos si la creación de la ventana ha tenido éxito.
-if ( window == nullptr ){
-    std::cout << "Failed to open GLFW window" << std::endl;
-    glfwTerminate (); // - Liberamos los recursos que ocupaba GLFW.
-    return -2;
-}
+    if ( window == nullptr ){
+        std::cout << "Failed to open GLFW window" << std::endl;
+        glfwTerminate (); // - Liberamos los recursos que ocupaba GLFW.
+        return -2;
+    }
 
 // - Hace que el contexto OpenGL asociado a la ventana que acabamos de crear pase a
 // ser el contexto actual de OpenGL para las siguientes llamadas a la biblioteca
-glfwMakeContextCurrent ( window );
+    glfwMakeContextCurrent ( window );
 
 // - Ahora inicializamos GLAD.
-if ( !gladLoadGLLoader ( (GLADloadproc) glfwGetProcAddress ) ){
-    std::cout << "GLAD initialization failed" << std::endl;
-    glfwDestroyWindow ( window ); // - Liberamos los recursos que ocupaba GLFW.
-    window = nullptr;
-    glfwTerminate ();
-    return -3;
-}
+    if ( !gladLoadGLLoader ( (GLADloadproc) glfwGetProcAddress ) ){
+        std::cout << "GLAD initialization failed" << std::endl;
+        glfwDestroyWindow ( window ); // - Liberamos los recursos que ocupaba GLFW.
+        window = nullptr;
+        glfwTerminate ();
+        return -3;
+    }
 
 // - Interrogamos a OpenGL para que nos informe de las propiedades del contexto
 // 3D construido.
@@ -123,23 +121,24 @@ if ( !gladLoadGLLoader ( (GLADloadproc) glfwGetProcAddress ) ){
 // - Ciclo de eventos de la aplicación. La condición de parada es que la
 // ventana principal deba cerrarse. Por ejemplo, si el usuario pulsa el
 // botón de cerrar la ventana (la X).
-while ( !glfwWindowShouldClose ( window ) ){
-    // - Borra los buffers (color y profundidad)
-    PAG::Renderer::getInstancia().refrescar();
+    while ( !glfwWindowShouldClose ( window ) ){
+        // - Borra los buffers (color y profundidad)
+        PAG::Renderer::getInstancia().refrescar();
 
-    // - GLFW usa un doble buffer para que no haya parpadeo. Esta orden
-    // intercambia el buffer back (en el que se ha estado dibujando) por el
-    // que se mostraba hasta ahora (front).
-    glfwSwapBuffers ( window );
+        // - GLFW usa un doble buffer para que no haya parpadeo. Esta orden
+        // intercambia el buffer back (en el que se ha estado dibujando) por el
+        // que se mostraba hasta ahora (front).
+        glfwSwapBuffers ( window );
 
-    // - Obtiene y organiza los eventos pendientes, tales como pulsaciones de
-    // teclas o de ratón, etc. Siempre al final de cada iteración del ciclo
-    // de eventos y después de glfwSwapBuffers(window);
-    glfwPollEvents ();
-}
+        // - Obtiene y organiza los eventos pendientes, tales como pulsaciones de
+        // teclas o de ratón, etc. Siempre al final de cada iteración del ciclo
+        // de eventos y después de glfwSwapBuffers(window);
+        glfwPollEvents ();
+    }
+
 // - Una vez terminado el ciclo de eventos, liberar recursos, etc.
-std::cout << "Finishing application pag prueba" << std::endl;
-glfwDestroyWindow ( window ); // - Cerramos y destruimos la ventana de la aplicación.
-window = nullptr;
-glfwTerminate (); // - Liberamos los recursos que ocupaba GLFW.
+    std::cout << "Finishing application pag prueba" << std::endl;
+    glfwDestroyWindow ( window ); // - Cerramos y destruimos la ventana de la aplicación.
+    window = nullptr;
+    glfwTerminate (); // - Liberamos los recursos que ocupaba GLFW.
 }
