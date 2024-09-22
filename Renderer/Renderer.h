@@ -15,7 +15,7 @@ namespace PAG {
     private:
         static Renderer* instancia;
         Renderer();
-        glm::vec4 clearcolor;
+        glm::vec4 clearColor;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -24,8 +24,10 @@ namespace PAG {
         void consultarOpenGL();
         void cambioTamViewport(GLFWwindow *window, int width, int height);
         void ruedaRaton(GLFWwindow *window, double xoffset, double yoffset);
-        void getInforme();
-
+        std::string getInforme();
+        glm::vec4 getClearColor();
+        void setClearColor(float r, float g, float b, float t);
+        void render();
         
 
     };

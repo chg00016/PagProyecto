@@ -3,6 +3,10 @@
 //
 
 #include "GUI.h"
+
+#include <iostream>
+#include <ostream>
+
 namespace PAG {
     GUI* GUI::instancia = nullptr;
 
@@ -26,6 +30,13 @@ namespace PAG {
         return *instancia;
     }
 
+    void GUI::liberarRecursos() {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext ();
+
+    }
+    
     GUI::~GUI() {
     }
 
@@ -46,15 +57,48 @@ namespace PAG {
         ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData() );
     }
 
-    void cerrarVentana() {
-        if ( ImGui::Begin ( "Mensajes" ) )
-        { // La ventana está desplegada
+    void GUI::addmensaje(const std::string& mensaje) {
+        this->mensajes.push_back(mensaje);
+    }
+
+    ImVec4 GUI::getColor() {
+        return color;
+    }
+
+    void GUI::setColor(float r, float g, float b, float a) {
+        color = ImVec4(r, g, b, a);
+    }
+
+    void GUI::manipularVentana() {
+
+        //Primera ventana
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        if ( ImGui::Begin ( "Mensajes" ) ){ // La ventana está desplegada
             ImGui::SetWindowFontScale ( 1.0f ); // Escalamos el texto si fuera necesario
             // Pintamos los controles
+            for(int i= 0; i< mensajes.size();i++) {
+                ImGui::Text(mensajes[i].c_str());
+            }
+
         }
         // Si la ventana no está desplegada, Begin devuelve false
         ImGui::End ();
 
+        //Segunda ventana
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        if ( ImGui::Begin ( "Fondo" ) ){ // La ventana está desplegada
+            ImGui::SetWindowFontScale ( 1.0f ); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            ImGui::ColorPicker4("Actual", (float*)&color,
+                             ImGuiColorEditFlags_PickerHueWheel |
+                                 ImGuiColorEditFlags_DisplayRGB |
+                                 ImGuiColorEditFlags_DisplayHSV |
+                                 ImGuiColorEditFlags_DisplayHex
+                               | ImGuiColorEditFlags_NoAlpha);
+        }
+        // Si la ventana no está desplegada, Begin devuelve false
+        ImGui::End ();
     }
+
 }
 

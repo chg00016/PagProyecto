@@ -61,7 +61,6 @@ Requirements
     glad/0.1.36#c926453afdd9d5f72cc4ee6a8fff7d73 - Cache
     glfw/3.3.8#eaa2d6de4e064b2c92ad7fc4ac255141 - Cache
     glm/1.0.1#94392c53a527f7d830119b84fe80c754 - Cache
-    imgui/1.91.0#4cbf749d98d13c2c0253973b1e0580d8 - Cache
     kuba-zip/0.3.0#cac9d58fac5e8d16395edbdcda39cd7c - Cache
     lodepng/cci.20230410#62d5b23859385dca111828a41c40c734 - Cache
     minizip/1.2.13#75d20b6a37ef70126334467f61acadde - Cache
@@ -88,7 +87,6 @@ Requirements
     glad/0.1.36#c926453afdd9d5f72cc4ee6a8fff7d73:4288fece81e0215a1bc8330481c6aa713dbdb219#2212d7e61298c3d1dc33ff31255d63fb - Cache
     glfw/3.3.8#eaa2d6de4e064b2c92ad7fc4ac255141:8017d78d70cd810fbc93ef6c919368c5a0f66568#2332157faaace177dea8d2a56bdc5a16 - Cache
     glm/1.0.1#94392c53a527f7d830119b84fe80c754:da39a3ee5e6b4b0d3255bfef95601890afd80709#2bbcd0ae421fb99e8713dabae8437299 - Cache
-    imgui/1.91.0#4cbf749d98d13c2c0253973b1e0580d8:d238a9ba87303a7e5b7a6f56481b37b8c6f62843#06812604766890f0a5a8d0300a8220fd - Cache
     kuba-zip/0.3.0#cac9d58fac5e8d16395edbdcda39cd7c:f60e50a74ab05a616895712be87aa8c9377863ad#6e7f018c1499fabb58de71344acdf612 - Cache
     lodepng/cci.20230410#62d5b23859385dca111828a41c40c734:d238a9ba87303a7e5b7a6f56481b37b8c6f62843#49d90eaf4435ccc3c5509789a1cf161e - Cache
     minizip/1.2.13#75d20b6a37ef70126334467f61acadde:81336e2e4e13faf90b2b433cb6e37ecb7b617910#31ff9726be2cbc5222a64093ba36f586 - Cache
@@ -102,27 +100,25 @@ Skipped binaries
     rapidjson/cci.20230929, stb/cci.20230920, utfcpp/4.0.1, cmake/3.30.1
 
 ======== Installing packages ========
-bzip2/1.0.8: Already installed! (1 of 16)
-clipper/6.4.2: Already installed! (2 of 16)
-draco/1.5.6: Already installed! (3 of 16)
-glad/0.1.36: Already installed! (4 of 16)
-glm/1.0.1: Already installed! (5 of 16)
-imgui/1.91.0: Already installed! (6 of 16)
-imgui/1.91.0: Appending PATH env var with : C:\Users\carme\.conan2\p\b\imgui7eb17938bc065\p\bin
-kuba-zip/0.3.0: Already installed! (7 of 16)
-lodepng/cci.20230410: Already installed! (8 of 16)
-openddl-parser/0.5.1: Already installed! (9 of 16)
-opengl/system: Already installed! (10 of 16)
-poly2tri/cci.20130502: Already installed! (11 of 16)
-pugixml/1.14: Already installed! (12 of 16)
-zlib/1.3.1: Already installed! (13 of 16)
-glfw/3.3.8: Already installed! (14 of 16)
-minizip/1.2.13: Already installed! (15 of 16)
-assimp/5.4.2: Already installed! (16 of 16)
+bzip2/1.0.8: Already installed! (1 of 15)
+clipper/6.4.2: Already installed! (2 of 15)
+draco/1.5.6: Already installed! (3 of 15)
+glad/0.1.36: Already installed! (4 of 15)
+glm/1.0.1: Already installed! (5 of 15)
+kuba-zip/0.3.0: Already installed! (6 of 15)
+lodepng/cci.20230410: Already installed! (7 of 15)
+openddl-parser/0.5.1: Already installed! (8 of 15)
+opengl/system: Already installed! (9 of 15)
+poly2tri/cci.20130502: Already installed! (10 of 15)
+pugixml/1.14: Already installed! (11 of 15)
+zlib/1.3.1: Already installed! (12 of 15)
+glfw/3.3.8: Already installed! (13 of 15)
+minizip/1.2.13: Already installed! (14 of 15)
+assimp/5.4.2: Already installed! (15 of 15)
 WARN: deprecated: Usage of deprecated Conan 1.X features that will be removed in Conan 2.X:
-WARN: deprecated:     'cpp_info.names' used in: kuba-zip/0.3.0, zlib/1.3.1, glfw/3.3.8, clipper/6.4.2, bzip2/1.0.8, openddl-parser/0.5.1
+WARN: deprecated:     'cpp_info.names' used in: openddl-parser/0.5.1, bzip2/1.0.8, glfw/3.3.8, zlib/1.3.1, clipper/6.4.2, kuba-zip/0.3.0
 WARN: deprecated:     'cpp_info.build_modules' used in: bzip2/1.0.8, glfw/3.3.8
-WARN: deprecated:     'env_info' used in: bzip2/1.0.8, imgui/1.91.0
+WARN: deprecated:     'env_info' used in: bzip2/1.0.8
 WARN: deprecated:     'cpp_info.filenames' used in: opengl/system, glfw/3.3.8
 
 ======== Finalizing install (deploy, generators) ========
@@ -132,11 +128,10 @@ conanfile.py: CMakeDeps necessary find_package() and targets for your CMakeLists
     find_package(lodepng)
     find_package(assimp)
     find_package(glm)
-    find_package(imgui)
     find_package(glad)
     find_package(glfw3)
     find_package(opengl_system)
-    target_link_libraries(... lodepng::lodepng assimp::assimp glm::glm imgui::imgui glad::glad glfw opengl::opengl)
+    target_link_libraries(... lodepng::lodepng assimp::assimp glm::glm glad::glad glfw opengl::opengl)
 conanfile.py: Calling generate()
 conanfile.py: Generators folder: C:\Users\carme\CLionProjects\PagProyecto\cmake-build-debug\conan\build\Debug\generators
 conanfile.py: CMakeToolchain generated: conan_toolchain.cmake
@@ -179,8 +174,6 @@ Install finished successfully
 -- Conan: Target declared 'glfw'
 -- CMake-Conan: find_package(glad) found, 'conan install' already ran
 -- Conan: Target declared 'glad::glad'
--- CMake-Conan: find_package(imgui) found, 'conan install' already ran
--- Conan: Target declared 'imgui::imgui'
--- Configuring done (4.7s)
+-- Configuring done (1.3s)
 -- Generating done (0.0s)
 -- Build files have been written to: C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug

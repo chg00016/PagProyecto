@@ -1,6 +1,7 @@
 #include <iostream>
 // IMPORTANTE: El include de GLAD debe estar siempre ANTES de el de GLFW
 #include "./Renderer/Renderer.h"
+#include "GUI/GUI.h"
 
 // - Esta función callback será llamada cuando GLFW produzca algún error
 void error_callback ( int errno, const char* desc ){
@@ -17,41 +18,40 @@ void window_refresh_callback ( GLFWwindow *window ){
 // que se mostraba hasta ahora front. Debe ser la última orden de
 // este callback
     glfwSwapBuffers ( window );
-    std::cout << "Refresh callback called" << std::endl;
+    PAG::GUI::getInstancia().addmensaje("Refresh callback call");
 }
 
 // - Esta función callback será llamada cada vez que se cambie el tamaño
 // del área de dibujo OpenGL.
 void framebuffer_size_callback ( GLFWwindow *window, int width, int height ){
     PAG::Renderer::getInstancia().cambioTamViewport(window, width, height);
-    std::cout << "Resize callback called" << std::endl;
+    PAG::GUI::getInstancia().addmensaje("Resize callback called");
+
 }
-//TODO
+
 // - Esta función callback será llamada cada vez que se pulse una tecla
 // dirigida al área de dibujo OpenGL.
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-
-    std::cout << "Key callback called" << std::endl;
+    PAG::GUI::getInstancia().addmensaje("Key callback called");
 }
-//TODO
+
 // - Esta función callback será llamada cada vez que se pulse algún botón
 // del ratón sobre el área de dibujo OpenGL.
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
     if(action == GLFW_PRESS)
-        std::cout << "Pulsado el boton: " << button << std::endl;
+        PAG::GUI::getInstancia().addmensaje("Pulsado el boton: ");
     else if(action == GLFW_RELEASE)
-        std::cout << "Soltado el boton: " << button << std::endl;
+        PAG::GUI::getInstancia().addmensaje("Soltado el boton: ");
+
 }
 
 // - Esta función callback será llamada cada vez que se mueva la rueda
 // del ratón sobre el área de dibujo OpenGL.
 void scroll_callback ( GLFWwindow *window, double xoffset, double yoffset ){
-    std::cout << "Movida la rueda del raton " << xoffset
-    << " Unidades en horizontal y " << yoffset
-    << " unidades en vertical" << std::endl;
-
+    PAG::GUI::getInstancia().addmensaje("Movida la rueda del raton " + std::to_string(xoffset) +
+        " Unidades en horizontal y " + std::to_string(yoffset) + " unidades en vertical");
     PAG::Renderer::getInstancia().ruedaRaton(window, xoffset, yoffset);
 }
 
@@ -61,13 +61,13 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
 // - Este callback hay que registrarlo ANTES de llamar a glfwInit
     glfwSetErrorCallback ( (GLFWerrorfun) error_callback );
-//TODO
+
 // - Inicializa GLFW. Es un proceso que sólo debe realizarse una vez en la aplicación
     if ( glfwInit () != GLFW_TRUE ){
         std::cout << "Failed to initialize GLFW" << std::endl;
         return -1;
     }
-//TODO
+
 // - Definimos las características que queremos que tenga el contexto gráfico
 // OpenGL de la ventana que vamos a crear. Por ejemplo, el número de muestras o el
 // modo Core Profile.
@@ -106,7 +106,8 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
 // - Interrogamos a OpenGL para que nos informe de las propiedades del contexto
 // 3D construido.
-    PAG::Renderer::getInstancia().getInforme();
+    PAG::GUI::getInstancia().addmensaje(PAG::Renderer::getInstancia().getInforme());
+
 
     // - Registramos los callbacks que responderán a los eventos principales
     glfwSetWindowRefreshCallback ( window, window_refresh_callback );
@@ -115,6 +116,9 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     glfwSetMouseButtonCallback ( window, mouse_button_callback );
     glfwSetScrollCallback ( window, scroll_callback );
 
+    //Inicializar ImGUI
+    PAG::GUI::getInstancia().inicializarImGUI(window);
+
     //Inicializamos opengl
     PAG::Renderer::getInstancia().inicializarOpenGL();
 
@@ -122,9 +126,23 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 // ventana principal deba cerrarse. Por ejemplo, si el usuario pulsa el
 // botón de cerrar la ventana (la X).
     while ( !glfwWindowShouldClose ( window ) ){
-        // - Borra los buffers (color y profundidad)
+        //Borra los buffers (color y profundidad)
+        glm::vec4 color = PAG::Renderer::getInstancia().getClearColor();
+        PAG::GUI::getInstancia().setColor(color.r, color.g, color.b, color.a);
         PAG::Renderer::getInstancia().refrescar();
 
+        PAG::GUI::getInstancia().newFrame();
+
+        PAG::GUI::getInstancia().setVentana();
+        PAG::GUI::getInstancia().manipularVentana();
+        //La escena se dibuja
+        PAG::Renderer::getInstancia().setClearColor(
+            PAG::GUI::getInstancia().getColor().x, PAG::GUI::getInstancia().getColor().y,
+            PAG::GUI::getInstancia().getColor().z, PAG::GUI::getInstancia().getColor().w);
+
+        PAG::Renderer::getInstancia().render();
+        // - se dibuja la interfaz con imgui
+        PAG::GUI::getInstancia().render();
         // - GLFW usa un doble buffer para que no haya parpadeo. Esta orden
         // intercambia el buffer back (en el que se ha estado dibujando) por el
         // que se mostraba hasta ahora (front).
@@ -137,7 +155,9 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     }
 
 // - Una vez terminado el ciclo de eventos, liberar recursos, etc.
+
     std::cout << "Finishing application pag prueba" << std::endl;
+    PAG::GUI::getInstancia().liberarRecursos();
     glfwDestroyWindow ( window ); // - Cerramos y destruimos la ventana de la aplicación.
     window = nullptr;
     glfwTerminate (); // - Liberamos los recursos que ocupaba GLFW.
