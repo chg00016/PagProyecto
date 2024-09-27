@@ -16,6 +16,14 @@ namespace PAG {
         static Renderer* instancia;
         Renderer();
         glm::vec4 clearColor;
+        //PR3
+        GLuint idVS = 0; // Identificador del vertex shader
+        GLuint idFS = 0; // Identificador del fragment shader
+        GLuint idSP = 0; // Identificador del shader program
+        GLuint idVAO = 0; // Identificador del vertex array object
+        GLuint idVBO = 0; // Identificador del vertex buffer object
+        GLuint idIBO = 0; // Identificador del index buffer object
+
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -28,6 +36,10 @@ namespace PAG {
         glm::vec4 getClearColor();
         void setClearColor(float r, float g, float b, float t);
         void render();
+        //PR3
+        void creaShaderProgram();
+        void creaModelo();
+
         
 
     };

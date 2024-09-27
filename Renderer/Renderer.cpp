@@ -11,18 +11,39 @@ namespace PAG {
     Renderer* Renderer::instancia = nullptr;
 
     /**
-    * Constructor por defecto
+    * @Brief Constructor por defecto
     */
     Renderer::Renderer () {
         clearColor = glm::vec4(0.6, 0.6, 0.6, 1.0);
     }
 
     /**
-    * Destructor
+    * @Brief Destructor de Renderer
     */
-    Renderer::~Renderer ()
-    { }
+    Renderer::~Renderer () {
+        if ( idVS != 0 ){
+            glDeleteShader ( idVS );
+        }
+        if ( idFS != 0 ){
+            glDeleteShader ( idFS );
+        }
+        if ( idSP != 0 ){
+            glDeleteProgram ( idSP );
+        }
+        if ( idVBO != 0 ){
+            glDeleteBuffers ( 1, &idVBO );
+        }
+        if ( idIBO != 0 ){
+            glDeleteBuffers ( 1, &idIBO );
+        }
+        if ( idVAO != 0 ){
+            glDeleteVertexArrays ( 1, &idVAO );
+        }
+    }
 
+    /**
+     * @Brief Método que inicializa openGL
+     */
     void Renderer::inicializarOpenGL() {
         // - Establecemos un gris medio como color con el que se borrará el frame buffer.
         // No tiene por qué ejecutarse en cada paso por el ciclo de eventos.
@@ -48,6 +69,13 @@ namespace PAG {
     */
     void Renderer::refrescar (){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //PR3
+        glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
+        glUseProgram ( idSP );
+        glBindVertexArray ( idVAO );
+        glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
+        glDrawElements ( GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr );
+
     }
 
     /**
@@ -60,6 +88,12 @@ namespace PAG {
 
     }
 
+    /**
+     * @Brief Método que cambia el color de fondo de la ventana al mover la rueda del ratón
+     * @param window : ventana de glfw
+     * @param xoffset : movimiento sobre el eje x de la rueda
+     * @param yoffset : movimiento sobre el eje y de la rueda
+     */
     void Renderer::ruedaRaton(GLFWwindow *window, double xoffset, double yoffset) {
         //Porcentaje de variacion del color
         float colorVariacion =  0.005f;
@@ -109,16 +143,91 @@ namespace PAG {
         return informe;
     }
 
-    glm::vec4 Renderer::getClearColor() {
+     /**
+      * @Brief Getter de ClearColor
+      * @return vector que es clearColor
+      */
+     glm::vec4 Renderer::getClearColor() {
         return this->clearColor;
     }
 
-    void Renderer::setClearColor(float r, float g, float b, float t) {
+     /**
+      * @Brief Setter de clearColor
+      * @param r: Componente roja del color
+      * @param g : Componente verde del color
+      * @param b : Componente azul del color
+      * @param t : Componente transparente del color
+      */
+     void Renderer::setClearColor(float r, float g, float b, float t) {
         this->clearColor = glm::vec4(r,g,b,t);
     }
+
+     /**
+      * @Brief Método para renderizar
+      */
      void Renderer::render() {
         glClearColor(clearColor[0],clearColor[1], clearColor[2],clearColor[3]);
+        //PR3
+        glEnable ( GL_DEPTH_TEST );
+        glEnable ( GL_MULTISAMPLE );
+
      }
 
+//PR3
+/**
+* Método para crear, compilar y enlazar el shader program
+* @note No se incluye ninguna comprobación de errores
+*/
+void PAG::Renderer::creaShaderProgram(){
+    std::string miVertexShader =
+        "#version 410\n"
+        "layout (location = 0) in vec3 posicion;\n"
+        "void main ()\n"
+        "{ gl_Position = vec4 ( posicion, 1 );\n"
+        "}\n";
+    std::string miFragmentShader =
+        "#version 410\n"
+        "out vec4 colorFragmento;\n"
+        "void main ()\n"
+        "{ colorFragmento = vec4 ( 1.0, .4, .2, 1.0 );\n"
+        "}\n";
+
+    idVS = glCreateShader ( GL_VERTEX_SHADER );
+    const GLchar* fuenteVS = miVertexShader.c_str ();
+    glShaderSource ( idVS, 1, &fuenteVS, nullptr );
+    glCompileShader ( idVS );
+
+    idFS = glCreateShader ( GL_FRAGMENT_SHADER );
+    const GLchar* fuenteFS = miFragmentShader.c_str ();
+    glShaderSource ( idFS, 1, &fuenteFS, nullptr );
+    glCompileShader ( idFS );
+
+    idSP = glCreateProgram ();
+    glAttachShader ( idSP, idVS );
+    glAttachShader ( idSP, idFS );
+    glLinkProgram ( idSP );
+}
+
+/**
+* Método para crear el VAO para el modelo a renderizar
+* @note No se incluye ninguna comprobación de errores
+*/
+void PAG::Renderer::creaModelo (){
+    GLfloat vertices[] = { -.5, -.5, 0,.5, -.5, 0,.0, .5, 0 };
+    GLuint indices[] = { 0, 1, 2 };
+    glGenVertexArrays ( 1, &idVAO );
+        glBindVertexArray ( idVAO );
+        glGenBuffers ( 1, &idVBO );
+        glBindBuffer ( GL_ARRAY_BUFFER, idVBO );
+        glBufferData ( GL_ARRAY_BUFFER, 9*sizeof(GLfloat), vertices,
+        GL_STATIC_DRAW );
+        glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(GLfloat),
+        nullptr );
+        glEnableVertexAttribArray ( 0 );
+        glGenBuffers ( 1, &idIBO );
+        glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
+        glBufferData ( GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(GLuint), indices,
+        GL_STATIC_DRAW );
+}
 
 }
