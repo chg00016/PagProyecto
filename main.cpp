@@ -131,8 +131,10 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         PAG::GUI::getInstancia().setColor(color.r, color.g, color.b, color.a);
         PAG::Renderer::getInstancia().refrescar();
 
+        //Se crea un nuevo frame en el que renderizar
         PAG::GUI::getInstancia().newFrame();
 
+        //Se crean las ventanas
         PAG::GUI::getInstancia().setVentana();
         PAG::GUI::getInstancia().manipularVentana();
         //La escena se dibuja
