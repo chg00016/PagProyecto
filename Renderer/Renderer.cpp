@@ -39,6 +39,12 @@ namespace PAG {
         if ( idVAO != 0 ){
             glDeleteVertexArrays ( 1, &idVAO );
         }
+        //no enlazado
+        for (int i = 0; i < 2; i++) {
+            if(noEntrelazadoidVBO[i] != 0){
+                glDeleteBuffers ( 2, noEntrelazadoidVBO );
+            }
+        }
     }
 
     /**
@@ -282,7 +288,7 @@ void PAG::Renderer::cargarShader(const std::string& ruta) {
         archivoShader.open ( ruta + "-vs.glsl" );
         if ( !archivoShader.is_open () ){
             problemaShader = true;
-            throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
+            throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de vertex shader");
         }
 
         std::stringstream streamShader;
@@ -296,7 +302,7 @@ void PAG::Renderer::cargarShader(const std::string& ruta) {
         archivoShader.open(ruta + "-fs.glsl");
         if( !archivoShader.is_open() ){
             problemaShader = true;
-            throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
+            throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de fragment shader");
         }
         streamShader << archivoShader.rdbuf();
         codigoFS = streamShader.str();
@@ -310,21 +316,28 @@ void PAG::Renderer::cargarShader(const std::string& ruta) {
 */
 void PAG::Renderer::creaModelo (){
     GLfloat vertices[] = { -.5, -.5, 0,.5, -.5, 0,.0, .5, 0 };
+    GLfloat colores[] = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
     GLuint indices[] = { 0, 1, 2 };
+//VAO
     glGenVertexArrays ( 1, &idVAO );
     glBindVertexArray ( idVAO );
+//idVBO no entrelazado
+        glGenBuffers(2, noEntrelazadoidVBO);
 
-        glGenBuffers ( 1, &idVBO );
-        glBindBuffer ( GL_ARRAY_BUFFER, idVBO );
-        glBufferData ( GL_ARRAY_BUFFER, 9*sizeof(GLfloat), vertices,
-        GL_STATIC_DRAW );
-        glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(GLfloat),
-        nullptr );
-        glEnableVertexAttribArray ( 0 );
-        glGenBuffers ( 1, &idIBO );
-        glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
-        glBufferData ( GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(GLuint), indices,
-        GL_STATIC_DRAW );
+        glBindBuffer(GL_ARRAY_BUFFER,  noEntrelazadoidVBO[0]);
+        glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+        glEnableVertexAttribArray(0);
+
+        glBindBuffer(GL_ARRAY_BUFFER,  noEntrelazadoidVBO[1]);
+        glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), colores, GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+        glEnableVertexAttribArray(1);
+//IBO
+        glGenBuffers(1, &idIBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idIBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indices,
+                       GL_STATIC_DRAW);
 }
 
 }
