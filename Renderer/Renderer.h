@@ -27,7 +27,7 @@ namespace PAG {
         std::string codigoVS = "";
         std::string codigoFS = "";
         bool problemaShader = false;
-        GLuint noEntrelazadoidVBO[2];
+        //GLuint noEntrelazadoidVBO[2];
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
