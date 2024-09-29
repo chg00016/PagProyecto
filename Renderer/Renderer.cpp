@@ -179,25 +179,13 @@ namespace PAG {
 * @note No se incluye ninguna comprobación de errores
 */
 void PAG::Renderer::creaShaderProgram(){
-    std::string miVertexShader =
-        "#version 410\n"
-        "layout (location = 0) in vec3 posicion;\n"
-        "void main ()\n"
-        "{ gl_Position = vec4 ( posicion, 1 );\n"
-        "}\n";
-    std::string miFragmentShader =
-        "#version 410\n"
-        "out vec4 colorFragmento;\n"
-        "void main ()\n"
-        "{ colorFragmento = vec4 ( 1.0, .4, .2, 1.0 );\n"
-        "}\n";
 
     idVS = glCreateShader ( GL_VERTEX_SHADER );
         if(idVS == 0) {
             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating vertex shader");
         }
 
-    const GLchar* fuenteVS = miVertexShader.c_str ();
+    const GLchar* fuenteVS = codigoVS.c_str ();
     glShaderSource ( idVS, 1, &fuenteVS, nullptr );
     glCompileShader ( idVS );
 
@@ -226,7 +214,7 @@ void PAG::Renderer::creaShaderProgram(){
             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating fragment shader");
         }
 
-    const GLchar* fuenteFS = miFragmentShader.c_str ();
+    const GLchar* fuenteFS = codigoFS.c_str ();
     glShaderSource ( idFS, 1, &fuenteFS, nullptr );
     glCompileShader ( idFS );
 
@@ -279,6 +267,35 @@ void PAG::Renderer::creaShaderProgram(){
         throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error linking the program");
         }
 }
+
+/**
+ * Método que carga de archivo de texto el código fuente del shader
+ */
+void PAG::Renderer::cargarShader(const std::string& ruta) {
+        std::ifstream archivoShader;
+
+        archivoShader.open ( ruta + "-vs.glsl" );
+        if ( !archivoShader.is_open () ){
+            throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
+        }
+
+        std::stringstream streamShader;
+        streamShader << archivoShader.rdbuf ();
+        codigoVS = streamShader.str ();
+
+        archivoShader.close ();
+
+        //-------------
+        streamShader.str(std::string());
+        archivoShader.open(ruta + "-fs.glsl");
+        if( !archivoShader.is_open() ){
+            throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
+        }
+        streamShader << archivoShader.rdbuf();
+        codigoFS = streamShader.str();
+
+        archivoShader.close();
+    }
 
 /**
 * Método para crear el VAO para el modelo a renderizar

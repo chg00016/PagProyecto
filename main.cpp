@@ -124,7 +124,8 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
     //PR3
     try{
-        //Inicializamos el shader y el modelo
+        // Cargamos los shaders e inicializamos los shaders y el modelo
+        PAG::Renderer::getInstancia().cargarShader("..\\Shaders\\pag03");
         PAG::Renderer::getInstancia().creaShaderProgram();
         PAG::Renderer::getInstancia().creaModelo();
     }catch(std::exception& e) {

@@ -8,7 +8,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/vec4.hpp>
 #include <iostream>
-#include <ostream>
+#include <sstream>
+#include <fstream>
 
 namespace PAG {
     class Renderer {
@@ -23,7 +24,8 @@ namespace PAG {
         GLuint idVAO = 0; // Identificador del vertex array object
         GLuint idVBO = 0; // Identificador del vertex buffer object
         GLuint idIBO = 0; // Identificador del index buffer object
-
+        std::string codigoVS = "";
+        std::string codigoFS = "";
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -38,6 +40,7 @@ namespace PAG {
         void render();
         //PR3
         void creaShaderProgram();
+        void cargarShader(const std::string& ruta);
         void creaModelo();
 
         
