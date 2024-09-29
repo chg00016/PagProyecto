@@ -26,6 +26,7 @@ namespace PAG {
         GLuint idIBO = 0; // Identificador del index buffer object
         std::string codigoVS = "";
         std::string codigoFS = "";
+        bool problemaShader = false;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();

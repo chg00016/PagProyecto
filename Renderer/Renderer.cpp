@@ -70,6 +70,8 @@ namespace PAG {
     void Renderer::refrescar (){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //PR3
+        if(problemaShader)
+            return;
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
         glUseProgram ( idSP );
         glBindVertexArray ( idVAO );
@@ -182,6 +184,7 @@ void PAG::Renderer::creaShaderProgram(){
 
     idVS = glCreateShader ( GL_VERTEX_SHADER );
         if(idVS == 0) {
+            problemaShader = true;
             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating vertex shader");
         }
 
@@ -211,6 +214,7 @@ void PAG::Renderer::creaShaderProgram(){
 //---------------------
     idFS = glCreateShader ( GL_FRAGMENT_SHADER );
         if(idFS == 0) {
+            problemaShader = true;
             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating fragment shader");
         }
 
@@ -242,6 +246,7 @@ void PAG::Renderer::creaShaderProgram(){
 
     idSP = glCreateProgram ();
         if(idSP == 0) {
+            problemaShader = true;
             throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error creating the shader program");
         }
     glAttachShader ( idSP, idVS );
@@ -276,6 +281,7 @@ void PAG::Renderer::cargarShader(const std::string& ruta) {
 
         archivoShader.open ( ruta + "-vs.glsl" );
         if ( !archivoShader.is_open () ){
+            problemaShader = true;
             throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
         }
 
@@ -289,6 +295,7 @@ void PAG::Renderer::cargarShader(const std::string& ruta) {
         streamShader.str(std::string());
         archivoShader.open(ruta + "-fs.glsl");
         if( !archivoShader.is_open() ){
+            problemaShader = true;
             throw std::runtime_error("[PAG::Renderer::obtenerShaders]: Error en la apertura del archivo");
         }
         streamShader << archivoShader.rdbuf();
