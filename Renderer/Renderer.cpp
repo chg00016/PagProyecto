@@ -193,19 +193,91 @@ void PAG::Renderer::creaShaderProgram(){
         "}\n";
 
     idVS = glCreateShader ( GL_VERTEX_SHADER );
+        if(idVS == 0) {
+            throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating vertex shader");
+        }
+
     const GLchar* fuenteVS = miVertexShader.c_str ();
     glShaderSource ( idVS, 1, &fuenteVS, nullptr );
     glCompileShader ( idVS );
 
+        GLint resultadoCompilacionVS;
+        glGetShaderiv ( idVS, GL_COMPILE_STATUS, &resultadoCompilacionVS );
+
+        if ( resultadoCompilacionVS == GL_FALSE )
+        {  // Ha habido un error en la compilación.
+            // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
+            GLint tamMsj = 0;
+            std::string mensaje = "";
+            glGetShaderiv ( idVS, GL_INFO_LOG_LENGTH, &tamMsj );
+            if ( tamMsj > 0 )
+            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+                GLint datosEscritos = 0;
+                glGetShaderInfoLog ( idVS, tamMsj, &datosEscritos, mensajeFormatoC );
+                mensaje.assign ( mensajeFormatoC );
+                delete[] mensajeFormatoC;
+                mensajeFormatoC = nullptr;
+            }
+            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling vertex shader\n  " + mensaje);
+        }
+//---------------------
     idFS = glCreateShader ( GL_FRAGMENT_SHADER );
+        if(idFS == 0) {
+            throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating fragment shader");
+        }
+
     const GLchar* fuenteFS = miFragmentShader.c_str ();
     glShaderSource ( idFS, 1, &fuenteFS, nullptr );
     glCompileShader ( idFS );
 
+        GLint resultadoCompilacionFS;
+        glGetShaderiv ( idFS, GL_COMPILE_STATUS, &resultadoCompilacionFS );
+
+
+        if ( resultadoCompilacionFS == GL_FALSE )
+        {  // Ha habido un error en la compilación.
+            // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
+            GLint tamMsj = 0;
+            std::string mensaje = "";
+            glGetShaderiv ( idFS, GL_INFO_LOG_LENGTH, &tamMsj );
+            if ( tamMsj > 0 )
+            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+                GLint datosEscritos = 0;
+                glGetShaderInfoLog ( idFS, tamMsj, &datosEscritos, mensajeFormatoC );
+                mensaje.assign ( mensajeFormatoC );
+                delete[] mensajeFormatoC;
+                mensajeFormatoC = nullptr;
+            }
+            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling fragment shader\n  " + mensaje);
+        }
+//---------------------
+
     idSP = glCreateProgram ();
+        if(idSP == 0) {
+            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error creating the shader program");
+        }
     glAttachShader ( idSP, idVS );
     glAttachShader ( idSP, idFS );
     glLinkProgram ( idSP );
+
+        glLinkProgram ( idSP );
+        GLint resultadoEnlazado = 0;
+        glGetProgramiv ( idSP, GL_LINK_STATUS, &resultadoEnlazado );
+        if ( resultadoEnlazado == GL_FALSE )
+        {  // Ha habido un error y hay que recuperar su descripción, para saber qué ha pasado
+            GLint tamMsj = 0;
+            std::string mensaje = "";
+            glGetProgramiv ( idSP, GL_INFO_LOG_LENGTH, &tamMsj );
+            if ( tamMsj > 0 )
+            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+                GLint datosEscritos = 0;
+                glGetProgramInfoLog ( idSP, tamMsj, &datosEscritos, mensajeFormatoC );
+                mensaje.assign ( mensajeFormatoC );
+                delete[] mensajeFormatoC;
+                mensajeFormatoC = nullptr;
+            }
+        throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error linking the program");
+        }
 }
 
 /**
@@ -216,7 +288,8 @@ void PAG::Renderer::creaModelo (){
     GLfloat vertices[] = { -.5, -.5, 0,.5, -.5, 0,.0, .5, 0 };
     GLuint indices[] = { 0, 1, 2 };
     glGenVertexArrays ( 1, &idVAO );
-        glBindVertexArray ( idVAO );
+    glBindVertexArray ( idVAO );
+
         glGenBuffers ( 1, &idVBO );
         glBindBuffer ( GL_ARRAY_BUFFER, idVBO );
         glBufferData ( GL_ARRAY_BUFFER, 9*sizeof(GLfloat), vertices,

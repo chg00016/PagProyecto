@@ -123,9 +123,14 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     PAG::Renderer::getInstancia().inicializarOpenGL();
 
     //PR3
-    //Inicializamos el shader y el modelo
-    PAG::Renderer::getInstancia().creaShaderProgram ();
-    PAG::Renderer::getInstancia().creaModelo ();
+    try{
+        //Inicializamos el shader y el modelo
+        PAG::Renderer::getInstancia().creaShaderProgram();
+        PAG::Renderer::getInstancia().creaModelo();
+    }catch(std::exception& e) {
+        PAG::GUI::getInstancia().addmensaje(e.what());
+        PAG::GUI::getInstancia().addmensaje("\n");
+    }
 
 
 // - Ciclo de eventos de la aplicación. La condición de parada es que la
