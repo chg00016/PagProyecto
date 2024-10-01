@@ -69,7 +69,7 @@ Durante el ciclo de eventos, explicaré en orden lo que ocurre:
 - Se crean las ventanas.
 - Se dibuja la escena con renderer.
 - Se dibuja la escena con gui.
--
+ 
 
 # *Práctica 3*
 ### Ejercicio 5
@@ -79,3 +79,28 @@ debe este comportamiento?
 <br></br>
 Esto es causa de la vista de la cámara, ya que es uniforme con respecto al tamaño de la ventana y por ende del viewport, para implementar 
 dicha característica, solo tendríamos que modificar las dimensiones de la visión de la cámara en proporción de las dimensiones del viewport.
+
+### Cambios realizados
+Todos los cambios realizados en esta práctica han tenido lugar en la clase Renderer, además de que ha sido añadido 
+un directorio para los shaders, en el que hay dos ficheros uno para los vertex shaders y el otro para los fragment shaders.
+#### Renderer
+Se ha añadido un atributo booleano "problemaShader" que si es verdad hace que en la función de refrescar no se carge nada respectivo al shader. Esta variable
+está por defecto en falso, y si en las funciones de "void creaShaderProgram()" y  "void cargarShader(const std::string& ruta)" ocurre
+un error en las comprobaciones se vuelve verdadera.
+Se comprueban errores:
+- Al crear el vertex shader y al compilarlo.
+- Al crear el fragment shader y al compilarlo.
+- Al crear el programa de shaders y al enlazarlo con los anteriores shaders.
+
+En el caso de ocurrir un error se lanza una excepción indicando a que clase y función pertenece. Estas excepciones son capturadas en el 
+main cuando se carga los shaders e inicializa los shaders y el modelo, y son añadidas a los mensajes de la ventana de mensajes.
+  <br></br>
+Para cargar los ficheros con los fragment y vertex shaders se ha creado la función cargarShader(const std::string& ruta), en la que por 
+parámetro se le pasa la ruta del archivo sin la extensión. El código de los shader se almacenan en dos atributos de la clase, "std::string codigoVS"
+"string codigoFS" y estos son utilizados en la función de crear los shaders.
+
+Con el objetivo de implementar un color distinto para cada arista del triángulo, se ha modificado el codigo de los shaders añadiendo
+un vec3 vertexColor a ambos y un atributo color en el vertex shader.
+
+Para el idVBO no entrelazado ha sido necesario añadir un atributo que sea un vector de dos de tamaño, por tanto se ha tenido que añadir al destructor esta variable.
+El idVBO entrelazado resulta más sencillo de manejar asi que es el que he decidido utilizar.
