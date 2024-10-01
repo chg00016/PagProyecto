@@ -69,6 +69,13 @@ Durante el ciclo de eventos, explicaré en orden lo que ocurre:
 - Se crean las ventanas.
 - Se dibuja la escena con renderer.
 - Se dibuja la escena con gui.
-- 
-  
-  
+-
+
+# *Práctica 3*
+### Ejercicio 5
+Responde a esta pregunta. Si redimensionas la ventana de la aplicación, verás que el triángulo
+no permanece igual, sino que se deforma al mismo tiempo que la ventana. ¿A qué crees que se
+debe este comportamiento?
+<br></br>
+Esto es causa de la vista de la cámara, ya que es uniforme con respecto al tamaño de la ventana y por ende del viewport, para implementar 
+dicha característica, solo tendríamos que modificar las dimensiones de la visión de la cámara en proporción de las dimensiones del viewport.
