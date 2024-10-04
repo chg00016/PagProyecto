@@ -21,15 +21,6 @@ namespace PAG {
     * @Brief Destructor de Renderer
     */
     Renderer::~Renderer () {
-        if ( idVS != 0 ){
-            glDeleteShader ( idVS );
-        }
-        if ( idFS != 0 ){
-            glDeleteShader ( idFS );
-        }
-        if ( idSP != 0 ){
-            glDeleteProgram ( idSP );
-        }
         if ( idVBO != 0 ){
             glDeleteBuffers ( 1, &idVBO );
         }
@@ -79,8 +70,9 @@ namespace PAG {
         //PR3
         if(problemaShader)
             return;
+        //TODO
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
-        glUseProgram ( idSP );
+        glUseProgram ( shaders->getIdSP());
         glBindVertexArray ( idVAO );
         glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
         glDrawElements ( GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr );
@@ -250,7 +242,7 @@ void PAG::Renderer::creaShaderProgram(){
             throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling fragment shader\n  " + mensaje);
         }
 //---------------------
-
+//shaderProgram
     idSP = glCreateProgram ();
         if(idSP == 0) {
             problemaShader = true;

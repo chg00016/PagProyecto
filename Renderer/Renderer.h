@@ -10,6 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include "../Shader/ShaderPrograms.h"
 
 namespace PAG {
     class Renderer {
@@ -18,9 +19,6 @@ namespace PAG {
         Renderer();
         glm::vec4 clearColor;
         //PR3
-        GLuint idVS = 0; // Identificador del vertex shader
-        GLuint idFS = 0; // Identificador del fragment shader
-        GLuint idSP = 0; // Identificador del shader program
         GLuint idVAO = 0; // Identificador del vertex array object
         GLuint idVBO = 0; // Identificador del vertex buffer object
         GLuint idIBO = 0; // Identificador del index buffer object
@@ -28,6 +26,8 @@ namespace PAG {
         std::string codigoFS = "";
         bool problemaShader = false;
         //GLuint noEntrelazadoidVBO[2];
+        //PR4
+        ShaderPrograms *shaders;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();

@@ -6,7 +6,11 @@ file(GLOB IMGUI_SRC_FILES imgui/*.cpp)
 add_executable(PagProyecto main.cpp
         Renderer/Renderer.cpp
         Renderer/Renderer.h
-        GUI/GUI.cpp GUI/GUI.h ${IMGUI_SRC_FILES})
+        GUI/GUI.cpp GUI/GUI.h ${IMGUI_SRC_FILES}
+        Shader/Shader.cpp
+        Shader/Shader.h
+        Shader/ShaderPrograms.cpp
+        Shader/ShaderPrograms.h)
 target_include_directories( ${PROJECT_NAME} PUBLIC imgui )
 find_package(assimp)
 find_package(opengl_system)
