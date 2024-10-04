@@ -11,3 +11,15 @@
 48	1755	7486416740738493	CMakeFiles/PagProyecto.dir/imgui/imgui_widgets.cpp.obj	54afb89c5b41dc3d
 19	2168	7486416740443837	CMakeFiles/PagProyecto.dir/imgui/imgui.cpp.obj	257d440a8f12e97c
 32	871	7486416740585448	CMakeFiles/PagProyecto.dir/imgui/imgui_impl_opengl3.cpp.obj	b57dff65db92073
+70	1329	7497709628707945	CMakeFiles/PagProyecto.dir/Shader/ShaderPrograms.cpp.obj	d8123280053850d0
+56	1331	7497709628558842	CMakeFiles/PagProyecto.dir/Renderer/Renderer.cpp.obj	1ec59d61147f6704
+64	1355	7497709628642364	CMakeFiles/PagProyecto.dir/Shader/Shader.cpp.obj	ca963c0926ae2b3a
+46	1485	7497709628460888	CMakeFiles/PagProyecto.dir/main.cpp.obj	be662775a5f46abf
+33	1240	7497710243960914	CMakeFiles/PagProyecto.dir/main.cpp.obj	be662775a5f46abf
+48	943	7497710954538491	CMakeFiles/PagProyecto.dir/Shader/ShaderPrograms.cpp.obj	d8123280053850d0
+40	1032	7497710954461665	CMakeFiles/PagProyecto.dir/Renderer/Renderer.cpp.obj	1ec59d61147f6704
+33	1210	7497710954388594	CMakeFiles/PagProyecto.dir/main.cpp.obj	be662775a5f46abf
+1210	2449	7497710966164626	PagProyecto.exe	9040d5c079c47a34
+45	1005	7497714273950277	CMakeFiles/PagProyecto.dir/Renderer/Renderer.cpp.obj	1ec59d61147f6704
+37	1201	7497714273862859	CMakeFiles/PagProyecto.dir/main.cpp.obj	be662775a5f46abf
+1202	2214	7497714285517474	PagProyecto.exe	9040d5c079c47a34

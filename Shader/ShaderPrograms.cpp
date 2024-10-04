@@ -9,9 +9,13 @@ namespace PAG {
 
     }
 
-    void PAG::ShaderPrograms::linkShader(Shader& objeto) {
+    void ShaderPrograms::linkShader(Shader& objeto) {
+        if(!objeto.exito())
+            return;
+
         idSP = glCreateProgram ();
         if(idSP == 0) {
+            success = false;
             throw std::runtime_error("[PAG::ShaderPrograms::linkShader]: Error creating the shader program");
         }
         glAttachShader ( idSP, objeto.getVertexShader() );
@@ -39,10 +43,14 @@ namespace PAG {
 
     }
 
+
     GLuint &ShaderPrograms::getIdSP() {
         return idSP;
     }
 
+    bool ShaderPrograms::exito() {
+        return success;
+    }
 
     ShaderPrograms::~ShaderPrograms() {
         if ( idSP != 0 ){

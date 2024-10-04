@@ -2,6 +2,8 @@
 // IMPORTANTE: El include de GLAD debe estar siempre ANTES de el de GLFW
 #include "./Renderer/Renderer.h"
 #include "GUI/GUI.h"
+#include "Shader/Shader.h"
+#include "Shader/ShaderPrograms.h"
 
 // - Esta función callback será llamada cuando GLFW produzca algún error
 void error_callback ( int errno, const char* desc ){
@@ -121,12 +123,17 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 
     //Inicializamos opengl
     PAG::Renderer::getInstancia().inicializarOpenGL();
-
-    //PR3
+    //PR4
+    PAG::Shader shader;
+    PAG::ShaderPrograms shaderPrograms;
+    //PR3 y PR4
     try{
+
         // Cargamos los shaders e inicializamos los shaders y el modelo
-        PAG::Renderer::getInstancia().cargarShader("..\\Shaders\\pag03");
-        PAG::Renderer::getInstancia().creaShaderProgram();
+        shader.cargarShader("..\\Shaders\\pag03");
+        shader.crearShader();
+        shaderPrograms.linkShader(shader);
+        PAG::Renderer::getInstancia().setShaderProgram(shaderPrograms);
         PAG::Renderer::getInstancia().creaModelo();
     }catch(std::exception& e) {
         PAG::GUI::getInstancia().addmensaje(e.what());

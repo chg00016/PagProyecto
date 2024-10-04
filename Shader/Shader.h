@@ -7,6 +7,9 @@
 #include <string>
 #include <glad/glad.h>
 #include <stdexcept>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 namespace PAG {
     class Shader {
@@ -15,12 +18,14 @@ namespace PAG {
         GLuint idFS = 0; // Identificador del fragment shader
         std::string codigoVS = "";
         std::string codigoFS = "";
+        bool success = true;
     public:
         Shader();
         void crearShader();
         GLuint& getVertexShader();
         GLuint& getFragmentShader();
-
+        void cargarShader(const std::string& ruta);
+        bool exito();
 
         virtual ~Shader();
     };

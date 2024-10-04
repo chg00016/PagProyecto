@@ -175,133 +175,133 @@ namespace PAG {
      }
 
 //PR3
-/**
-* Método para crear, compilar y enlazar el shader program
-* @note No se incluye ninguna comprobación de errores
-*/
-void PAG::Renderer::creaShaderProgram(){
-
-    idVS = glCreateShader ( GL_VERTEX_SHADER );
-        if(idVS == 0) {
-            problemaShader = true;
-            throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating vertex shader");
-        }
-
-    const GLchar* fuenteVS = codigoVS.c_str ();
-    glShaderSource ( idVS, 1, &fuenteVS, nullptr );
-    glCompileShader ( idVS );
-
-        GLint resultadoCompilacionVS;
-        glGetShaderiv ( idVS, GL_COMPILE_STATUS, &resultadoCompilacionVS );
-
-        if ( resultadoCompilacionVS == GL_FALSE )
-        {  // Ha habido un error en la compilación.
-            // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
-            GLint tamMsj = 0;
-            std::string mensaje = "";
-            glGetShaderiv ( idVS, GL_INFO_LOG_LENGTH, &tamMsj );
-            if ( tamMsj > 0 )
-            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
-                GLint datosEscritos = 0;
-                glGetShaderInfoLog ( idVS, tamMsj, &datosEscritos, mensajeFormatoC );
-                mensaje.assign ( mensajeFormatoC );
-                delete[] mensajeFormatoC;
-                mensajeFormatoC = nullptr;
-            }
-            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling vertex shader\n  " + mensaje);
-        }
-//---------------------
-    idFS = glCreateShader ( GL_FRAGMENT_SHADER );
-        if(idFS == 0) {
-            problemaShader = true;
-            throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating fragment shader");
-        }
-
-    const GLchar* fuenteFS = codigoFS.c_str ();
-    glShaderSource ( idFS, 1, &fuenteFS, nullptr );
-    glCompileShader ( idFS );
-
-        GLint resultadoCompilacionFS;
-        glGetShaderiv ( idFS, GL_COMPILE_STATUS, &resultadoCompilacionFS );
-
-
-        if ( resultadoCompilacionFS == GL_FALSE )
-        {  // Ha habido un error en la compilación.
-            // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
-            GLint tamMsj = 0;
-            std::string mensaje = "";
-            glGetShaderiv ( idFS, GL_INFO_LOG_LENGTH, &tamMsj );
-            if ( tamMsj > 0 )
-            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
-                GLint datosEscritos = 0;
-                glGetShaderInfoLog ( idFS, tamMsj, &datosEscritos, mensajeFormatoC );
-                mensaje.assign ( mensajeFormatoC );
-                delete[] mensajeFormatoC;
-                mensajeFormatoC = nullptr;
-            }
-            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling fragment shader\n  " + mensaje);
-        }
-//---------------------
-//shaderProgram
-    idSP = glCreateProgram ();
-        if(idSP == 0) {
-            problemaShader = true;
-            throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error creating the shader program");
-        }
-    glAttachShader ( idSP, idVS );
-    glAttachShader ( idSP, idFS );
-    glLinkProgram ( idSP );
-
-        glLinkProgram ( idSP );
-        GLint resultadoEnlazado = 0;
-        glGetProgramiv ( idSP, GL_LINK_STATUS, &resultadoEnlazado );
-        if ( resultadoEnlazado == GL_FALSE )
-        {  // Ha habido un error y hay que recuperar su descripción, para saber qué ha pasado
-            GLint tamMsj = 0;
-            std::string mensaje = "";
-            glGetProgramiv ( idSP, GL_INFO_LOG_LENGTH, &tamMsj );
-            if ( tamMsj > 0 )
-            {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
-                GLint datosEscritos = 0;
-                glGetProgramInfoLog ( idSP, tamMsj, &datosEscritos, mensajeFormatoC );
-                mensaje.assign ( mensajeFormatoC );
-                delete[] mensajeFormatoC;
-                mensajeFormatoC = nullptr;
-            }
-        throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error linking the program");
-        }
-}
-
-/**
- * Método que carga de archivo de texto el código fuente del shader
- */
-void PAG::Renderer::cargarShader(const std::string& ruta) {
-        std::ifstream archivoShader;
-
-        archivoShader.open ( ruta + "-vs.glsl" );
-        if ( !archivoShader.is_open () ){
-            problemaShader = true;
-            throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de vertex shader");
-        }
-
-        std::stringstream streamShader;
-        streamShader << archivoShader.rdbuf ();
-        codigoVS = streamShader.str ();
-
-        archivoShader.close ();
-
-        //-------------
-        streamShader.str(std::string());
-        archivoShader.open(ruta + "-fs.glsl");
-        if( !archivoShader.is_open() ){
-            problemaShader = true;
-            throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de fragment shader");
-        }
-        streamShader << archivoShader.rdbuf();
-        codigoFS = streamShader.str();
-
-        archivoShader.close();
-    }
+// /**
+// * Método para crear, compilar y enlazar el shader program
+// * @note No se incluye ninguna comprobación de errores
+// */
+// void PAG::Renderer::creaShaderProgram(){
+//
+//     idVS = glCreateShader ( GL_VERTEX_SHADER );
+//         if(idVS == 0) {
+//             problemaShader = true;
+//             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating vertex shader");
+//         }
+//
+//     const GLchar* fuenteVS = codigoVS.c_str ();
+//     glShaderSource ( idVS, 1, &fuenteVS, nullptr );
+//     glCompileShader ( idVS );
+//
+//         GLint resultadoCompilacionVS;
+//         glGetShaderiv ( idVS, GL_COMPILE_STATUS, &resultadoCompilacionVS );
+//
+//         if ( resultadoCompilacionVS == GL_FALSE )
+//         {  // Ha habido un error en la compilación.
+//             // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
+//             GLint tamMsj = 0;
+//             std::string mensaje = "";
+//             glGetShaderiv ( idVS, GL_INFO_LOG_LENGTH, &tamMsj );
+//             if ( tamMsj > 0 )
+//             {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+//                 GLint datosEscritos = 0;
+//                 glGetShaderInfoLog ( idVS, tamMsj, &datosEscritos, mensajeFormatoC );
+//                 mensaje.assign ( mensajeFormatoC );
+//                 delete[] mensajeFormatoC;
+//                 mensajeFormatoC = nullptr;
+//             }
+//             throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling vertex shader\n  " + mensaje);
+//         }
+// //---------------------
+//     idFS = glCreateShader ( GL_FRAGMENT_SHADER );
+//         if(idFS == 0) {
+//             problemaShader = true;
+//             throw std::runtime_error ("[PAG::Renderer::creaShaderProgram]: Error creating fragment shader");
+//         }
+//
+//     const GLchar* fuenteFS = codigoFS.c_str ();
+//     glShaderSource ( idFS, 1, &fuenteFS, nullptr );
+//     glCompileShader ( idFS );
+//
+//         GLint resultadoCompilacionFS;
+//         glGetShaderiv ( idFS, GL_COMPILE_STATUS, &resultadoCompilacionFS );
+//
+//
+//         if ( resultadoCompilacionFS == GL_FALSE )
+//         {  // Ha habido un error en la compilación.
+//             // Para saber qué ha pasado, tenemos que recuperar el mensaje de error de OpenGL
+//             GLint tamMsj = 0;
+//             std::string mensaje = "";
+//             glGetShaderiv ( idFS, GL_INFO_LOG_LENGTH, &tamMsj );
+//             if ( tamMsj > 0 )
+//             {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+//                 GLint datosEscritos = 0;
+//                 glGetShaderInfoLog ( idFS, tamMsj, &datosEscritos, mensajeFormatoC );
+//                 mensaje.assign ( mensajeFormatoC );
+//                 delete[] mensajeFormatoC;
+//                 mensajeFormatoC = nullptr;
+//             }
+//             throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error compiling fragment shader\n  " + mensaje);
+//         }
+// //---------------------
+// //shaderProgram
+//     idSP = glCreateProgram ();
+//         if(idSP == 0) {
+//             problemaShader = true;
+//             throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error creating the shader program");
+//         }
+//     glAttachShader ( idSP, idVS );
+//     glAttachShader ( idSP, idFS );
+//     glLinkProgram ( idSP );
+//
+//         glLinkProgram ( idSP );
+//         GLint resultadoEnlazado = 0;
+//         glGetProgramiv ( idSP, GL_LINK_STATUS, &resultadoEnlazado );
+//         if ( resultadoEnlazado == GL_FALSE )
+//         {  // Ha habido un error y hay que recuperar su descripción, para saber qué ha pasado
+//             GLint tamMsj = 0;
+//             std::string mensaje = "";
+//             glGetProgramiv ( idSP, GL_INFO_LOG_LENGTH, &tamMsj );
+//             if ( tamMsj > 0 )
+//             {  GLchar* mensajeFormatoC = new GLchar[tamMsj];
+//                 GLint datosEscritos = 0;
+//                 glGetProgramInfoLog ( idSP, tamMsj, &datosEscritos, mensajeFormatoC );
+//                 mensaje.assign ( mensajeFormatoC );
+//                 delete[] mensajeFormatoC;
+//                 mensajeFormatoC = nullptr;
+//             }
+//         throw std::runtime_error("[PAG::Renderer::creaShaderProgram]: Error linking the program");
+//         }
+// }
+//
+// /**
+//  * @Brief Método que carga de archivo de texto el código fuente del shader
+//  */
+// void PAG::Renderer::cargarShader(const std::string& ruta) {
+//         std::ifstream archivoShader;
+//
+//         archivoShader.open ( ruta + "-vs.glsl" );
+//         if ( !archivoShader.is_open () ){
+//             problemaShader = true;
+//             throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de vertex shader");
+//         }
+//
+//         std::stringstream streamShader;
+//         streamShader << archivoShader.rdbuf ();
+//         codigoVS = streamShader.str ();
+//
+//         archivoShader.close ();
+//
+//         //-------------
+//         streamShader.str(std::string());
+//         archivoShader.open(ruta + "-fs.glsl");
+//         if( !archivoShader.is_open() ){
+//             problemaShader = true;
+//             throw std::runtime_error("[PAG::Renderer::cargarShader]: Error en la apertura del archivo de fragment shader");
+//         }
+//         streamShader << archivoShader.rdbuf();
+//         codigoFS = streamShader.str();
+//
+//         archivoShader.close();
+//     }
 
 /**
 * Método para crear el VAO para el modelo a renderizar
@@ -345,4 +345,8 @@ void PAG::Renderer::creaModelo (){
                        GL_STATIC_DRAW);
 }
 
+    //PR4
+    void Renderer::setShaderProgram(ShaderPrograms& shaderPrograms) {
+        this->shaders = &shaderPrograms;
+    }
 }
