@@ -49,7 +49,6 @@ namespace PAG {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
     }
 
     void GUI::render() {
@@ -98,7 +97,31 @@ namespace PAG {
         }
         // Si la ventana no está desplegada, Begin devuelve false
         ImGui::End ();
+
+        //PR4
+        //Tercera ventana
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        if ( ImGui::Begin ( "Shader" ) ){ // La ventana está desplegada
+            ImGui::SetWindowFontScale ( 1.0f ); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            ImGui::InputText( "##", &nombreShader, ImGuiInputTextFlags_AutoSelectAll );
+            buttonPressed = ImGui::Button ( "Load" );
+        }
+        // Si la ventana no está desplegada, Begin devuelve false
+        ImGui::End ();
     }
 
+    bool GUI::getbuttonPressed() {
+        return this->buttonPressed;
+    }
+
+
+    void GUI::setButtonPressed(bool buttonPressed) {
+        this->buttonPressed = buttonPressed;
+    }
+
+    std::string GUI::getNombreShader() {
+        return this->nombreShader;
+    }
 }
 

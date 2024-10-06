@@ -84,7 +84,7 @@ namespace PAG {
      * Método que carga de archivo de texto el código fuente del shader
      */
     void PAG::Shader::cargarShader(const std::string& ruta) {
-
+        success = true;
         std::ifstream archivoShader;
 
         archivoShader.open ( ruta + "-vs.glsl" );

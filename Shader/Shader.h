@@ -18,7 +18,7 @@ namespace PAG {
         GLuint idFS = 0; // Identificador del fragment shader
         std::string codigoVS = "";
         std::string codigoFS = "";
-        bool success = true;
+        bool success = false;
     public:
         Shader();
         void crearShader();

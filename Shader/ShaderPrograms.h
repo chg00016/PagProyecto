@@ -11,12 +11,13 @@ namespace PAG {
     private:
         GLuint idSP = 0; // Identificador del shader program
         Shader* objeto;
-        bool success = true;
+        bool success = false;
     public:
         ShaderPrograms();
         void linkShader(Shader& objeto);
         GLuint& getIdSP();
         bool exito();
+        void setExito(bool success);
 
         virtual ~ShaderPrograms();
     };

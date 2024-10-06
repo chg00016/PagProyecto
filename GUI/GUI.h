@@ -6,9 +6,8 @@
 #define GUI_H
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
-#include <array>
 #include <vector>
-#include <string>
+#include <imgui_stdlib.h>
 
 namespace PAG{
 
@@ -19,6 +18,9 @@ namespace PAG{
         GUI();
         ImVec4 color;
         std::vector<std::string> mensajes;
+        //PR4
+        std::string nombreShader = "";
+        bool buttonPressed = false;
     public:
         static GUI& getInstancia();
         virtual ~GUI();
@@ -27,12 +29,14 @@ namespace PAG{
         void newFrame();
         void render();
         void manipularVentana();
-        void setTamanoVentana();
-        void setPosicionVentana();
         ImVec4 getColor();
         void setColor(float r, float g, float b, float a) ;
         void liberarRecursos();
         void addmensaje(const std::string& mensaje);
+        //PR4
+        bool getbuttonPressed();
+        void setButtonPressed(bool buttonPressed);
+        std::string getNombreShader();
     };
 
 }

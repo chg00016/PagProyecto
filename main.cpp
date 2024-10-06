@@ -124,21 +124,10 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     //Inicializamos opengl
     PAG::Renderer::getInstancia().inicializarOpenGL();
     //PR4
-    PAG::Shader shader;
-    PAG::ShaderPrograms shaderPrograms;
-    //PR3 y PR4
-    try{
-
-        // Cargamos los shaders e inicializamos los shaders y el modelo
-        shader.cargarShader("..\\Shaders\\pag03");
-        shader.crearShader();
-        shaderPrograms.linkShader(shader);
-        PAG::Renderer::getInstancia().setShaderProgram(shaderPrograms);
-        PAG::Renderer::getInstancia().creaModelo();
-    }catch(std::exception& e) {
-        PAG::GUI::getInstancia().addmensaje(e.what());
-        PAG::GUI::getInstancia().addmensaje("\n");
-    }
+    PAG::Shader *shader = new PAG::Shader;
+    PAG::ShaderPrograms *shaderPrograms = new PAG::ShaderPrograms;
+    PAG::Renderer::getInstancia().setShaderProgram(*shaderPrograms);
+    PAG::Renderer::getInstancia().creaModelo();
 
 
 // - Ciclo de eventos de la aplicación. La condición de parada es que la
@@ -161,6 +150,23 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
             PAG::GUI::getInstancia().getColor().x, PAG::GUI::getInstancia().getColor().y,
             PAG::GUI::getInstancia().getColor().z, PAG::GUI::getInstancia().getColor().w);
 
+        //PR3 y PR4
+        if(PAG::GUI::getInstancia().getbuttonPressed()) {
+            try{
+                // Cargamos los shaders e inicializamos los shaders y el modelo
+                shader->cargarShader("..\\Shaders\\" + PAG::GUI::getInstancia().getNombreShader());
+                shader->crearShader();
+                shaderPrograms->linkShader(*shader);
+
+                PAG::Renderer::getInstancia().setShaderProgram(*shaderPrograms);
+            }catch(std::exception& e) {
+                PAG::GUI::getInstancia().addmensaje(e.what());
+                PAG::GUI::getInstancia().addmensaje("\n");
+                shaderPrograms->setExito(false);
+            }
+            PAG::GUI::getInstancia().setButtonPressed(false);
+        }
+
         PAG::Renderer::getInstancia().render();
         // - se dibuja la interfaz con imgui
         PAG::GUI::getInstancia().render();
@@ -178,6 +184,12 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
 // - Una vez terminado el ciclo de eventos, liberar recursos, etc.
 
     std::cout << "Finishing application pag prueba" << std::endl;
+    //PR4
+    delete shader;
+    shader = nullptr;
+    delete shaderPrograms;
+    shaderPrograms = nullptr;
+    //---
     PAG::GUI::getInstancia().liberarRecursos();
     glfwDestroyWindow ( window ); // - Cerramos y destruimos la ventana de la aplicación.
     window = nullptr;

@@ -44,7 +44,7 @@ namespace PAG {
         void creaShaderProgram();
         void cargarShader(const std::string& ruta);
         void creaModelo();
-
+        //PR4
         void setShaderProgram(ShaderPrograms& shaderPrograms);
         
 

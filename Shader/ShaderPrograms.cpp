@@ -10,8 +10,12 @@ namespace PAG {
     }
 
     void ShaderPrograms::linkShader(Shader& objeto) {
-        if(!objeto.exito())
+        success = true;
+        if(!objeto.exito()) {
+            success = false;
             return;
+        }
+
 
         idSP = glCreateProgram ();
         if(idSP == 0) {
@@ -50,6 +54,10 @@ namespace PAG {
 
     bool ShaderPrograms::exito() {
         return success;
+    }
+
+    void ShaderPrograms::setExito(bool success) {
+        this->success = success;
     }
 
     ShaderPrograms::~ShaderPrograms() {
