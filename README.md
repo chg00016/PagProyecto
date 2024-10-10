@@ -104,3 +104,20 @@ un vec3 vertexColor a ambos y un atributo color en el vertex shader.
 
 Para el idVBO no entrelazado ha sido necesario añadir un atributo que sea un vector de dos de tamaño, por tanto se ha tenido que añadir al destructor esta variable.
 El idVBO entrelazado resulta más sencillo de manejar asi que es el que he decidido utilizar.
+
+# *Práctica 4*
+El objetivo de esta práctica era desacoplar la gestión de los shader de la clase Renderer. Para ello he creado dos
+clases: shader y shaderPrograms.
+- La clase shader se encarga de cargar los fragment y vertex shaders.
+- La clase shaderProgram se encarga de enlazar los shaders con el programa, es decir es la clase
+que se comunica con el renderer.
+Ambas clases están constituidas por lo que previamente se encontraba en el renderer, y simplemente 
+se ha añadido un booleano para no cargar los shaders en el shaderProgram si ha habido algún error
+y para ver si ha habido algún error al enlazar el shaderProgram.
+
+<br></br>
+La representación en UML tras los cambios realizados en esta práctica:
+<br></br>
+<img src=img\UML-prac04.png>
+
+
