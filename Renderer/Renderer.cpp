@@ -37,6 +37,9 @@ namespace PAG {
                 glDeleteBuffers ( 2, noEntrelazadoidVBO );
             }
         }*/
+        //PR5
+        if(this->camara)
+            delete camara;
     }
 
     /**
@@ -221,4 +224,44 @@ void PAG::Renderer::creaModelo (){
     void Renderer::setShaderProgram(ShaderPrograms& shaderPrograms) {
         this->shaders = &shaderPrograms;
     }
+    //PR5
+    void Renderer::moverRaton(GLFWwindow* window,double xoffset, double yoffset) {
+        if (clickIzquierdo){
+            float movX = (float) xoffset - (float) *ratonPosX;
+            float movY = (float) yoffset - (float) *ratonPosY;
+            *ratonPosX = xoffset;
+            *ratonPosY = yoffset;
+
+            switch ((PAG::movimientoCamara) TipoMovCamara) {
+                //TODO
+                case TILT:{camara->tilt(movY); break;}
+                case PAN:{camara->pan(movX); break;}
+
+                case DOLLY:{camara->dolly(movX,movY); break;}
+                case CRANE:{camara->crane(movY); break;}
+                case ORBIT:{camara->orbit(movX,movY); break;}
+                case ZOOM: {
+                    float absolutoX;
+                    float absolutoY;
+                    if(movX > 0)
+                        absolutoX = movX;
+                    else
+                        absolutoX = -movX;
+
+                    if(movY > 0)
+                        absolutoY = movY;
+                    else
+                        absolutoY = -movY;
+
+                    if(absolutoX > absolutoY)
+                        camara->zoom(movX);
+                    else
+                        camara->zoom(movY);
+                    break;
+                }
+
+            }
+        }
+    }
+
 }

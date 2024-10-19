@@ -8,8 +8,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <string>
 
 namespace PAG {
+
+    enum movimientoCamara{
+        PAN, TILT, DOLLY, CRANE, ORBIT, ZOOM
+    };
+
     class Camara {
     private:
         glm::vec3 ptoPos, ptoMiraA, vecArriba;
@@ -30,6 +36,9 @@ namespace PAG {
         void crane(float anguloY);
         void orbit(float anguloX, float anguloY);
         void zoom(float angulo);
+
+        std::string switchCamara(PAG::movimientoCamara x);
+
         virtual ~Camara();
     };
 }

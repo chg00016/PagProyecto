@@ -3,15 +3,15 @@
 //
 
 #include "Camara.h"
+
+
+
 namespace PAG {
 
     Camara::Camara() {
         perspectivaInicial();
-        TransformacionMVision();
-
-        this->aspecto = 4.f / 3.f;
         visionInicial();
-        TransformacionMProyeccion();
+
     }
 
     const glm::mat4& Camara::TransformacionMVision() const {
@@ -23,6 +23,7 @@ namespace PAG {
         this->angulo = 45.f;
         this->zNear = 1.f;
         this->zFar = 20.f;
+        this->aspecto = 4.f / 3.f;
     }
 
 
@@ -35,10 +36,6 @@ namespace PAG {
     const glm::mat4& Camara::TransformacionMProyeccion() const {
         return glm::perspective(glm::radians(angulo), aspecto, zNear, zFar);
     }
-
-    void Camara::MatrizTranslacion(){}
-
-
 
     void Camara::pan(float angulo) {
         glm::mat4 transform = glm::translate(ptoPos) *
@@ -87,6 +84,18 @@ namespace PAG {
         else if ( this->angulo < 0)
             this->angulo = 0;
         TransformacionMProyeccion();
+    }
+
+    std::string Camara::switchCamara(PAG::movimientoCamara x) {
+        switch (x) {
+            case PAN:   return "Pan";
+            case TILT:  return "Tilt";
+            case DOLLY: return "Dolly";
+            case CRANE: return "Crane";
+            case ORBIT: return "Orbit";
+            case ZOOM:  return "Zoom";
+        }
+        return "";
     }
 
     Camara::~Camara(){}

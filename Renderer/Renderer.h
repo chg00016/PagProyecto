@@ -11,8 +11,11 @@
 #include <sstream>
 #include <fstream>
 #include "../Shader/ShaderPrograms.h"
+#include "../Camara/Camara.h"
 
 namespace PAG {
+    class Camara;
+
     class Renderer {
     private:
         static Renderer* instancia;
@@ -28,6 +31,11 @@ namespace PAG {
         //GLuint noEntrelazadoidVBO[2];
         //PR4
         ShaderPrograms *shaders;
+        //PR5
+        PAG::Camara* camara;
+        bool clickIzquierdo;
+        double *ratonPosX, *ratonPosY;
+        int TipoMovCamara;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -46,7 +54,8 @@ namespace PAG {
         void creaModelo();
         //PR4
         void setShaderProgram(ShaderPrograms& shaderPrograms);
-        
+        //PR5
+        void moverRaton(GLFWwindow* window,double xoffset, double yoffset);
 
     };
 }
