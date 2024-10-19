@@ -10,21 +10,21 @@ add_executable(PagProyecto main.cpp
         Shader/Shader.cpp
         Shader/Shader.h
         Shader/ShaderPrograms.cpp
-        Shader/ShaderPrograms.h)
+        Shader/ShaderPrograms.h
+        Camara/Camara.cpp
+        Camara/Camara.h)
 target_include_directories( ${PROJECT_NAME} PUBLIC imgui )
-find_package(assimp)
 find_package(opengl_system)
 find_package(glm)
-find_package(lodepng)
 find_package(glfw3)
 find_package(glad)
 
 # Then, link your executable or library with the corresponding package targets:
 
 target_link_libraries(PagProyecto
-        assimp::assimp
+        
         opengl::opengl
         glm::glm
-        lodepng::lodepng
+
         glfw
         glad::glad)
