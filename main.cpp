@@ -42,10 +42,27 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 // - Esta función callback será llamada cada vez que se pulse algún botón
 // del ratón sobre el área de dibujo OpenGL.
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
-    if(action == GLFW_PRESS)
-        PAG::GUI::getInstancia().addmensaje("Pulsado el boton: ");
-    else if(action == GLFW_RELEASE)
-        PAG::GUI::getInstancia().addmensaje("Soltado el boton: ");
+    ImGuiIO &io = ImGui::GetIO();
+
+    if (!io.WantCaptureMouse) {
+        PAG::Renderer::getInstancia().setTipoMovCamara(PAG::GUI::getInstancia().getMovimientoCamara());
+        if(action == GLFW_PRESS){
+            PAG::Renderer::getInstancia().setClickIzquierdo(true);
+            PAG::GUI::getInstancia().addmensaje("Pulsado el boton: ");
+        }else if(action == GLFW_RELEASE) {
+            PAG::Renderer::getInstancia().setClickIzquierdo(false);
+            PAG::GUI::getInstancia().addmensaje("Soltado el boton: ");
+        }
+    } else
+        PAG::Renderer::getInstancia().setClickIzquierdo(false);
+}
+
+// -Esta función será llamada cada vez que el ratón cambie de posición
+void cursor_pos_callback(GLFWwindow *window, double xPos, double yPos) {
+    ImGuiIO& io = ImGui::GetIO();
+    if(!io.WantCaptureMouse) {
+        PAG::Renderer::getInstancia().moverRaton(window,xPos, yPos);
+    }
 
 }
 
@@ -117,7 +134,9 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     glfwSetKeyCallback ( window, key_callback );
     glfwSetMouseButtonCallback ( window, mouse_button_callback );
     glfwSetScrollCallback ( window, scroll_callback );
-
+    //PR5
+    glfwSetCursorPosCallback ( window, cursor_pos_callback );
+    //
     //Inicializar ImGUI
     PAG::GUI::getInstancia().inicializarImGUI(window);
 
@@ -137,7 +156,7 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         //Borra los buffers (color y profundidad)
         glm::vec4 color = PAG::Renderer::getInstancia().getClearColor();
         PAG::GUI::getInstancia().setColor(color.r, color.g, color.b, color.a);
-        PAG::Renderer::getInstancia().refrescar();
+
 
         //Se crea un nuevo frame en el que renderizar
         PAG::GUI::getInstancia().newFrame();
@@ -168,6 +187,7 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         }
 
         PAG::Renderer::getInstancia().render();
+        PAG::Renderer::getInstancia().refrescar();
         // - se dibuja la interfaz con imgui
         PAG::GUI::getInstancia().render();
         // - GLFW usa un doble buffer para que no haya parpadeo. Esta orden

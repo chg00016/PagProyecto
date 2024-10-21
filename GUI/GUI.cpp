@@ -7,6 +7,8 @@
 #include <iostream>
 #include <ostream>
 
+#include "../Camara/Camara.h"
+
 namespace PAG {
     GUI* GUI::instancia = nullptr;
 
@@ -84,7 +86,7 @@ namespace PAG {
         ImGui::End ();
 
         //Segunda ventana
-        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(10, 0), ImGuiCond_Once);
         if ( ImGui::Begin ( "Fondo" ) ){ // La ventana está desplegada
             ImGui::SetWindowFontScale ( 1.0f ); // Escalamos el texto si fuera necesario
             // Pintamos los controles
@@ -100,7 +102,7 @@ namespace PAG {
 
         //PR4
         //Tercera ventana
-        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+        ImGui::SetNextWindowPos(ImVec2(20, 0), ImGuiCond_Once);
         if ( ImGui::Begin ( "Shader" ) ){ // La ventana está desplegada
             ImGui::SetWindowFontScale ( 1.0f ); // Escalamos el texto si fuera necesario
             // Pintamos los controles
@@ -109,6 +111,32 @@ namespace PAG {
         }
         // Si la ventana no está desplegada, Begin devuelve false
         ImGui::End ();
+
+        //PR5
+        ImGui::SetNextWindowPos(ImVec2(40, 0), ImGuiCond_Once);
+        if(ImGui::Begin("Camera")) {
+            ImGui::SetWindowFontScale(1.0f);
+
+            const char* cameraMoveStr[] = {"Tilt","Pan","Crane", "Dolly", "Orbit", "Zoom"};
+            size_t cameraNumberMoves = 6;
+            static unsigned int moveSelected = 0;
+
+            ImGui::Text("Camera movement: "); ImGui::SameLine();
+            if(ImGui::BeginCombo("##", cameraMoveStr[moveSelected], ImGuiComboFlags_HeightLargest | ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview)) {
+                for(int i = 0; i < cameraNumberMoves; i++) {
+                    const bool selected = (moveSelected == i);
+                    if(ImGui::Selectable(cameraMoveStr[i], selected)) {
+                        moveSelected = i;
+                        seleccionarCamara(cameraMoveStr[moveSelected]);
+                    }
+
+                    if(selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+        }
+        ImGui::End();
     }
 
     bool GUI::getbuttonPressed() {
@@ -123,5 +151,25 @@ namespace PAG {
     std::string GUI::getNombreShader() {
         return this->nombreShader;
     }
+    //PR5
+    void GUI::seleccionarCamara(const std::string& movimiento) {
+        if(movimiento == "Tilt")
+            movimientoCam = movimientoCamara::TILT;
+        else if(movimiento == "Pan")
+            movimientoCam = movimientoCamara::PAN;
+        else if(movimiento == "Crane")
+            movimientoCam = movimientoCamara::CRANE;
+        else if(movimiento == "Dolly")
+            movimientoCam = movimientoCamara::DOLLY;
+        else if(movimiento == "Orbit")
+            movimientoCam = movimientoCamara::ORBIT;
+        else if(movimiento == "Zoom")
+            movimientoCam = movimientoCamara::ZOOM;
+    }
+
+    movimientoCamara GUI::getMovimientoCamara() {
+        return this->movimientoCam;
+    }
+
 }
 

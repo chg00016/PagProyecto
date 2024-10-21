@@ -4,12 +4,13 @@
 
 #ifndef CAMARA_H
 #define CAMARA_H
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <string>
-
+#include <glm/gtc/epsilon.hpp>
 namespace PAG {
 
     enum movimientoCamara{
@@ -24,8 +25,8 @@ namespace PAG {
     public:
         Camara();
 
-        const glm::mat4& TransformacionMVision() const;
-        const glm::mat4& TransformacionMProyeccion() const;
+        const glm::mat4 TransformacionMVision() const;
+        const glm::mat4 TransformacionMProyeccion() const;
         void MatrizTranslacion();
         void visionInicial();
         void perspectivaInicial();

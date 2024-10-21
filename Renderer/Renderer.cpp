@@ -15,6 +15,7 @@ namespace PAG {
     */
     Renderer::Renderer () {
         clearColor = glm::vec4(0.6, 0.6, 0.6, 1.0);
+        camara = new Camara();
     }
 
     /**
@@ -73,9 +74,13 @@ namespace PAG {
         //PR3
         if(!shaders->exito())
             return;
-        //TODO
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
         glUseProgram ( shaders->getIdSP());
+        //PR5
+        int location = glGetUniformLocation ( shaders->getIdSP(), "matrizMVP");
+        glm::mat4 a = (camara->TransformacionMProyeccion()*camara->TransformacionMVision());
+        glUniformMatrix4fv(location , 1, GL_FALSE, &a[0][0]);
+        //
         glBindVertexArray ( idVAO );
         glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
         glDrawElements ( GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr );
@@ -226,42 +231,42 @@ void PAG::Renderer::creaModelo (){
     }
     //PR5
     void Renderer::moverRaton(GLFWwindow* window,double xoffset, double yoffset) {
+        static double xOldPos = 0.0;
+        static double yOldPos = 0.0;
+
+        int movY;
+        int movX;
+
+        if(glm::epsilonEqual(xoffset, yOldPos, glm::epsilon<double>()))
+            movY = 0;
+        else
+            movY = (yoffset - yOldPos) > 0 ? -1 : 1;
+
+        if(glm::epsilonEqual(yoffset, xOldPos, glm::epsilon<double>()))
+            movX = 0;
+        else
+            movX = (xoffset - xOldPos) < 0 ? -1 : 1;
+
         if (clickIzquierdo){
-            float movX = (float) xoffset - (float) *ratonPosX;
-            float movY = (float) yoffset - (float) *ratonPosY;
-            *ratonPosX = xoffset;
-            *ratonPosY = yoffset;
-
-            switch ((PAG::movimientoCamara) TipoMovCamara) {
-                //TODO
+            switch (TipoMovCamara) {
                 case TILT:{camara->tilt(movY); break;}
-                case PAN:{camara->pan(movX); break;}
-
-                case DOLLY:{camara->dolly(movX,movY); break;}
-                case CRANE:{camara->crane(movY); break;}
+                case PAN:{camara->pan(-movX); break;}
+                case DOLLY:{camara->dolly(movX*0.01,movY*0.01); break;}
+                case CRANE:{camara->crane(movY*0.01); break;}
                 case ORBIT:{camara->orbit(movX,movY); break;}
-                case ZOOM: {
-                    float absolutoX;
-                    float absolutoY;
-                    if(movX > 0)
-                        absolutoX = movX;
-                    else
-                        absolutoX = -movX;
-
-                    if(movY > 0)
-                        absolutoY = movY;
-                    else
-                        absolutoY = -movY;
-
-                    if(absolutoX > absolutoY)
-                        camara->zoom(movX);
-                    else
-                        camara->zoom(movY);
-                    break;
-                }
+                case ZOOM: {camara->zoom(movX);break;}
 
             }
         }
+        xOldPos = xoffset;
+        yOldPos = yoffset;
+    }
+    void Renderer::setClickIzquierdo(bool clickIzquierdo) {
+        this->clickIzquierdo = clickIzquierdo;
+    }
+
+    void Renderer::setTipoMovCamara(movimientoCamara tipoMovCamara) {
+        this->TipoMovCamara = tipoMovCamara;
     }
 
 }

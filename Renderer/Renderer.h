@@ -35,7 +35,7 @@ namespace PAG {
         PAG::Camara* camara;
         bool clickIzquierdo;
         double *ratonPosX, *ratonPosY;
-        int TipoMovCamara;
+        movimientoCamara TipoMovCamara;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -56,6 +56,8 @@ namespace PAG {
         void setShaderProgram(ShaderPrograms& shaderPrograms);
         //PR5
         void moverRaton(GLFWwindow* window,double xoffset, double yoffset);
+        void setClickIzquierdo(bool clickIzquierdo);
+        void setTipoMovCamara(movimientoCamara tipoMovCamara);
 
     };
 }

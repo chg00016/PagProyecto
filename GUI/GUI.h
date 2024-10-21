@@ -8,6 +8,7 @@
 #include <imgui_impl_opengl3.h>
 #include <vector>
 #include <imgui_stdlib.h>
+#include "../Camara/Camara.h"
 
 namespace PAG{
 
@@ -21,6 +22,8 @@ namespace PAG{
         //PR4
         std::string nombreShader = "";
         bool buttonPressed = false;
+        //PR5
+        movimientoCamara movimientoCam;
     public:
         static GUI& getInstancia();
         virtual ~GUI();
@@ -37,6 +40,9 @@ namespace PAG{
         bool getbuttonPressed();
         void setButtonPressed(bool buttonPressed);
         std::string getNombreShader();
+        //PR5
+        void seleccionarCamara(const std::string& movimiento);
+        movimientoCamara getMovimientoCamara();
     };
 
 }

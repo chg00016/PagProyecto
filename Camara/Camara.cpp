@@ -14,7 +14,7 @@ namespace PAG {
 
     }
 
-    const glm::mat4& Camara::TransformacionMVision() const {
+    const glm::mat4 Camara::TransformacionMVision() const {
         return glm::lookAt(ptoPos, ptoMiraA, vecArriba);
     }
 
@@ -33,7 +33,7 @@ namespace PAG {
         this->vecArriba = glm::normalize(glm::vec3(0, 1, 0));
     }
 
-    const glm::mat4& Camara::TransformacionMProyeccion() const {
+    const glm::mat4 Camara::TransformacionMProyeccion() const {
         return glm::perspective(glm::radians(angulo), aspecto, zNear, zFar);
     }
 
