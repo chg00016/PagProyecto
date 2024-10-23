@@ -12,6 +12,7 @@
 #include <fstream>
 #include "../Shader/ShaderPrograms.h"
 #include "../Camara/Camara.h"
+#include "../GUI/GUI.h"
 
 namespace PAG {
     class Camara;
@@ -58,6 +59,8 @@ namespace PAG {
         void moverRaton(GLFWwindow* window,double xoffset, double yoffset);
         void setClickIzquierdo(bool clickIzquierdo);
         void setTipoMovCamara(movimientoCamara tipoMovCamara);
+        void setDireccionCamara(direccionCamara dir);
+        Camara& getCamara();
 
     };
 }

@@ -94,7 +94,11 @@ namespace PAG {
      */
     void Renderer::cambioTamViewport(GLFWwindow *window, int width, int height) {
         glViewport ( 0, 0, width, height );
-
+        //PR5
+        if(width == 0 && height == 0)
+            camara->setAspecto(0);
+        else
+            camara->setAspecto((float)width / (float)height);
     }
 
     /**
@@ -267,6 +271,48 @@ void PAG::Renderer::creaModelo (){
 
     void Renderer::setTipoMovCamara(movimientoCamara tipoMovCamara) {
         this->TipoMovCamara = tipoMovCamara;
+    }
+    void Renderer::setDireccionCamara(direccionCamara dir) {
+        int arriba = 0, abajo = 0, izquierda = 0, derecha = 0;
+
+        switch(dir) {
+            case direccionCamara::arriba:
+                arriba = 1;
+            break;
+            case direccionCamara::abajo:
+                abajo = -1;
+            break;
+            case direccionCamara::izquierda:
+                izquierda = -1;
+            break;
+            case direccionCamara::derecha:
+                derecha = 1;
+            break;
+            case direccionCamara::reset:
+                return;
+        }
+
+        switch(TipoMovCamara) {
+            case CRANE:
+                camara->crane(static_cast<float>(arriba + abajo) * 0.1f);
+            break;
+            case DOLLY:
+                camara->dolly(static_cast<float>(izquierda + derecha) * 0.1f, -static_cast<float>(arriba + abajo) * 0.1f);
+            break;
+            case TILT:
+                camara->tilt(static_cast<float>(arriba + abajo) * 1.0f);
+            break;
+            case PAN:
+                camara->pan(-static_cast<float>(izquierda + derecha) * 1.0f);
+            break;
+            case ORBIT:
+                camara->orbit(static_cast<float>(izquierda + derecha) * 3.0f, -static_cast<float>(arriba + abajo) * 3.0f);
+            break;
+        }
+    }
+
+    Camara& Renderer::getCamara() {
+        return *camara;
     }
 
 }

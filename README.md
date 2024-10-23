@@ -120,4 +120,98 @@ La representación en UML tras los cambios realizados en esta práctica:
 <br></br>
 <img src=img\UML-prac04.png>
 
+# *Práctica 5*
+#### Cámara
+Se han creado los siguientes atributos:
+- glm::vec3 ptoPos, ptoMiraA, vecArriba;
+- float aspecto, zNear, zFar, angulo;
+  <br></br>
+Un enum ha sido utilizado para saber el tipo de movimiento de la cámara:
+- enum movimientoCamara{PAN, TILT, DOLLY, CRANE, ORBIT, ZOOM};
+  <br></br>
+  Se han creado las siguientes funciones:
+- const glm::mat4 TransformacionMVision() const;
+- const glm::mat4 TransformacionMProyeccion() const;
+- void MatrizTranslacion();
+- void visionInicial();
+- void perspectivaInicial();
+- void pan(float angulo);
+- void tilt(float angulo);
+- void dolly(float anguloX, float diffZ);
+- void crane(float anguloY);
+- void orbit(float anguloX, float anguloY);
+- void zoom(float angulo);
+- std::string switchCamara(PAG::movimientoCamara x);
+- void setAspecto(float aspecto);
+- void setAngulo(float angulo);
+- float getAngulo();
+<br></br>
+Las funciones que son llamadas como los distintos tipos de movimientos, son las que se
+encargan de calcular como debería moverse la cámara, para corresponder con dichos movimientos.
 
+#### Renderer
+Se han añadido los siguientes atributos:
+- Camara* camara
+- bool clickIzquierdo
+- double *ratonPosX, *ratonPosY
+- movimientoCamara TipoMovCamara
+  <br></br>
+Se han añadido las siguientes funciones:
+- void moverRaton(GLFWwindow* window,double xoffset, double yoffset);
+- void setClickIzquierdo(bool clickIzquierdo);
+- void setTipoMovCamara(movimientoCamara tipoMovCamara);
+- void setDireccionCamara(direccionCamara dir);
+- Camara& getCamara();
+<br></br>
+Tres setters, uno para el tipo de movimiento de la cámara, otro para saber si se está pulsando el botón izquierdo del ratón y otro para la 
+dirección del movimiento de la cámara.
+La función moverRaton calcula la posición del ratón con respecto a la anterior para elegir la dirección del movimiento de la cámara. 
+Se ha modificado la función cambioTamViewport(GLFWwindow *window, int width, int height) para que la cámara se ajuste al tamaño de la pantalla.
+#### GUI
+Se han añadido los siguientes atributos:
+- movimientoCamara movimientoCam = TILT;
+- direccionCamara direccionMovimiento = reset;
+- float barraZoom;
+<br></br>
+Además se ha creado un enum de las direcciones que se puede mover la cámara:
+- enum direccionCamara {izquierda = 0,derecha,arriba,abajo,reset};
+<br></br>
+Se han añadido las siguientes funciones:
+- void seleccionarCamara(const std::string& movimiento);
+- movimientoCamara getMovimientoCamara();
+- void panVentana();
+- void tiltVentana();
+- void dollyVentana();
+- void craneVentana();
+- void orbitVentana();
+- void zoomVentana();
+- direccionCamara getDireccionCamara();
+- void setBarraZoom(float barraZoom);
+- void resetBotonCamara();
+- float getBarraZoom();
+<br></br>
+Las diferentes funciones Ventana() se encargan de añadirle la dirección a la que se va a mover la cámara
+a las teclas de la interfaz de cada tipo de cámara.
+La función manejarVentana() ha sido modificada para añadir la nueva ventana de selección de tipo de cámara.
+#### main
+Se ha modificado el callback void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) para que ahora 
+capture el movimiento del ratón con ImGui::GetIO(), se escoja el tipo de movimiento de cámara y tenga en cuenta si se está pulsando el botón izquierdo del ratón; además
+ se ha añadido la función void cursor_pos_callback(GLFWwindow *window, double xPos, double yPos), que es llamada cada vez
+que el ratón cambie de posición y le comunica al Renderer la posición del ratón para poder interactuar con la cámara.
+
+#### Instrucciones
+- En primer lugar se debe cargar el shader para poder ver los cambios en la cámara.
+- En la ventana que aparece el nombre de uno de lo movimientos de la cámara, por defecto tilt, se puede
+seleccionar el tipo de movimiento que realiza la cámara pinchando en el recuadro del nombre.
+- La cámara se puede mover de dos maneras:
+
+    - Pinchando con el botón izquierdo del ratón en los botones de la ventana en la que se puede seleccionar el tipo
+  de movimiento; por ejemplo en tilt aparecen los botones UP(arriba) y DOWN(abajo).
+    - Pinchando en la pantalla con el botón izquierdo del ratón y arrastrando manteniendo el click, por ejemplo,
+  teniendo tilt como el movimiento seleccionado si se pincha y arrastra hacia arriba se mueve la cámara hacia arriba, si 
+  se arrastrase horizontalmente no ocurriría nada puesto que tilt es un desplazamiento solo en vertical.
+
+<br></br>
+La representación en UML tras los cambios realizados en esta práctica:
+<br></br>
+<img src=img\UML-prac05.png>

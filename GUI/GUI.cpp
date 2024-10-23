@@ -113,6 +113,7 @@ namespace PAG {
         ImGui::End ();
 
         //PR5
+        //Cuarta Ventana
         ImGui::SetNextWindowPos(ImVec2(40, 0), ImGuiCond_Once);
         if(ImGui::Begin("Camera")) {
             ImGui::SetWindowFontScale(1.0f);
@@ -134,6 +135,27 @@ namespace PAG {
                         ImGui::SetItemDefaultFocus();
                 }
                 ImGui::EndCombo();
+            }
+
+            switch(movimientoCam) {
+                case movimientoCamara::TILT:
+                    tiltVentana();
+                    break;
+                case movimientoCamara::PAN:
+                    panVentana();
+                    break;
+                case movimientoCamara::CRANE:
+                    craneVentana();
+                    break;
+                case movimientoCamara::DOLLY:
+                    dollyVentana();
+                    break;
+                case movimientoCamara::ORBIT:
+                    orbitVentana();
+                    break;
+                case movimientoCamara::ZOOM:
+                    zoomVentana();
+                    break;
             }
         }
         ImGui::End();
@@ -171,5 +193,82 @@ namespace PAG {
         return this->movimientoCam;
     }
 
+    void GUI::orbitVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if (ImGui::Button("UP", buttonSize))
+            direccionMovimiento = arriba;
+        ImGui::SameLine();
+        if (ImGui::Button("DOWN", buttonSize))
+            direccionMovimiento = abajo;
+        if (ImGui::Button("LEFT", buttonSize))
+            direccionMovimiento = izquierda;
+        ImGui::SameLine();
+        if (ImGui::Button("RIGHT", buttonSize))
+            direccionMovimiento = derecha;
+    }
+
+    void GUI::dollyVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if(ImGui::Button("NORTH", buttonSize))
+            direccionMovimiento = arriba;
+        ImGui::SameLine();
+        if(ImGui::Button("SOUTH", buttonSize))
+            direccionMovimiento = abajo;
+        if(ImGui::Button("WEST", buttonSize))
+            direccionMovimiento = izquierda;
+        ImGui::SameLine();
+        if(ImGui::Button("EAST", buttonSize))
+            direccionMovimiento = derecha;
+    }
+
+    void GUI::tiltVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if(ImGui::Button("UP", buttonSize))
+            direccionMovimiento = arriba;
+        if(ImGui::Button("DOWN", buttonSize))
+            direccionMovimiento = abajo;
+    }
+
+    void GUI::panVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if(ImGui::Button("LEFT", buttonSize))
+            direccionMovimiento = izquierda;
+        ImGui::SameLine();
+        if(ImGui::Button("RIGHT", buttonSize))
+            direccionMovimiento = derecha;
+    }
+
+    void GUI::craneVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if(ImGui::Button("UP", buttonSize))
+            direccionMovimiento = arriba;
+        if(ImGui::Button("DOWN", buttonSize))
+            direccionMovimiento = abajo;
+    }
+
+    void GUI::zoomVentana() {
+        ImGui::SliderFloat("##xx", &barraZoom, 0.0f, 90.0f, "%.3f", ImGuiSliderFlags_None);
+    }
+
+    direccionCamara GUI::getDireccionCamara() {
+        return this->direccionMovimiento;
+    }
+
+    void GUI::setBarraZoom(float barraZoom) {
+        this->barraZoom = barraZoom;
+    }
+
+    void GUI::resetBotonCamara() {
+       this->direccionMovimiento = reset;
+    }
+
+    float GUI::getBarraZoom() {
+        return this->barraZoom;
+    }
 }
 

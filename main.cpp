@@ -42,30 +42,38 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 // - Esta función callback será llamada cada vez que se pulse algún botón
 // del ratón sobre el área de dibujo OpenGL.
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+    //PR5
     ImGuiIO &io = ImGui::GetIO();
 
     if (!io.WantCaptureMouse) {
-        PAG::Renderer::getInstancia().setTipoMovCamara(PAG::GUI::getInstancia().getMovimientoCamara());
-        if(action == GLFW_PRESS){
-            PAG::Renderer::getInstancia().setClickIzquierdo(true);
-            PAG::GUI::getInstancia().addmensaje("Pulsado el boton: ");
-        }else if(action == GLFW_RELEASE) {
-            PAG::Renderer::getInstancia().setClickIzquierdo(false);
-            PAG::GUI::getInstancia().addmensaje("Soltado el boton: ");
+        if(button == GLFW_MOUSE_BUTTON_LEFT) {
+            PAG::Renderer::getInstancia().setTipoMovCamara(PAG::GUI::getInstancia().getMovimientoCamara());
+            if(action == GLFW_PRESS){
+                PAG::Renderer::getInstancia().setClickIzquierdo(true);
+                PAG::GUI::getInstancia().addmensaje("Pulsado el boton: ");
+            }else if(action == GLFW_RELEASE) {
+                PAG::Renderer::getInstancia().setClickIzquierdo(false);
+                PAG::GUI::getInstancia().addmensaje("Soltado el boton: ");
+            }
         }
-    } else
+    } else {
         PAG::Renderer::getInstancia().setClickIzquierdo(false);
+        if(button == GLFW_MOUSE_BUTTON_LEFT) {
+            PAG::Renderer::getInstancia().setTipoMovCamara(PAG::GUI::getInstancia().getMovimientoCamara());
+        }
+    }
 }
-
+//PR5
 // -Esta función será llamada cada vez que el ratón cambie de posición
 void cursor_pos_callback(GLFWwindow *window, double xPos, double yPos) {
     ImGuiIO& io = ImGui::GetIO();
     if(!io.WantCaptureMouse) {
         PAG::Renderer::getInstancia().moverRaton(window,xPos, yPos);
+        PAG::GUI::getInstancia().setBarraZoom(PAG::Renderer::getInstancia().getCamara().getAngulo());
     }
 
 }
-
+//
 // - Esta función callback será llamada cada vez que se mueva la rueda
 // del ratón sobre el área de dibujo OpenGL.
 void scroll_callback ( GLFWwindow *window, double xoffset, double yoffset ){
@@ -148,7 +156,12 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     PAG::Renderer::getInstancia().setShaderProgram(*shaderPrograms);
     PAG::Renderer::getInstancia().creaModelo();
 
+    int width, height;
+    glfwGetWindowSize ( window, &width, &height );
 
+    PAG::GUI::getInstancia().setBarraZoom(PAG::Renderer::getInstancia().getCamara().getAngulo());
+
+    PAG::Renderer::getInstancia().getCamara().setAspecto((float)width / (float)height);
 // - Ciclo de eventos de la aplicación. La condición de parada es que la
 // ventana principal deba cerrarse. Por ejemplo, si el usuario pulsa el
 // botón de cerrar la ventana (la X).
@@ -156,7 +169,6 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         //Borra los buffers (color y profundidad)
         glm::vec4 color = PAG::Renderer::getInstancia().getClearColor();
         PAG::GUI::getInstancia().setColor(color.r, color.g, color.b, color.a);
-
 
         //Se crea un nuevo frame en el que renderizar
         PAG::GUI::getInstancia().newFrame();
@@ -168,7 +180,10 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         PAG::Renderer::getInstancia().setClearColor(
             PAG::GUI::getInstancia().getColor().x, PAG::GUI::getInstancia().getColor().y,
             PAG::GUI::getInstancia().getColor().z, PAG::GUI::getInstancia().getColor().w);
-
+        //PR5
+        PAG::Renderer::getInstancia().setDireccionCamara(PAG::GUI::getInstancia().getDireccionCamara());
+        PAG::Renderer::getInstancia().getCamara().setAngulo(PAG::GUI::getInstancia().getBarraZoom());
+        //
         //PR3 y PR4
         if(PAG::GUI::getInstancia().getbuttonPressed()) {
             try{
@@ -185,7 +200,9 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
             }
             PAG::GUI::getInstancia().setButtonPressed(false);
         }
-
+        //PR5
+        PAG::GUI::getInstancia().resetBotonCamara();
+        //
         PAG::Renderer::getInstancia().render();
         PAG::Renderer::getInstancia().refrescar();
         // - se dibuja la interfaz con imgui

@@ -37,8 +37,10 @@ namespace PAG {
         void crane(float anguloY);
         void orbit(float anguloX, float anguloY);
         void zoom(float angulo);
-
         std::string switchCamara(PAG::movimientoCamara x);
+        void setAspecto(float aspecto);
+        void setAngulo(float angulo);
+        float getAngulo();
 
         virtual ~Camara();
     };

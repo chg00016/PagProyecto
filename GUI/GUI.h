@@ -11,6 +11,13 @@
 #include "../Camara/Camara.h"
 
 namespace PAG{
+    enum direccionCamara {
+        izquierda = 0,
+        derecha,
+        arriba,
+        abajo,
+        reset
+    };
 
     class GUI {
 
@@ -23,7 +30,9 @@ namespace PAG{
         std::string nombreShader = "";
         bool buttonPressed = false;
         //PR5
-        movimientoCamara movimientoCam;
+        movimientoCamara movimientoCam = TILT;
+        direccionCamara direccionMovimiento = reset;
+        float barraZoom;
     public:
         static GUI& getInstancia();
         virtual ~GUI();
@@ -43,6 +52,17 @@ namespace PAG{
         //PR5
         void seleccionarCamara(const std::string& movimiento);
         movimientoCamara getMovimientoCamara();
+        void panVentana();
+        void tiltVentana();
+        void dollyVentana();
+        void craneVentana();
+        void orbitVentana();
+        void zoomVentana();
+        direccionCamara getDireccionCamara();
+        void setBarraZoom(float barraZoom);
+        void resetBotonCamara();
+        float getBarraZoom();
+
     };
 
 }

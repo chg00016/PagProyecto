@@ -98,5 +98,17 @@ namespace PAG {
         return "";
     }
 
+    float Camara::getAngulo() {
+        return this->angulo;
+    }
+
+    void Camara::setAngulo(float angulo) {
+        this->angulo = angulo;
+    }
+
+    void Camara::setAspecto(float aspecto) {
+        this->aspecto = aspecto;
+    }
+
     Camara::~Camara(){}
 }
