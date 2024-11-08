@@ -22,6 +22,7 @@ namespace PAG {
     }
 
     Modelo::Modelo(std::string ruta): fichero(ruta) {
+        mTransformacion = glm::identity<glm::mat4>();
         crearModelo(ruta);
     }
 
@@ -35,15 +36,16 @@ namespace PAG {
         this->mTransformacion = orig.mTransformacion;
     }
 
-
     void Modelo::crearModelo(std::string &ruta) {
         Assimp::Importer importer;
-        const aiScene *scene = importer.ReadFile(ruta, aiProcess_Triangulate | aiProcess_FlipUVs);
+        const aiScene *scene = importer.ReadFile(ruta, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals);
+
         if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
             throw std::runtime_error (std::string("ASSIMP::crearModelo()")+ importer.GetErrorString() );
         }
 
         procesarNodo(scene->mRootNode, scene);
+
         //VAO
         glGenVertexArrays ( 1, &idVAO );
         glBindVertexArray ( idVAO );
@@ -51,20 +53,19 @@ namespace PAG {
         glGenBuffers ( 1, &idVBO );
         glBindBuffer(GL_ARRAY_BUFFER, idVBO );
 
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertice), &vertices[0], GL_STATIC_DRAW);
-
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertice), vertices.data(), GL_STATIC_DRAW);
 
         //vertices
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), nullptr);
         glEnableVertexAttribArray(0);
         //normales
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), (const void *) offsetof(Vertice,posicion));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), (const void *) offsetof(Vertice, vNormal));
         glEnableVertexAttribArray(1);
 
         //IBO
         glGenBuffers ( 1, &idIBO );
         glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
-        glBufferData ( GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW );
+        glBufferData ( GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW );
     }
 
     void Modelo::procesarNodo(aiNode *nodo, const aiScene *scene) {
@@ -83,14 +84,20 @@ namespace PAG {
         if (!malla->mVertices)
             throw std::invalid_argument( "Modelo::procesarMalla(aiMesh *malla): Los vertices del modelo no se han procesado correctamente.");
 
-        unsigned int i;
-        for (i = 0; i < malla->mNumVertices; i++) {
+        vertices.clear();
+        indices.clear();
 
-            Vertice vertice(malla->mVertices[i], {0,0,0});
+        for (unsigned int i = 0; i < malla->mNumVertices; i++) {
 
-                vertice.vNormal.x = malla->mNormals[i].x;
-                vertice.vNormal.y = malla->mNormals[i].y;
-                vertice.vNormal.z = malla->mNormals[i].z;
+            Vertice vertice;
+
+            vertice.posicion.x = malla->mVertices[i].x;
+            vertice.posicion.y = malla->mVertices[i].y;
+            vertice.posicion.z = malla->mVertices[i].z;
+
+            vertice.vNormal.x = malla->mNormals[i].x;
+            vertice.vNormal.y = malla->mNormals[i].y;
+            vertice.vNormal.z = malla->mNormals[i].z;
 
             vertices.emplace_back(vertice);
         }
@@ -98,9 +105,8 @@ namespace PAG {
         if (!malla->HasFaces())
             throw std::invalid_argument( "Modelo::procesarMalla(aiMesh *malla): Los vertices del modelo no se relacionan en ninguna cara.");
 
-
         unsigned int j;
-        for (i = 0; i < malla->mNumFaces; ++i) {
+        for (unsigned int i = 0; i < malla->mNumFaces; ++i) {
             aiFace cara = malla->mFaces[i];
             for (j = 0; j < cara.mNumIndices; ++j){
                 indices.emplace_back(cara.mIndices[j]);
@@ -113,7 +119,7 @@ namespace PAG {
     }
 
     void Modelo::escalar(const glm::vec3 &vTransformacion) {
-      this->mTransformacion  *= glm::scale(vTransformacion);
+        this->mTransformacion  *= glm::scale(vTransformacion);
     }
 
     void Modelo::trasladar(const glm::vec3 &vTransformacion) {

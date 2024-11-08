@@ -38,9 +38,8 @@ namespace PAG {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext ();
-
     }
-    
+
     GUI::~GUI() {
     }
 
@@ -56,6 +55,7 @@ namespace PAG {
     }
 
     void GUI::render() {
+        fileBrowser.Display();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData ( ImGui::GetDrawData() );
     }
@@ -210,10 +210,10 @@ namespace PAG {
             switch(movimientoModelo) {
                 case modeloMovimiento::translacion:
                     translacionVentana();
-                break;
+                    break;
                 case modeloMovimiento::rotacion:
                     rotacionVentana();
-                break;
+                    break;
                 case modeloMovimiento::escalado:
                     escaladoVentana();
             }

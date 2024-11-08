@@ -77,7 +77,6 @@ namespace PAG {
             glUniformMatrix4fv(location , 1, GL_FALSE, &modelo.getMatrizTransformacion()[0][0]);
             modelo.dibujarModelo();
         }
-
     }
 
     /**
