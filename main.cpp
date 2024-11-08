@@ -164,7 +164,6 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     PAG::Shader *shader = new PAG::Shader;
     PAG::ShaderPrograms *shaderPrograms = new PAG::ShaderPrograms;
     PAG::Renderer::getInstancia().setShaderProgram(*shaderPrograms);
-    PAG::Renderer::getInstancia().creaModelo();
 
     int width, height;
     glfwGetWindowSize ( window, &width, &height );

@@ -15,8 +15,6 @@
 #include "../Modelo/Modelo.h"
 
 namespace PAG {
-    class Camara;
-
     class Renderer {
     private:
         static Renderer* instancia;
@@ -42,7 +40,6 @@ namespace PAG {
         virtual ~Renderer();
         void refrescar();
         void inicializarOpenGL();
-        void consultarOpenGL();
         void cambioTamViewport(GLFWwindow *window, int width, int height);
         void ruedaRaton(GLFWwindow *window, double xoffset, double yoffset);
         std::string getInforme();
@@ -50,9 +47,6 @@ namespace PAG {
         void setClearColor(float r, float g, float b, float t);
         void render();
         //PR3
-        void creaShaderProgram();
-        void cargarShader(const std::string& ruta);
-        void creaModelo();
         //PR4
         void setShaderProgram(ShaderPrograms& shaderPrograms);
         //PR5

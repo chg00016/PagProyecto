@@ -29,7 +29,6 @@ namespace PAG {
         glm::vec3 vNormal;
     };
 
-
     class Modelo {
     private:
         GLuint idVAO = 0; // Identificador del vertex array object
@@ -50,7 +49,6 @@ namespace PAG {
         void escalar(const glm::vec3 &vTransformacion);
         void trasladar(const glm::vec3 &vTransformacion);
         void dibujarModelo();
-
 
         const std::string &getFichero() const;
         const glm::mat4 &getMatrizTransformacion() const;

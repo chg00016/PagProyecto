@@ -14,7 +14,7 @@ namespace PAG {
     /**
     * Método para crear, compilar y enlazar el shader program
     */
-   void PAG::Shader::crearShader() {
+   void Shader::crearShader() {
         //Vertex shader
         idVS = glCreateShader ( GL_VERTEX_SHADER );
         if(idVS == 0) {
@@ -83,7 +83,7 @@ namespace PAG {
     /**
      * Método que carga de archivo de texto el código fuente del shader
      */
-    void PAG::Shader::cargarShader(const std::string& ruta) {
+    void Shader::cargarShader(const std::string& ruta) {
         success = true;
         std::ifstream archivoShader;
 

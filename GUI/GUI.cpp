@@ -171,6 +171,54 @@ namespace PAG {
                 fileBrowser.Open();
         }
         ImGui::End();
+
+        ImGui::SetNextWindowPos(ImVec2(ImVec2(40, 0)), ImGuiCond_Once);
+        if(ImGui::Begin("Model move set")) { // La ventana está desplegada
+            //ImGui::SetWindowSize(ImVec2(_windowsSize[0],_windowsSize[1]), ImGuiWindowFlags_None);
+            ImGui::SetWindowFontScale(1.0f); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            ImGui::Text("Selected Model: ");
+
+            for(int i = 0; i < numeroModelos; i++) {
+                if(ImGui::Button(std::to_string(i).c_str()))
+                    modeloSeleccionado = i;
+
+                ImGui::SameLine();
+                if(i == numeroModelos - 1)
+                    if(ImGui::Button("Destroy Model"))
+                        destruirModeloSelecionado = true;
+            }
+
+            const char* MovesStr[] = {"Translation","Rotation","Scale"};
+            size_t numberMoves = 3;
+            static unsigned int moveSelected = 0;
+
+            if(ImGui::BeginCombo("##", MovesStr[moveSelected], ImGuiComboFlags_HeightLargest | ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview)) {
+                for(int i = 0; i < numberMoves; i++) {
+                    const bool selected = (moveSelected == i);
+                    if(ImGui::Selectable(MovesStr[i], selected)) {
+                        moveSelected = i;
+                        seleccionarMovModelo(MovesStr[moveSelected]);
+                    }
+
+                    if(selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+
+            switch(movimientoModelo) {
+                case modeloMovimiento::translacion:
+                    translacionVentana();
+                break;
+                case modeloMovimiento::rotacion:
+                    rotacionVentana();
+                break;
+                case modeloMovimiento::escalado:
+                    escaladoVentana();
+            }
+        }
+        ImGui::End();
     }
 
     bool GUI::getbuttonPressed() {
@@ -327,6 +375,15 @@ namespace PAG {
         ImGui::SameLine();
         if (ImGui::Button("COUNTER CLOCKWISE##03", buttonSize))
             direccionMovModelo = movimiento6;
+    }
+
+    void GUI::seleccionarMovModelo(const std::string& movimiento) {
+        if(movimiento == "Translation")
+            movimientoModelo = modeloMovimiento::translacion;
+        else if(movimiento == "Rotation")
+            movimientoModelo = modeloMovimiento::rotacion;
+        else if(movimiento == "Scale")
+            movimientoModelo = modeloMovimiento::escalado;
     }
 
     void GUI::escaladoVentana() {

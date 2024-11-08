@@ -70,7 +70,7 @@ namespace PAG{
         void translacionVentana();
         void rotacionVentana();
         void escaladoVentana();
-
+        void seleccionarMovModelo(const std::string& movimiento);
     public:
         static GUI& getInstancia();
         virtual ~GUI();
