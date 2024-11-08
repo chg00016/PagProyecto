@@ -391,21 +391,21 @@ namespace PAG {
 
         ImGui::Text("Escala en eje X");
         if (ImGui::Button("AUMENTA##01", buttonSize))
-            direccionMovModelo = movimiento6;
+            direccionMovModelo = movimiento1;
         ImGui::SameLine();
         if (ImGui::Button("DECREMENTA##01", buttonSize))
-            direccionMovModelo = movimiento6;
+            direccionMovModelo = movimiento2;
 
         ImGui::Text("Escala en eje Y");
         if (ImGui::Button("AUMENTA##02", buttonSize))
-            direccionMovModelo = movimiento6;
+            direccionMovModelo = movimiento3;
         ImGui::SameLine();
         if (ImGui::Button("DECREMENTA##02", buttonSize))
-            direccionMovModelo = movimiento6;
+            direccionMovModelo = movimiento4;
 
         ImGui::Text("Escala en eje Z");
         if (ImGui::Button("AUMENTA##03", buttonSize))
-            direccionMovModelo = movimiento6;
+            direccionMovModelo = movimiento5;
         ImGui::SameLine();
         if (ImGui::Button("DECREMENTA##03", buttonSize))
             direccionMovModelo = movimiento6;
