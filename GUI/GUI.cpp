@@ -4,16 +4,17 @@
 
 #include "GUI.h"
 
-#include <iostream>
-#include <ostream>
-
 #include "../Camara/Camara.h"
 
 namespace PAG {
     GUI* GUI::instancia = nullptr;
 
     GUI::GUI() {
+        //PR6
+        fileBrowser.SetTitle("Explorador de archivos");
+        fileBrowser.SetTypeFilters({".obj"});
     }
+
     void GUI::inicializarImGUI(GLFWwindow* w) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext ();
@@ -25,6 +26,7 @@ namespace PAG {
         ImGui_ImplOpenGL3_Init ();
 
     }
+
 
     GUI &GUI::getInstancia() {
         if (!instancia)
@@ -159,6 +161,16 @@ namespace PAG {
             }
         }
         ImGui::End();
+
+        //PR6
+        ImGui::SetNextWindowPos(ImVec2(ImVec2(40, 0)), ImGuiCond_Once);
+        if(ImGui::Begin("Explorador de archivos")) { // La ventana está desplegada
+            ImGui::SetWindowFontScale(1.0f); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            if(ImGui::Button("Crear modelo con el fichero .obj"))
+                fileBrowser.Open();
+        }
+        ImGui::End();
     }
 
     bool GUI::getbuttonPressed() {
@@ -270,5 +282,128 @@ namespace PAG {
     float GUI::getBarraZoom() {
         return this->barraZoom;
     }
+
+    //PR6
+    void GUI::translacionVentana() {
+        ImVec2 buttonSize(80, 20);
+
+        if (ImGui::Button("ARRIBA", buttonSize))
+            direccionMovModelo = movimiento1;
+        ImGui::SameLine();
+        if (ImGui::Button("ABAJO", buttonSize))
+            direccionMovModelo = movimiento2;
+        if (ImGui::Button("IZQUIERDA", buttonSize))
+            direccionMovModelo = movimiento3;
+        ImGui::SameLine();
+        if (ImGui::Button("DERECHA", buttonSize))
+            direccionMovModelo = movimiento4;
+        if (ImGui::Button("HACIA DELANTE", buttonSize))
+            direccionMovModelo = movimiento5;
+        ImGui::SameLine();
+        if (ImGui::Button("HACIA ATRÁS", buttonSize))
+            direccionMovModelo = movimiento6;
+    }
+
+    void GUI::rotacionVentana() {
+        ImVec2 buttonSize(140, 20);
+
+        ImGui::Text("Rotacion eje X");
+        if (ImGui::Button("CLOCKWISE##01", buttonSize))
+            direccionMovModelo = movimiento1;
+        ImGui::SameLine();
+        if (ImGui::Button("COUNTER CLOCKWISE##01", buttonSize))
+            direccionMovModelo = movimiento2;
+
+        ImGui::Text("Rotacion eje Y");
+        if (ImGui::Button("CLOCKWISE##02", buttonSize))
+            direccionMovModelo = movimiento3;
+        ImGui::SameLine();
+        if (ImGui::Button("COUNTER CLOCKWISE##02", buttonSize))
+            direccionMovModelo = movimiento4;
+
+        ImGui::Text("Rotacion eje Z");
+        if (ImGui::Button("CLOCKWISE##03", buttonSize))
+            direccionMovModelo = movimiento5;
+        ImGui::SameLine();
+        if (ImGui::Button("COUNTER CLOCKWISE##03", buttonSize))
+            direccionMovModelo = movimiento6;
+    }
+
+    void GUI::escaladoVentana() {
+        ImVec2 buttonSize(100, 20);
+
+        ImGui::Text("Escala en eje X");
+        if (ImGui::Button("AUMENTA##01", buttonSize))
+            direccionMovModelo = movimiento6;
+        ImGui::SameLine();
+        if (ImGui::Button("DECREMENTA##01", buttonSize))
+            direccionMovModelo = movimiento6;
+
+        ImGui::Text("Escala en eje Y");
+        if (ImGui::Button("AUMENTA##02", buttonSize))
+            direccionMovModelo = movimiento6;
+        ImGui::SameLine();
+        if (ImGui::Button("DECREMENTA##02", buttonSize))
+            direccionMovModelo = movimiento6;
+
+        ImGui::Text("Escala en eje Z");
+        if (ImGui::Button("AUMENTA##03", buttonSize))
+            direccionMovModelo = movimiento6;
+        ImGui::SameLine();
+        if (ImGui::Button("DECREMENTA##03", buttonSize))
+            direccionMovModelo = movimiento6;
+    }
+
+    modeloMovimiento GUI::getModeloMovimiento() const {
+        return movimientoModelo;
+    }
+
+    direccionMovimientoModelo GUI::getDireccionMovModelo() const {
+        return direccionMovModelo;
+    }
+
+    int GUI::getModeloSeleccionado() const {
+        return modeloSeleccionado;
+    }
+
+    int GUI::getNumeroModelos() const {
+        return numeroModelos;
+    }
+
+    bool GUI::destruirModelo() const {
+        return destruirModeloSelecionado;
+    }
+
+    void GUI::resetBotonDestruirModeloSeleccionado() {
+        destruirModeloSelecionado = false;
+    }
+
+    void GUI::setModeloSeleccionado(int modeloSeleccionado) {
+        this->modeloSeleccionado = modeloSeleccionado;
+    }
+
+    void GUI::setNumerosModelos(int numeroModelos) {
+        this->numeroModelos = numeroModelos;
+        if(this->numeroModelos <= 0)
+            modeloSeleccionado--;
+    }
+
+    void GUI::resetBotonesModelo() {
+        direccionMovModelo = resetDireccion;
+    }
+
+    bool GUI::ModeloFicheroSeleccionado() const {
+        return fileBrowser.HasSelected();
+    }
+
+    std::string GUI::getModeloFichero() {
+        return fileBrowser.GetSelected().string();
+    }
+
+    void GUI::borrarModeloFichero() {
+        fileBrowser.ClearSelected();
+    }
+
+
 }
 

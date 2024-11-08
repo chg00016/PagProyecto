@@ -22,25 +22,13 @@ namespace PAG {
     * @Brief Destructor de Renderer
     */
     Renderer::~Renderer () {
-        if ( idVBO != 0 ){
-            glDeleteBuffers ( 1, &idVBO );
-        }
-        if ( idIBO != 0 ){
-            glDeleteBuffers ( 1, &idIBO );
-        }
-        if ( idVAO != 0 ){
-            glDeleteVertexArrays ( 1, &idVAO );
-        }
-        //no enlazado
-        /**
-        for (int i = 0; i < 2; i++) {
-            if(noEntrelazadoidVBO[i] != 0){
-                glDeleteBuffers ( 2, noEntrelazadoidVBO );
-            }
-        }*/
         //PR5
         if(this->camara)
             delete camara;
+        //PR6
+        for(Modelo& modelo : modelos)
+            modelo.destruirModelo();
+        modelos.clear();
     }
 
     /**
@@ -77,13 +65,18 @@ namespace PAG {
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
         glUseProgram ( shaders->getIdSP());
         //PR5
-        int location = glGetUniformLocation ( shaders->getIdSP(), "matrizMVP");
-        glm::mat4 a = (camara->TransformacionMProyeccion()*camara->TransformacionMVision());
+        int location = glGetUniformLocation ( shaders->getIdSP(), "view");
+        glm::mat4 a = (camara->TransformacionMVision());
         glUniformMatrix4fv(location , 1, GL_FALSE, &a[0][0]);
-        //
-        glBindVertexArray ( idVAO );
-        glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, idIBO );
-        glDrawElements ( GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr );
+        location = glGetUniformLocation ( shaders->getIdSP(), "projection");
+        a = (camara->TransformacionMProyeccion());
+        glUniformMatrix4fv(location , 1, GL_FALSE, &a[0][0]);
+        //PR6
+        for(Modelo &modelo: modelos) {
+            location = glGetUniformLocation(shaders->getIdSP(), "model");
+            glUniformMatrix4fv(location , 1, GL_FALSE, &modelo.getMatrizTransformacion()[0][0]);
+            modelo.dibujarModelo();
+        }
 
     }
 
@@ -186,49 +179,6 @@ namespace PAG {
 
      }
 
-//PR3
-/**
-* Método para crear el VAO para el modelo a renderizar
-* @note No se incluye ninguna comprobación de errores
-*/
-void PAG::Renderer::creaModelo (){
-    /**
-    GLfloat vertices[] = { -.5, -.5, 0,.5, -.5, 0,.0, .5, 0 };
-    GLfloat colores[] = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
-    */
-    GLfloat verticesColores[] = { -.5, -.5, 0, 1.0, 0.0, 0.0, .5, -.5, 0, 0.0, 1.0, 0.0, .0, .5, 0, 0.0, 0.0, 1.0};
-    GLuint indices[] = { 0, 1, 2 };
-
-//VAO
-    glGenVertexArrays ( 1, &idVAO );
-    glBindVertexArray ( idVAO );
-//idVBO no entrelazado
-        /**
-        glGenBuffers(2, noEntrelazadoidVBO);
-        glBindBuffer(GL_ARRAY_BUFFER,  noEntrelazadoidVBO[0]);
-        glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER,  noEntrelazadoidVBO[1]);
-        glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(GLfloat), colores, GL_STATIC_DRAW);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-        glEnableVertexAttribArray(1);
-        */
-//idVBO entrelazado
-        glGenBuffers(1, &idVBO);
-        glBindBuffer(GL_ARRAY_BUFFER, idVBO);
-        glBufferData(GL_ARRAY_BUFFER, 18 * sizeof(GLfloat), verticesColores, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-//IBO
-        glGenBuffers(1, &idIBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idIBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), indices,
-                       GL_STATIC_DRAW);
-}
-
     //PR4
     void Renderer::setShaderProgram(ShaderPrograms& shaderPrograms) {
         this->shaders = &shaderPrograms;
@@ -313,6 +263,76 @@ void PAG::Renderer::creaModelo (){
 
     Camara& Renderer::getCamara() {
         return *camara;
+    }
+
+    //PR6
+    void Renderer::crearModelo(const std::string &ruta) {
+        modelos.emplace_back(ruta);
+    }
+
+    void Renderer::destruirModeloSeleccionado() {
+        if(modeloSeleccionado >= 0) {
+            modelos[modeloSeleccionado].destruirModelo();
+            modelos.erase(modelos.begin() + modeloSeleccionado);
+            modeloSeleccionado--;
+        }
+    }
+
+    int Renderer::getModeloSeleccionado() const {
+        return this->modeloSeleccionado;
+    }
+
+    void Renderer::setModeloSeleccionado(int seleccion) {
+        this->modeloSeleccionado = seleccion;
+    }
+
+    int Renderer::getNumeroModelos() const {
+        return (shaders->exito()) ? modelos.size() : 0;
+    }
+
+    void Renderer::setMovimientoModelo(modeloMovimiento movimiento) {
+        this->movimientoModelo = movimiento;
+    }
+
+    void Renderer::setDireccionMovModelo(direccionMovimientoModelo direccion) {
+        if(modeloSeleccionado < 0)
+            return;
+
+        int movimientoTipo1 = 0, movimientoTipo2 = 0, movimientoTipo3 = 0;
+
+        switch(direccion) {
+            case direccionMovimientoModelo::movimiento1:
+                movimientoTipo1 = 1;
+            break;
+            case direccionMovimientoModelo::movimiento2:
+                movimientoTipo1 = -1;
+            break;
+            case direccionMovimientoModelo::movimiento3:
+                movimientoTipo2 = 1;
+            break;
+            case direccionMovimientoModelo::movimiento4:
+                movimientoTipo2 = -1;
+            break;
+            case direccionMovimientoModelo::movimiento5:
+                movimientoTipo3 = 1;
+            break;
+            case direccionMovimientoModelo::movimiento6:
+                movimientoTipo3 = -1;
+            break;
+            case direccionMovimientoModelo::resetDireccion:
+                return;
+        }
+        switch(movimientoModelo) {
+            case modeloMovimiento::translacion:
+                modelos[modeloSeleccionado].trasladar(glm::vec3(-movimientoTipo2, movimientoTipo1, movimientoTipo3));
+            break;
+            case modeloMovimiento::rotacion:
+                modelos[modeloSeleccionado].rotar(5.0f, glm::vec3(movimientoTipo1, movimientoTipo2, movimientoTipo3));
+            break;
+            case modeloMovimiento::escalado:
+                modelos[modeloSeleccionado].escalar(0.05f * glm::vec3(movimientoTipo1, movimientoTipo2, movimientoTipo3) + glm::vec3(1.0f));
+            break;
+        }
     }
 
 }

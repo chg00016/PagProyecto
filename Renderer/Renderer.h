@@ -4,15 +4,15 @@
 
 #ifndef RENDERER_H
 #define RENDERER_H
+
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <glm/vec4.hpp>
-#include <iostream>
-#include <sstream>
 #include <fstream>
+
 #include "../Shader/ShaderPrograms.h"
 #include "../Camara/Camara.h"
 #include "../GUI/GUI.h"
+#include "../Modelo/Modelo.h"
 
 namespace PAG {
     class Camara;
@@ -23,20 +23,20 @@ namespace PAG {
         Renderer();
         glm::vec4 clearColor;
         //PR3
-        GLuint idVAO = 0; // Identificador del vertex array object
-        GLuint idVBO = 0; // Identificador del vertex buffer object
-        GLuint idIBO = 0; // Identificador del index buffer object
         std::string codigoVS = "";
         std::string codigoFS = "";
         bool problemaShader = false;
-        //GLuint noEntrelazadoidVBO[2];
         //PR4
         ShaderPrograms *shaders;
         //PR5
-        PAG::Camara* camara;
+        Camara* camara;
         bool clickIzquierdo;
         double *ratonPosX, *ratonPosY;
         movimientoCamara TipoMovCamara;
+        //PR6
+        std::vector<Modelo> modelos;
+        int modeloSeleccionado = -1;
+        modeloMovimiento movimientoModelo;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -61,11 +61,15 @@ namespace PAG {
         void setTipoMovCamara(movimientoCamara tipoMovCamara);
         void setDireccionCamara(direccionCamara dir);
         Camara& getCamara();
-
+        //PR6
+        void crearModelo(const std::string& ruta);
+        void destruirModeloSeleccionado();
+        int getModeloSeleccionado() const;
+        void setModeloSeleccionado(int seleccion);
+        int getNumeroModelos() const;
+        void setMovimientoModelo(modeloMovimiento movimiento);
+        void setDireccionMovModelo(direccionMovimientoModelo direccion);
     };
 }
-
-
-
 
 #endif //RENDERER_H

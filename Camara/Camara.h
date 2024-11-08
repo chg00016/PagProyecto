@@ -4,13 +4,14 @@
 
 #ifndef CAMARA_H
 #define CAMARA_H
+
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
 #include <string>
+
+#include <glm/gtx/transform.hpp>
 #include <glm/gtc/epsilon.hpp>
+
 namespace PAG {
 
     enum movimientoCamara{

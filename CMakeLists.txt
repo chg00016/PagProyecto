@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.29)
 project(PagProyecto)
 
 set(CMAKE_CXX_STANDARD 20)
-file(GLOB IMGUI_SRC_FILES imgui/*.cpp)
+
+file(GLOB IMGUI_SRC_FILES imgui/src/*.cpp)
+
 add_executable(PagProyecto main.cpp
         Renderer/Renderer.cpp
         Renderer/Renderer.h
@@ -14,19 +16,20 @@ add_executable(PagProyecto main.cpp
         Camara/Camara.cpp
         Camara/Camara.h
         Modelo/Modelo.cpp
-        Modelo/Modelo.h)
-target_include_directories( ${PROJECT_NAME} PUBLIC imgui )
+        Modelo/Modelo.h
+        GUI/imfilebrowser.h)
+
+target_include_directories( ${PROJECT_NAME} PUBLIC imgui/headers )
+find_package(assimp)
 find_package(opengl_system)
 find_package(glm)
 find_package(glfw3)
 find_package(glad)
-find_package(assimp)
 # Then, link your executable or library with the corresponding package targets:
 
 target_link_libraries(PagProyecto
-        
+        assimp::assimp
         opengl::opengl
         glm::glm
-        assimp::assimp
         glfw
         glad::glad)

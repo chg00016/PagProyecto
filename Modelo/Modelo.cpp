@@ -4,8 +4,6 @@
 
 #include "Modelo.h"
 
-
-
 namespace PAG {
     Vertice::Vertice(aiVector3t<ai_real> posicion, aiVector3t<ai_real> normal) {
        this->posicion.x = posicion.x;
@@ -23,12 +21,26 @@ namespace PAG {
 
     }
 
+    Modelo::Modelo(std::string ruta): fichero(ruta) {
+        crearModelo(ruta);
+    }
+
+    Modelo::Modelo(const Modelo &orig) {
+        this->fichero = orig.fichero;
+        this->idVAO = orig.idVAO;
+        this->idVBO = orig.idVBO ;
+        this->idIBO = orig.idIBO;
+        this->vertices = orig.vertices;
+        this->indices = orig.indices;
+        this->mTransformacion = orig.mTransformacion;
+    }
+
+
     void Modelo::crearModelo(std::string &ruta) {
         Assimp::Importer importer;
         const aiScene *scene = importer.ReadFile(ruta, aiProcess_Triangulate | aiProcess_FlipUVs);
         if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-            std::cout << "ASSIMP::crearModelo()" << importer.GetErrorString() << std::endl;
-            return;
+            throw std::runtime_error (std::string("ASSIMP::crearModelo()")+ importer.GetErrorString() );
         }
 
         procesarNodo(scene->mRootNode, scene);
@@ -74,20 +86,16 @@ namespace PAG {
         unsigned int i;
         for (i = 0; i < malla->mNumVertices; i++) {
 
-            PAG::Vertice vertice(malla->mVertices[i], {0,0,0});
+            Vertice vertice(malla->mVertices[i], {0,0,0});
 
-            if (malla->mNormals != nullptr) {
                 vertice.vNormal.x = malla->mNormals[i].x;
                 vertice.vNormal.y = malla->mNormals[i].y;
                 vertice.vNormal.z = malla->mNormals[i].z;
-            }
-
-
 
             vertices.emplace_back(vertice);
         }
 
-        if (! malla->HasFaces())
+        if (!malla->HasFaces())
             throw std::invalid_argument( "Modelo::procesarMalla(aiMesh *malla): Los vertices del modelo no se relacionan en ninguna cara.");
 
 
@@ -95,13 +103,9 @@ namespace PAG {
         for (i = 0; i < malla->mNumFaces; ++i) {
             aiFace cara = malla->mFaces[i];
             for (j = 0; j < cara.mNumIndices; ++j){
-                indices.push_back(cara.mIndices[j]);
+                indices.emplace_back(cara.mIndices[j]);
             }
         }
-    }
-
-    Modelo::Modelo(std::string ruta): fichero(ruta) {
-        crearModelo(ruta);
     }
 
     void Modelo::rotar(const GLfloat &grados,const glm::vec3 &vTransformacion) {
@@ -129,13 +133,17 @@ namespace PAG {
     const glm::mat4& Modelo::getMatrizTransformacion() const {
         return this->mTransformacion;
     }
-
-    Modelo::~Modelo() {
+    void Modelo::destruirModelo() {
         if ( idVBO != 0 )
             glDeleteBuffers (1, &idVBO );
         if ( idIBO != 0 )
             glDeleteBuffers ( 1, &idIBO );
         if ( idVAO != 0 )
             glDeleteVertexArrays ( 1, &idVAO );
+    }
+
+
+    Modelo::~Modelo() {
+
     }
 }

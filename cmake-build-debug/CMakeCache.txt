@@ -293,12 +293,6 @@ glfw3_DIR:PATH=C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/
 //The directory containing a CMake configuration file for glm.
 glm_DIR:PATH=C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators
 
-//The directory containing a CMake configuration file for imgui.
-imgui_DIR:PATH=C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators
-
-//The directory containing a CMake configuration file for lodepng.
-lodepng_DIR:PATH=C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators
-
 //The directory containing a CMake configuration file for minizip.
 minizip_DIR:PATH=C:/Users/carme/CLionProjects/PagProyecto/cmake-build-debug/conan/build/Debug/generators
 

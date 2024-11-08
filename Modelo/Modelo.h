@@ -4,17 +4,22 @@
 
 #ifndef MODELO_H
 #define MODELO_H
+
 #include <string>
+#include <ostream>
 #include <vector>
+
 #include <glad/glad.h>
 #include <glm/vec3.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <ostream>
-#include <iostream>
-#include <glm/fwd.hpp>
+
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/gtx/transform.hpp>
+
 namespace PAG {
 
     struct Vertice {
@@ -40,7 +45,7 @@ namespace PAG {
         void procesarMalla(aiMesh *malla);
     public:
         Modelo(std::string ruta);
-
+        Modelo (const Modelo& orig);
         void rotar(const GLfloat &grados,const glm::vec3 &vTransformacion);
         void escalar(const glm::vec3 &vTransformacion);
         void trasladar(const glm::vec3 &vTransformacion);
@@ -49,7 +54,7 @@ namespace PAG {
 
         const std::string &getFichero() const;
         const glm::mat4 &getMatrizTransformacion() const;
-
+        void destruirModelo();
 
         virtual ~Modelo();
 

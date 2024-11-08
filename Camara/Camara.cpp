@@ -4,8 +4,6 @@
 
 #include "Camara.h"
 
-
-
 namespace PAG {
 
     Camara::Camara() {

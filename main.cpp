@@ -1,9 +1,9 @@
 #include <iostream>
 // IMPORTANTE: El include de GLAD debe estar siempre ANTES de el de GLFW
-#include "./Renderer/Renderer.h"
+#include "Renderer/Renderer.h"
 #include "GUI/GUI.h"
-#include "Shader/Shader.h"
-#include "Shader/ShaderPrograms.h"
+
+#include <GLFW/glfw3.h>
 
 // - Esta función callback será llamada cuando GLFW produzca algún error
 void error_callback ( int errno, const char* desc ){
@@ -57,9 +57,19 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
             }
         }
     } else {
+        //PR6
         PAG::Renderer::getInstancia().setClickIzquierdo(false);
-        if(button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
             PAG::Renderer::getInstancia().setTipoMovCamara(PAG::GUI::getInstancia().getMovimientoCamara());
+            PAG::Renderer::getInstancia().setMovimientoModelo(PAG::GUI::getInstancia().getModeloMovimiento());
+            try {
+                if(PAG::GUI::getInstancia().ModeloFicheroSeleccionado()) {
+                    PAG::Renderer::getInstancia().crearModelo(PAG::GUI::getInstancia().getModeloFichero());
+                    PAG::GUI::getInstancia().borrarModeloFichero();
+                }
+            } catch(std::runtime_error& e) {
+                PAG::GUI::getInstancia().addmensaje(e.what());
+            }
         }
     }
 }
@@ -183,7 +193,10 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         //PR5
         PAG::Renderer::getInstancia().setDireccionCamara(PAG::GUI::getInstancia().getDireccionCamara());
         PAG::Renderer::getInstancia().getCamara().setAngulo(PAG::GUI::getInstancia().getBarraZoom());
-        //
+        //PR6
+        PAG::GUI::getInstancia().setNumerosModelos(PAG::Renderer::getInstancia().getNumeroModelos());
+        PAG::Renderer::getInstancia().setModeloSeleccionado(PAG::GUI::getInstancia().getModeloSeleccionado());
+        PAG::Renderer::getInstancia().setDireccionMovModelo(PAG::GUI::getInstancia().getDireccionMovModelo());
         //PR3 y PR4
         if(PAG::GUI::getInstancia().getbuttonPressed()) {
             try{
@@ -200,6 +213,14 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
             }
             PAG::GUI::getInstancia().setButtonPressed(false);
         }
+        //PR6
+        if(PAG::GUI::getInstancia().destruirModelo()) {
+            PAG::Renderer::getInstancia().destruirModeloSeleccionado();
+            PAG::GUI::getInstancia().resetBotonDestruirModeloSeleccionado();
+            PAG::GUI::getInstancia().setNumerosModelos(PAG::Renderer::getInstancia().getNumeroModelos());
+            PAG::GUI::getInstancia().setModeloSeleccionado(PAG::Renderer::getInstancia().getModeloSeleccionado());
+        }
+        PAG::GUI::getInstancia().resetBotonesModelo();
         //PR5
         PAG::GUI::getInstancia().resetBotonCamara();
         //

@@ -4,8 +4,10 @@
 
 #ifndef SHADER_H
 #define SHADER_H
-#include <string>
+
 #include <glad/glad.h>
+
+#include <string>
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
