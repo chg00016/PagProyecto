@@ -13,7 +13,9 @@
 #include "../Camara/Camara.h"
 #include "../GUI/GUI.h"
 #include "../Modelo/Modelo.h"
-
+enum tipoVisualizacion{
+    ALAMBRE, RELLENO
+};
 namespace PAG {
     class Renderer {
     private:
@@ -63,6 +65,8 @@ namespace PAG {
         int getNumeroModelos() const;
         void setMovimientoModelo(modeloMovimiento movimiento);
         void setDireccionMovModelo(direccionMovimientoModelo direccion);
+        //PR7
+        void aplicarSubrutina(const GLuint &idSP, const std::string subrutina);
     };
 }
 

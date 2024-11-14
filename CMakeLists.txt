@@ -17,7 +17,9 @@ add_executable(PagProyecto main.cpp
         Camara/Camara.h
         Modelo/Modelo.cpp
         Modelo/Modelo.h
-        GUI/imfilebrowser.h)
+        GUI/imfilebrowser.h
+        Material/Material.cpp
+        Material/Material.h)
 
 target_include_directories( ${PROJECT_NAME} PUBLIC imgui/headers )
 find_package(assimp)
