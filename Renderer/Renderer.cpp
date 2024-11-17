@@ -291,8 +291,11 @@ namespace PAG {
         return this->modeloSeleccionado;
     }
 
-    void Renderer::setModeloSeleccionado(int seleccion) {
+    bool Renderer::setModeloSeleccionado(int seleccion) {
+        bool diferencia = seleccion != modeloSeleccionado;
         this->modeloSeleccionado = seleccion;
+
+        return diferencia;
     }
 
     int Renderer::getNumeroModelos() const {

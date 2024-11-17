@@ -63,7 +63,7 @@ namespace PAG {
         void crearModelo(const std::string& ruta);
         void destruirModeloSeleccionado();
         int getModeloSeleccionado() const;
-        void setModeloSeleccionado(int seleccion);
+        bool setModeloSeleccionado(int seleccion);
         int getNumeroModelos() const;
         void setMovimientoModelo(modeloMovimiento movimiento);
         void setDireccionMovModelo(direccionMovimientoModelo direccion);

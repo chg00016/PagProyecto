@@ -194,8 +194,20 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         PAG::Renderer::getInstancia().getCamara().setAngulo(PAG::GUI::getInstancia().getBarraZoom());
         //PR6
         PAG::GUI::getInstancia().setNumerosModelos(PAG::Renderer::getInstancia().getNumeroModelos());
-        PAG::Renderer::getInstancia().setModeloSeleccionado(PAG::GUI::getInstancia().getModeloSeleccionado());
         PAG::Renderer::getInstancia().setDireccionMovModelo(PAG::GUI::getInstancia().getDireccionMovModelo());
+        if(PAG::Renderer::getInstancia().setModeloSeleccionado(PAG::GUI::getInstancia().getModeloSeleccionado())) {
+            //PR7
+            PAG::GUI::getInstancia().setComponenteAmbiente(PAG::Renderer::getInstancia().getAmbienteModelo().x, PAG::Renderer::getInstancia().getAmbienteModelo().y, PAG::Renderer::getInstancia().getAmbienteModelo().z);
+            PAG::GUI::getInstancia().setComponenteDifuso(PAG::Renderer::getInstancia().getDifusaModelo().x, PAG::Renderer::getInstancia().getDifusaModelo().y, PAG::Renderer::getInstancia().getDifusaModelo().z);
+            PAG::GUI::getInstancia().setComponenteEspecular(PAG::Renderer::getInstancia().getEspecularModelo().x, PAG::Renderer::getInstancia().getEspecularModelo().y, PAG::Renderer::getInstancia().getEspecularModelo().z);
+            PAG::GUI::getInstancia().setComponenteBrillo(PAG::Renderer::getInstancia().getBrilloModelo());
+        }
+        //PR7
+        PAG::Renderer::getInstancia().setAmbienteModelo(PAG::GUI::getInstancia().getComponenteAmbiente());
+        PAG::Renderer::getInstancia().setDifusaModelo(PAG::GUI::getInstancia().getComponenteDifuso());
+        PAG::Renderer::getInstancia().setEspecularModelo(PAG::GUI::getInstancia().getComponenteEspecular());
+        PAG::Renderer::getInstancia().setBrilloModelo(PAG::GUI::getInstancia().getComponenteBrillo());
+
         //PR3 y PR4
         if(PAG::GUI::getInstancia().getbuttonPressed()) {
             try{
@@ -218,6 +230,12 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
             PAG::GUI::getInstancia().resetBotonDestruirModeloSeleccionado();
             PAG::GUI::getInstancia().setNumerosModelos(PAG::Renderer::getInstancia().getNumeroModelos());
             PAG::GUI::getInstancia().setModeloSeleccionado(PAG::Renderer::getInstancia().getModeloSeleccionado());
+            //PR7
+            PAG::GUI::getInstancia().setComponenteBrillo(PAG::Renderer::getInstancia().getBrilloModelo());
+            PAG::GUI::getInstancia().setComponenteDifuso(PAG::Renderer::getInstancia().getDifusaModelo().x, PAG::Renderer::getInstancia().getDifusaModelo().y, PAG::Renderer::getInstancia().getDifusaModelo().z);
+            PAG::GUI::getInstancia().setComponenteAmbiente(PAG::Renderer::getInstancia().getAmbienteModelo().x, PAG::Renderer::getInstancia().getAmbienteModelo().y, PAG::Renderer::getInstancia().getAmbienteModelo().z);
+            PAG::GUI::getInstancia().setComponenteEspecular(PAG::Renderer::getInstancia().getEspecularModelo().x, PAG::Renderer::getInstancia().getEspecularModelo().y, PAG::Renderer::getInstancia().getEspecularModelo().z);
+            //
         }
         PAG::GUI::getInstancia().resetBotonesModelo();
         //PR5
