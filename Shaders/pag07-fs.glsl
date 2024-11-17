@@ -1,32 +1,25 @@
 #version 410
+
 out vec4 colorFragmento;
 
-//colores planos
-uniform vec4 colorRojo;
-//difuso
-uniform vec4 Ia;
-uniform vec4 Id;
-uniform vec4 Is;
-
-uniform vec4 Ka;
-uniform vec4 Kd;
-uniform vec4 Ks;
-
-in salidaVS
-{
-    vec3 posicionV;
-    vec3 normalV;
+in salidaVS {
+vec3 posicionV;
+vec3 normalV;
+vec3 ColorV;
 } entrada;
 
-subroutine vec4 calcularColor();
-subroutine uniform calcularColor metodoColorElegido;
+subroutine vec3 calcularColor();
 
-subroutine(calcularColor)
-vec4 colorRojo(){ return vec4( 1, 0, 0, 1 );}
+subroutine (calcularColor) vec3 colorRojo() {
+return vec3 (1, 0, 0);
+}
 
-subroutine (calcularColor)
-vec4 colorVerde(){ return vec4( 0, 1, 0, 1 );}
+subroutine (calcularColor) vec3 colorDifuso() {
+return entrada.ColorV;
+}
+
+subroutine uniform calcularColor seleccionado;
 
 void main() {
-    vec4 color = metodoColorElegido();
+colorFragmento = vec4( seleccionado(), 1.0f);
 }

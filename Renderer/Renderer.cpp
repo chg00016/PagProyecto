@@ -65,7 +65,7 @@ namespace PAG {
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
         glUseProgram ( shaders->getIdSP());
         //PR7
-        (mallaTriangulos) ? shaders->aplicarSubrutina("", GL_FRAGMENT_SHADER) : shaders->aplicarSubrutina("", GL_FRAGMENT_SHADER);
+        (mallaTriangulos) ? shaders->aplicarSubrutina("colorRojo", GL_FRAGMENT_SHADER) : shaders->aplicarSubrutina("colorDifuso", GL_FRAGMENT_SHADER);
         //PR5
         int location = glGetUniformLocation ( shaders->getIdSP(), "view");
         glm::mat4 a = (camara->TransformacionMVision());
