@@ -5,7 +5,7 @@ out vec4 colorFragmento;
 in salidaVS {
 vec3 posicionV;
 vec3 normalV;
-vec3 ColorV;
+vec3 colorV;
 } entrada;
 
 subroutine vec3 calcularColor();
@@ -15,7 +15,7 @@ return vec3 (1, 0, 0);
 }
 
 subroutine (calcularColor) vec3 colorDifuso() {
-return entrada.ColorV;
+return entrada.colorV;
 }
 
 subroutine uniform calcularColor seleccionado;

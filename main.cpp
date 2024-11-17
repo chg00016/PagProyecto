@@ -203,6 +203,7 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
             PAG::GUI::getInstancia().setComponenteBrillo(PAG::Renderer::getInstancia().getBrilloModelo());
         }
         //PR7
+        PAG::Renderer::getInstancia().setMallaTriangulos(PAG::GUI::getInstancia().getmallaTriangulos());
         PAG::Renderer::getInstancia().setAmbienteModelo(PAG::GUI::getInstancia().getComponenteAmbiente());
         PAG::Renderer::getInstancia().setDifusaModelo(PAG::GUI::getInstancia().getComponenteDifuso());
         PAG::Renderer::getInstancia().setEspecularModelo(PAG::GUI::getInstancia().getComponenteEspecular());

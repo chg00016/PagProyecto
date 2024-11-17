@@ -78,8 +78,8 @@ namespace PAG {
             location = glGetUniformLocation(shaders->getIdSP(), "model");
             glUniformMatrix4fv(location , 1, GL_FALSE, &modelo.getMatrizTransformacion()[0][0]);
             //PR7
-            location = glGetUniformLocation(shaders->getIdSP(), "diffColor");
-            glUniform3fv(location , 3, &modelo.getMaterial()->getDifusa()[0]);
+            location = glGetUniformLocation(shaders->getIdSP(), "colorDifuso");
+            glUniform3f(location, modelo.getMaterial()->getDifusa().x, modelo.getMaterial()->getDifusa().y, modelo.getMaterial()->getDifusa().z);
             //
             modelo.dibujarModelo();
         }
