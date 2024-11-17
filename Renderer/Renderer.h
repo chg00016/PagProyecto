@@ -37,6 +37,8 @@ namespace PAG {
         std::vector<Modelo> modelos;
         int modeloSeleccionado = -1;
         modeloMovimiento movimientoModelo;
+        //PR7
+        bool mallaTriangulos = false;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -66,7 +68,15 @@ namespace PAG {
         void setMovimientoModelo(modeloMovimiento movimiento);
         void setDireccionMovModelo(direccionMovimientoModelo direccion);
         //PR7
-        void aplicarSubrutina(const GLuint &idSP, const std::string subrutina);
+        const glm::vec3& getDifusaModelo();
+        const glm::vec3& getAmbienteModelo();
+        const glm::vec3& getEspecularModelo();
+        float getBrilloModelo();
+        void setMallaTriangulos(bool mallaTriangulos);
+        void setDifusaModelo(const float* dif);
+        void setAmbienteModelo(const float* amb);
+        void setEspecularModelo(const float* espec);
+        void setBrilloModelo(float brillo);
     };
 }
 

@@ -152,4 +152,14 @@ namespace PAG {
     Modelo::~Modelo() {
 
     }
+
+    //PR7
+
+    void Modelo::setMaterial(Material* material) {
+        this->material = material;
+    }
+
+    Material* Modelo::getMaterial() const {
+        return this->material;
+    }
 }

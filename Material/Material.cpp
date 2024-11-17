@@ -25,13 +25,29 @@ namespace PAG {
 
     }
 
-    void Material::setDifusa(const glm::vec3& difusa) { this->difusa = difusa; }
-    void Material::setAmbiente(const glm::vec3& ambiente) { this->ambiente = ambiente; }
-    void Material::setEspecular(const glm::vec3& especular) { this->especular = especular; }
-    void Material::setExpBrillo(float expBrillo) { this->expBrillo = expBrillo; }
+    void Material::setDifusa(const glm::vec3& difusa) {
+        this->difusa = difusa;
+    }
+    void Material::setAmbiente(const glm::vec3& ambiente) {
+        this->ambiente = ambiente;
+    }
+    void Material::setEspecular(const glm::vec3& especular) {
+        this->especular = especular;
+    }
+    void Material::setExpBrillo(float expBrillo) {
+        this->expBrillo = expBrillo;
+    }
 
-    const glm::vec3& Material::getDifusa() const { return difusa; }
-    const glm::vec3& Material::getAmbiente() const { return ambiente; }
-    const glm::vec3& Material::getEspecular() const { return especular; }
-    float Material::getExpBrillo() const { return expBrillo; }
+    const glm::vec3& Material::getDifusa() const {
+        return difusa;
+    }
+    const glm::vec3& Material::getAmbiente() const {
+        return ambiente;
+    }
+    const glm::vec3& Material::getEspecular() const {
+        return especular;
+    }
+    float Material::getExpBrillo() const {
+        return expBrillo;
+    }
 }

@@ -16,6 +16,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "../Material/Material.h"
+
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include <glm/gtx/transform.hpp>
@@ -39,6 +41,8 @@ namespace PAG {
         std::string fichero;
         glm::mat4 mTransformacion;
 
+        Material* material = nullptr;
+
         void crearModelo(std::string &ruta);
         void procesarNodo(aiNode *nodo, const aiScene *scene);
         void procesarMalla(aiMesh *malla);
@@ -56,6 +60,9 @@ namespace PAG {
 
         virtual ~Modelo();
 
+        //PR7
+        void setMaterial(Material* material);
+        Material* getMaterial() const;
     };
 }
 

@@ -21,6 +21,8 @@ namespace PAG {
         void setExito(bool success);
 
         virtual ~ShaderPrograms();
+        //PR7
+        void aplicarSubrutina(const std::string &subrutina, GLuint tipo);
     };
 }
 

@@ -4,7 +4,7 @@
 
 #include "Renderer.h"
 
-
+#include <optional>
 
 
 namespace PAG {
@@ -64,6 +64,8 @@ namespace PAG {
             return;
         glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
         glUseProgram ( shaders->getIdSP());
+        //PR7
+        (mallaTriangulos) ? shaders->aplicarSubrutina("", GL_FRAGMENT_SHADER) : shaders->aplicarSubrutina("", GL_FRAGMENT_SHADER);
         //PR5
         int location = glGetUniformLocation ( shaders->getIdSP(), "view");
         glm::mat4 a = (camara->TransformacionMVision());
@@ -75,6 +77,10 @@ namespace PAG {
         for(Modelo &modelo: modelos) {
             location = glGetUniformLocation(shaders->getIdSP(), "model");
             glUniformMatrix4fv(location , 1, GL_FALSE, &modelo.getMatrizTransformacion()[0][0]);
+            //PR7
+            location = glGetUniformLocation(shaders->getIdSP(), "diffColor");
+            glUniform3fv(location , 3, &modelo.getMaterial()->getDifusa()[0]);
+            //
             modelo.dibujarModelo();
         }
     }
@@ -267,11 +273,15 @@ namespace PAG {
     //PR6
     void Renderer::crearModelo(const std::string &ruta) {
         modelos.emplace_back(ruta);
+        modelos.back().setMaterial(new Material());
+        modeloSeleccionado++;
     }
 
     void Renderer::destruirModeloSeleccionado() {
         if(modeloSeleccionado >= 0) {
             modelos[modeloSeleccionado].destruirModelo();
+            delete modelos[modeloSeleccionado].getMaterial();
+            modelos[modeloSeleccionado].setMaterial(nullptr);
             modelos.erase(modelos.begin() + modeloSeleccionado);
             modeloSeleccionado--;
         }
@@ -334,12 +344,65 @@ namespace PAG {
         }
     }
 
-
     //PR7
-    void Renderer::aplicarSubrutina(const GLuint &idSP, const std::string subrutina) {
-        // GLuint aux = glGetSubroutineIndex (idSP, GL_FRAGMENT_SHADER , subrutina.c_str());
-        // if (aux == GL_INVALID_INDEX)
-        //     throw std::invalid_argument("Renderer::aplicarSubrutina: No existe la subrutina " + subrutina);
-        // glUniformSubroutinesuiv ( GL_FRAGMENT_SHADER, 1, &aux );
+
+    const glm::vec3& Renderer::getDifusaModelo() {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return glm::vec3(0.0f);
+
+       return modelos[modeloSeleccionado].getMaterial()->getDifusa();
     }
+
+    const glm::vec3& Renderer::getAmbienteModelo() {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return glm::vec3(0.0f);
+
+       return modelos[modeloSeleccionado].getMaterial()->getAmbiente();
+    }
+
+    const glm::vec3& Renderer::getEspecularModelo() {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return glm::vec3(0.0f);
+
+      return modelos[modeloSeleccionado].getMaterial()->getEspecular();
+    }
+
+    float Renderer::getBrilloModelo() {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return 0.0f;
+
+      return modelos[modeloSeleccionado].getMaterial()->getExpBrillo();
+    }
+
+    void Renderer::setDifusaModelo(const float* dif) {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return;
+
+        modelos[modeloSeleccionado].getMaterial()->setDifusa(glm::vec3(dif[0], dif[1], dif[2]));
+    }
+
+    void Renderer::setAmbienteModelo(const float* amb) {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return;
+
+        modelos[modeloSeleccionado].getMaterial()->setAmbiente(glm::vec3(amb[0], amb[1], amb[2]));
+    }
+
+    void Renderer::setEspecularModelo(const float* espec) {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return;
+
+        modelos[modeloSeleccionado].getMaterial()->setEspecular(glm::vec3(espec[0], espec[1], espec[2]));
+    }
+
+    void Renderer::setBrilloModelo(float brillo) {
+        if(modeloSeleccionado < 0 || modelos.empty())
+            return;
+
+        modelos[modeloSeleccionado].getMaterial()->setExpBrillo(brillo);
+    }
+    void Renderer::setMallaTriangulos(bool mallaTriangulos) {
+        mallaTriangulos = mallaTriangulos;
+    }
+
 }

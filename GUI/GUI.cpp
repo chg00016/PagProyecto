@@ -13,6 +13,13 @@ namespace PAG {
         //PR6
         fileBrowser.SetTitle("Explorador de archivos");
         fileBrowser.SetTypeFilters({".obj"});
+        //PR7
+        for(int i = 0; i < 3; i++) {
+            componenteDifuso[i] = 0.0f;
+            componeneteAmbiente[i] = 0.0f;
+            componenteEspecular[i] = 0.0f;
+        }
+        componenteBrillo = 0.0f;
     }
 
     void GUI::inicializarImGUI(GLFWwindow* w) {

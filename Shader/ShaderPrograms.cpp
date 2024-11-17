@@ -16,7 +16,6 @@ namespace PAG {
             return;
         }
 
-
         idSP = glCreateProgram ();
         if(idSP == 0) {
             success = false;
@@ -65,6 +64,13 @@ namespace PAG {
             glDeleteProgram ( idSP );
         }
         objeto = nullptr;
+    }
+    //PR7
+    void ShaderPrograms::aplicarSubrutina(const std::string &subrutina, GLuint tipo) {
+         GLuint aux = glGetSubroutineIndex (idSP, tipo , subrutina.c_str());
+         if (aux == GL_INVALID_INDEX)
+             throw std::invalid_argument("ShaderPrograms::aplicarSubrutina: No existe la subrutina " + subrutina);
+         glUniformSubroutinesuiv ( tipo, 1, &aux );
     }
 
 }
