@@ -62,7 +62,7 @@ namespace PAG {
         //PR3
         if(!shaders->exito())
             return;
-        glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL );
+        glPolygonMode ( GL_FRONT_AND_BACK, (mallaTriangulos) ? GL_LINE : GL_FILL );
         glUseProgram ( shaders->getIdSP());
         //PR7
         (mallaTriangulos) ? shaders->aplicarSubrutina("colorRojo", GL_FRAGMENT_SHADER) : shaders->aplicarSubrutina("colorDifuso", GL_FRAGMENT_SHADER);
@@ -405,7 +405,7 @@ namespace PAG {
         modelos[modeloSeleccionado].getMaterial()->setExpBrillo(brillo);
     }
     void Renderer::setMallaTriangulos(bool mallaTriangulos) {
-        mallaTriangulos = mallaTriangulos;
+        this->mallaTriangulos = mallaTriangulos;
     }
 
 }
