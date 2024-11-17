@@ -337,9 +337,9 @@ namespace PAG {
 
     //PR7
     void Renderer::aplicarSubrutina(const GLuint &idSP, const std::string subrutina) {
-        GLuint aux = glGetSubroutineIndex (idSP, GL_FRAGMENT_SHADER , subrutina.c_str());
-        if (aux == GL_INVALID_INDEX)
-            throw std::invalid_argument("Renderer::aplicarSubrutina: No existe la subrutina " + subrutina);
-        glUniformSubroutinesuiv ( GL_FRAGMENT_SHADER, 1, &aux );
+        // GLuint aux = glGetSubroutineIndex (idSP, GL_FRAGMENT_SHADER , subrutina.c_str());
+        // if (aux == GL_INVALID_INDEX)
+        //     throw std::invalid_argument("Renderer::aplicarSubrutina: No existe la subrutina " + subrutina);
+        // glUniformSubroutinesuiv ( GL_FRAGMENT_SHADER, 1, &aux );
     }
 }

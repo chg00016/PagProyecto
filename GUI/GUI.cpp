@@ -173,11 +173,10 @@ namespace PAG {
         ImGui::End();
 
         ImGui::SetNextWindowPos(ImVec2(ImVec2(40, 0)), ImGuiCond_Once);
-        if(ImGui::Begin("Model move set")) { // La ventana está desplegada
-            //ImGui::SetWindowSize(ImVec2(_windowsSize[0],_windowsSize[1]), ImGuiWindowFlags_None);
+        if(ImGui::Begin("Transformaciones del modelo")) { // La ventana está desplegada
             ImGui::SetWindowFontScale(1.0f); // Escalamos el texto si fuera necesario
             // Pintamos los controles
-            ImGui::Text("Selected Model: ");
+            ImGui::Text("Modelo seleccionado: ");
 
             for(int i = 0; i < numeroModelos; i++) {
                 if(ImGui::Button(std::to_string(i).c_str()))
@@ -185,38 +184,30 @@ namespace PAG {
 
                 ImGui::SameLine();
                 if(i == numeroModelos - 1)
-                    if(ImGui::Button("Destroy Model"))
+                    if(ImGui::Button("Destruir Modelo"))
                         destruirModeloSelecionado = true;
             }
+            //PR7
+            ImGui::Separator();
+            if(modeloSeleccionado != -1) {
+                ImGui::BeginChild("ChildL", ImVec2(ImGui::GetContentRegionAvail().x * 0.4f, 400), ImGuiChildFlags_Borders,
+                                  ImGuiWindowFlags_HorizontalScrollbar);
+                moveConfigSubWindow();
+                ImGui::EndChild();
 
-            const char* MovesStr[] = {"Translation","Rotation","Scale"};
-            size_t numberMoves = 3;
-            static unsigned int moveSelected = 0;
+                ImGui::SameLine();
 
-            if(ImGui::BeginCombo("##", MovesStr[moveSelected], ImGuiComboFlags_HeightLargest | ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview)) {
-                for(int i = 0; i < numberMoves; i++) {
-                    const bool selected = (moveSelected == i);
-                    if(ImGui::Selectable(MovesStr[i], selected)) {
-                        moveSelected = i;
-                        seleccionarMovModelo(MovesStr[moveSelected]);
-                    }
-
-                    if(selected)
-                        ImGui::SetItemDefaultFocus();
-                }
-                ImGui::EndCombo();
+                ImGui::BeginChild("ChildR", ImVec2(0, 400), ImGuiChildFlags_Borders,
+                                  ImGuiWindowFlags_HorizontalScrollbar);
+                materialSubWindow();
+                ImGui::EndChild();
             }
-
-            switch(movimientoModelo) {
-                case modeloMovimiento::translacion:
-                    translacionVentana();
-                    break;
-                case modeloMovimiento::rotacion:
-                    rotacionVentana();
-                    break;
-                case modeloMovimiento::escalado:
-                    escaladoVentana();
-            }
+        }
+        ImGui::End();
+        if(ImGui::Begin("Propiedades del Render")) {
+            ImGui::SetWindowFontScale(1.0f); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            ImGui::Checkbox("Malla de triangulos", &mallaTriangulos);
         }
         ImGui::End();
     }
@@ -378,11 +369,11 @@ namespace PAG {
     }
 
     void GUI::seleccionarMovModelo(const std::string& movimiento) {
-        if(movimiento == "Translation")
+        if(movimiento == "Translacion")
             movimientoModelo = modeloMovimiento::translacion;
-        else if(movimiento == "Rotation")
+        else if(movimiento == "Rotacion")
             movimientoModelo = modeloMovimiento::rotacion;
-        else if(movimiento == "Scale")
+        else if(movimiento == "Escalado")
             movimientoModelo = modeloMovimiento::escalado;
     }
 
@@ -460,7 +451,111 @@ namespace PAG {
     void GUI::borrarModeloFichero() {
         fileBrowser.ClearSelected();
     }
+//PR7
 
+    float GUI::getComponenteBrillo() const {
+        return componenteBrillo;
+    }
+    const float* GUI::getComponenteDifuso() const {
+        return componenteDifuso;
+    }
+    const float* GUI::getComponenteAmbiente() const {
+        return componeneteAmbiente;
+    }
+    const float* GUI::getComponenteEspecular() const {
+        return componenteEspecular;
+    }
 
+    void GUI::setComponenteBrillo(float brillo) {
+        componenteBrillo = brillo;
+    }
+
+    void GUI::setComponenteDifuso(float x, float y, float z) {
+        componenteDifuso[0] = x;
+        componenteDifuso[1] = y;
+        componenteDifuso[2] = z;
+    }
+
+    void GUI::setComponenteAmbiente(float x, float y, float z) {
+        componeneteAmbiente[0] = x;
+        componeneteAmbiente[1] = y;
+        componeneteAmbiente[2] = z;
+    }
+
+    void GUI::setComponenteEspecular(float x, float y, float z) {
+        componenteEspecular[0] = x;
+        componenteEspecular[1] = y;
+        componenteEspecular[2] = z;
+    }
+
+    void GUI::materialSubWindow() {
+        ImGui::Text("Material del modelo:");
+        int nColumns = 4;
+
+        ImGui::Columns(nColumns);
+        ImGui::Text("Color difuso"); ImGui::NextColumn();
+        ImGui::Text("Color ambiente"); ImGui::NextColumn();
+        ImGui::Text("Color especular"); ImGui::NextColumn();
+        ImGui::Text("Exponente de Brillo"); ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &componenteDifuso[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i + 3);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &componeneteAmbiente[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i + 6);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &componenteEspecular[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        ImGui::VSliderFloat("##v", ImVec2(18, 160), &componenteBrillo, 0.0f, 1.0f, "");
+        ImGui::NextColumn();
+    }
+
+    void GUI::moveConfigSubWindow() {
+        const char* MovesStr[] = {"Translacion","Rotacion","Escalado"};
+        size_t numMovimientos = 3;
+        static unsigned int movSeleccionado = 0;
+
+        ImGui::Text("Transformaciones del Modelo:");
+        if(ImGui::BeginCombo("##", MovesStr[movSeleccionado], ImGuiComboFlags_HeightLargest | ImGuiComboFlags_NoArrowButton | ImGuiComboFlags_WidthFitPreview)) {
+            for(int i = 0; i < numMovimientos; i++) {
+                const bool seleccionado = (movSeleccionado == i);
+                if(ImGui::Selectable(MovesStr[i], seleccionado)) {
+                    movSeleccionado = i;
+                    seleccionarMovModelo(MovesStr[movSeleccionado]);
+                }
+
+                if(seleccionado)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+
+        switch(movimientoModelo) {
+            case modeloMovimiento::translacion:
+                translacionVentana();
+            break;
+            case modeloMovimiento::rotacion:
+                rotacionVentana();
+            break;
+            case modeloMovimiento::escalado:
+                escaladoVentana();
+        }
+    }
 }
 

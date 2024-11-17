@@ -71,6 +71,12 @@ namespace PAG{
         void rotacionVentana();
         void escaladoVentana();
         void seleccionarMovModelo(const std::string& movimiento);
+        //PR7
+        bool mallaTriangulos = false;
+        float componenteDifuso[3];
+        float componeneteAmbiente[3];
+        float componenteEspecular[3];
+        float componenteBrillo;
     public:
         static GUI& getInstancia();
         virtual ~GUI();
@@ -108,6 +114,18 @@ namespace PAG{
         bool ModeloFicheroSeleccionado() const;
         std::string getModeloFichero();
         void borrarModeloFichero();
+        //PR7
+        float getComponenteBrillo() const;
+        const float* getComponenteDifuso() const;
+        const float* getComponenteAmbiente() const;
+        const float* getComponenteEspecular() const;
+        void setComponenteBrillo(float brillo);
+        void setComponenteDifuso(float x, float y, float z);
+        void setComponenteAmbiente(float x, float y, float z);
+        void setComponenteEspecular(float x, float y, float z);
+        void materialSubWindow();
+        void moveConfigSubWindow();
+        bool getmallaTriangulos() const;
     };
 }
 

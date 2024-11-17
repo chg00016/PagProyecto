@@ -2,9 +2,8 @@
 # To keep your changes, remove these comment lines, but the plugin won't be able to modify your requirements
 
 requirements:
+  - "assimp/5.3.1"
   - "opengl/system"
   - "lodepng/cci.20230410"
-  - "assimp/5.4.2"
   - "glm/1.0.1"
-  - "glad/0.1.36"
   - "glfw/3.3.8"
