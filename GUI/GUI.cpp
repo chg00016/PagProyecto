@@ -564,5 +564,10 @@ namespace PAG {
                 escaladoVentana();
         }
     }
+    bool GUI::getmallaTriangulos() const {
+        return mallaTriangulos;
+    }
+
+
 }
 

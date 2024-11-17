@@ -4,7 +4,7 @@ project(PagProyecto)
 set(CMAKE_CXX_STANDARD 20)
 
 file(GLOB IMGUI_SRC_FILES imgui/src/*.cpp)
-file(GLOB GLAD_SRC_FILES GLAD/src/*.cpp)
+file(GLOB GLAD_SRC_FILES GLAD/src/*.c)
 
 add_executable(PagProyecto main.cpp
         Renderer/Renderer.cpp
