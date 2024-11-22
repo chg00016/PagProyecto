@@ -13,9 +13,7 @@
 #include "../Camara/Camara.h"
 #include "../GUI/GUI.h"
 #include "../Modelo/Modelo.h"
-enum tipoVisualizacion{
-    ALAMBRE, RELLENO
-};
+
 namespace PAG {
     class Renderer {
     private:

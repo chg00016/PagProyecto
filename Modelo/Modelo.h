@@ -40,12 +40,11 @@ namespace PAG {
         std::vector<GLuint> indices;
         std::string fichero;
         glm::mat4 mTransformacion;
-
-        Material* material = nullptr;
-
         void crearModelo(std::string &ruta);
         void procesarNodo(aiNode *nodo, const aiScene *scene);
         void procesarMalla(aiMesh *malla);
+        //PR7
+        Material* material = nullptr;
     public:
         Modelo(std::string ruta);
         Modelo (const Modelo& orig);

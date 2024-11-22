@@ -215,3 +215,61 @@ seleccionar el tipo de movimiento que realiza la cámara pinchando en el recuadr
 La representación en UML tras los cambios realizados en esta práctica:
 <br></br>
 <img src=img\UML-prac05.png>
+# *Práctica 6*
+
+#### Modelo
+En la clase modelo se ha transferido los identificadores del vertex array object (VAO), del vertex buffer object (VBO) y 
+ del index buffer object (IBO), asi como los métodos que los crean y destruyen de la clase renderer a esta. 
+Para cada transformación (escalado, transalación y rotación) se ha creado una función que modifica el atributo glm::mat4 mTransformacion.
+Con el objetivo de facilitar la asignación de los atributos de los vertices se ha creado un struct Vertice que contiene todos esos atributos.
+ProcesarMalla y procesarNodo utilizan la librería assimp para definir el modelo en la aplicación a partir de un fichero de extensión .obj.
+#### Renderer
+El renderer maneja ahora el número de modelos que hay junto con la selección de las transformaciones a aplicar. 
+Se han añadido los siguientes atributos
+- std::vector<Modelo> modelos: Vector que contiene todos los modelos
+- int modeloSeleccionado = -1: Sirve para identificar cual es el modelo seleccionado
+- modeloMovimiento movimientoModelo: Sirve para identificar cual es la transformación ha aplicar en el modelo seleccionado.
+#### GUI
+Se han creado dos ventanas nuevas, una para el explorador de archivos que permite seleccionar un fichero de extensión .obj, que es el modelo, y 
+otra ventana que permite aplicar transformaciones(utiliza un enum nuevo llamado modeloMovimiento para saber la transformación y un enum llamado direccionMovimientoModelo para saber en que eje realizar la transformación)
+y destruir a un modelo seleccionado desde esta misma ventana.
+Para el explorador de archivos se ha añadido un fichero de cabecera en el directorio GUI llamado imfilebrowser.
+#### Shaders
+En el vertex shader se ha añadido el modelo
+#### Instrucciones
+- Ventana de explorador de archivos: Simplemente se busca por los directorios hasta seleccionar un archivo .obj
+- Ventana  de transformaciones:Cuando se añade un objeto aparece uno recuadro con numeración(el primer objeto tendrá el recuadro con el número uno, el segundo con el número dos), seleccionando
+estos recuadros seleccionas al objeto al que se le aplican las transformaciones o destrucción. Para destruir un objeto se pincha el botón destruir modelo.
+
+<br></br>
+La representación en UML tras los cambios realizados en esta práctica:
+<br></br>
+<img src=img\UML-prac06.png>
+# *Práctica 7*
+#### Material
+Tiene los siguientes atributos
+- glm::vec3 difusa, ambiente, especular: Los colores del material con respecto a la iluminación
+- float expBrillo: el exponente del brillo del material
+  <br></br>
+Las funciones de esta clase son simplemente los setters y getters de sus atributos.
+#### Modelo
+Se ha añadido un puntero al material con su getter y setter correspondiente.
+#### Renderer
+Se añade dos modos de dibujado de un modelo, dibujo de la malla y dibujo relleno.
+El renderer aplica a los modelos el material si se selecciona el modo de dibujado relleno.
+#### GUI
+Añade a la ventana de transformación de modelos las propiedades del material del modelo
+#### ShaderPrograms
+Tiene una nueva función llamada void aplicarSubrutina(const std::string &subrutina, GLuint tipo) que procesa las subrutinas de los shaders
+#### Shaders
+Se han añadido nuevos shaders con subrutinas
+#### Instrucciones
+- Ventana de transformaciones: Se ha añadido una subventana que permite alterar las propiedades del material del modelo con unas barras de desplazamiento
+vertical(arriba el valor máximo, abajo el mínimo)
+- Ventana de propiedades de renderizado: Contiene una caja de verificación (checkbox) que permite cambiar el modo de visualización
+del modelo (malla o relleno); por defecto está en modo relleno.
+
+<br></br>
+La representación en UML tras los cambios realizados en esta práctica:
+<br></br>
+<img src=img\UML-prac07.png>
