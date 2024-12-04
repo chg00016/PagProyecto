@@ -41,6 +41,8 @@ vec3 especular = ( Is * Ks * pow ( max( dot( r, v ), 0.0f ), brillo ) );
 return spotFactor * ( difusa + especular );
 }
 
+
+
 subroutine (calcularColorV) vec3 punto() {
 vec3 n = normalize ( entrada.normalV );
 
@@ -53,6 +55,8 @@ vec3 especular = ( Is * Ks * pow ( max( dot( r, v ), 0.0f ), brillo ) );
 
 return difusa + especular;
 }
+
+
 
 subroutine (calcularColorV) vec3 direccional() {
 vec3 n = normalize ( entrada.normalV );
@@ -67,12 +71,17 @@ vec3 especular = ( Is * Ks * pow ( max( dot( r, v ), 0.0f ), brillo ) );
 return difusa + especular;
 }
 
+
+
 subroutine (calcularColorV) vec3 ambiente() {
 vec3 ambiente = ( Ia * Ka );
 return ambiente;
 }
 
+
+
 subroutine uniform calcularColorV seleccionado;
+
 
 void main() {
 fragmentColor = vec4( seleccionado(), 1.0f);

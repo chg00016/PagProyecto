@@ -73,4 +73,25 @@ namespace PAG {
          glUniformSubroutinesuiv ( tipo, 1, &aux );
     }
 
+    //PR8
+    void ShaderPrograms::aplicarUniform(const std::string &uniform, float var) {
+        GLint aux = glGetUniformLocation ( idSP, uniform.c_str() );
+        if (aux == GL_INVALID_INDEX)
+            throw std::invalid_argument("ShaderPrograms::aplicarUniform: No existe la variable " + uniform);;
+        glUniform1f(aux, var);
+    }
+
+    void ShaderPrograms::aplicarUniform(const std::string &uniform, const glm::vec3 &vec) {
+        GLint aux = glGetUniformLocation ( idSP, uniform.c_str() );
+        if (aux == GL_INVALID_INDEX)
+            throw std::invalid_argument("ShaderPrograms::aplicarUniform: No existe el vector " + uniform);;
+        glUniform3f(aux, vec.x, vec.y, vec.z);
+    }
+
+    void ShaderPrograms::aplicarUniform(const std::string &uniform, const glm::mat4 &mat) {
+        GLint aux = glGetUniformLocation ( idSP, uniform.c_str() );
+        if (aux == GL_INVALID_INDEX)
+            throw std::invalid_argument("ShaderPrograms::aplicarUniform: No existe la matriz " + uniform);;
+        glUniformMatrix4fv(aux, 1, GL_FALSE, &mat[0][0]);
+    }
 }

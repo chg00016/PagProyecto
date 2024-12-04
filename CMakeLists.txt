@@ -21,7 +21,19 @@ add_executable(PagProyecto main.cpp
         Modelo/Modelo.h
         GUI/imfilebrowser.h
         Material/Material.cpp
-        Material/Material.h)
+        Material/Material.h
+        Luz/Luz.cpp
+        Luz/Luz.h
+        Luz/luzAplicador/luzAplicador.h
+        Luz/LuzAplicador/LuzAmbienteAplicador/LuzAmbienteAplicador.cpp
+        Luz/LuzAplicador/LuzAmbienteAplicador/LuzAmbienteAplicador.h
+        Luz/LuzAplicador/LuzDireccionalAplicador/LuzDireccionalAplicador.cpp
+        Luz/LuzAplicador/LuzDireccionalAplicador/LuzDireccionalAplicador.h
+        Luz/LuzAplicador/LuzFocalAplicador/LuzFocalAplicador.cpp
+        Luz/LuzAplicador/LuzFocalAplicador/LuzFocalAplicador.h
+        Luz/LuzAplicador/LuzPuntualAplicador/LuzPuntualAplicador.cpp
+        Luz/LuzAplicador/LuzPuntualAplicador/LuzPuntualAplicador.h
+        Luz/PropiedadesLuz.h)
 
 target_include_directories( ${PROJECT_NAME} PUBLIC imgui/headers )
 target_include_directories( ${PROJECT_NAME} PUBLIC GLAD/include )

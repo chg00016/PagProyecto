@@ -5,6 +5,9 @@
 #ifndef SHADERPROGRAMS_H
 #define SHADERPROGRAMS_H
 
+#include <glm/fwd.hpp>
+#include <glm/matrix.hpp>
+
 #include "Shader.h"
 
 namespace PAG {
@@ -23,6 +26,10 @@ namespace PAG {
         virtual ~ShaderPrograms();
         //PR7
         void aplicarSubrutina(const std::string &subrutina, GLuint tipo);
+        //PR8
+        void aplicarUniform(const std::string &uniform, float var);
+        void aplicarUniform(const std::string &uniform, const glm::vec3 &vec);
+        void aplicarUniform(const std::string &uniform, const glm::mat4 &mat);
     };
 }
 
