@@ -31,23 +31,23 @@ namespace PAG {
         _aplicadores[_aplicadorSeleccionado]->aplicarLuz(_propiedades, _vision, shaderProgram);
     }
 
-    void Luz::setDI(const glm::vec3& DI) {
-        _propiedades._dI = DI;
+    void Luz::setID(const glm::vec3& ID) {
+        _propiedades._ID = ID;
     }
 
-    void Luz::setAI(const glm::vec3& AI) {
-        _propiedades._aI = AI;
+    void Luz::setIA(const glm::vec3& IA) {
+        _propiedades._IA = IA;
     }
 
-    void Luz::setSI(const glm::vec3& SI) {
-        _propiedades._sI = SI;
+    void Luz::setIS(const glm::vec3& IS) {
+        _propiedades._IS = IS;
     }
 
-    void Luz::setPosition(const glm::vec3& pos) {
+    void Luz::setPosicion(const glm::vec3& pos) {
         _propiedades._p = pos;
     }
 
-    void Luz::setDirection(const glm::vec3& dir) {
+    void Luz::setDireccion(const glm::vec3& dir) {
         _propiedades._d = dir;
     }
 
@@ -55,7 +55,7 @@ namespace PAG {
         _propiedades._gamma = gamma;
     }
 
-    void Luz::setAttenuation(float s) {
+    void Luz::setAtenuacion(float s) {
         _propiedades._s = s;
     }
 
@@ -63,23 +63,23 @@ namespace PAG {
         _vision = vision;
     }
 
-    const glm::vec3& Luz::getDI() {
-        return _propiedades._dI;
+    const glm::vec3& Luz::getID() {
+        return _propiedades._ID;
     }
 
-    const glm::vec3& Luz::getAI() {
-        return _propiedades._aI;
+    const glm::vec3& Luz::getIA() {
+        return _propiedades._IA;
     }
 
-    const glm::vec3& Luz::getSI() {
-        return _propiedades._sI;
+    const glm::vec3& Luz::getIS() {
+        return _propiedades._IS;
     }
 
-    const glm::vec3& Luz::getPostition() {
+    const glm::vec3& Luz::getPosicion() {
         return _propiedades._p;
     }
 
-    const glm::vec3& Luz::getDirection() {
+    const glm::vec3& Luz::getDireccion() {
         return _propiedades._d;
     }
 
@@ -87,7 +87,7 @@ namespace PAG {
         return _propiedades._gamma;
     }
 
-    float Luz::getAttenuation() {
+    float Luz::getAtenuacion() {
         return _propiedades._s;
     }
 

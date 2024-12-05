@@ -16,6 +16,23 @@ namespace PAG {
     Renderer::Renderer () {
         clearColor = glm::vec4(0.6, 0.6, 0.6, 1.0);
         camara = new Camara();
+
+        //PR8
+        //luz focal
+        luces[0].setLuzAplicador(tipoLuzAplicacion::_luzFocal);
+        luces[0].setPosicion(glm::vec3(0.0f, 10.0f, 0.0f));
+        luces[0].setDireccion(glm::vec3(0.0f, -1.0f, 0.0f));
+        //luz direccional
+        luces[1].setLuzAplicador(tipoLuzAplicacion::_luzDireccional);
+        luces[1].setDireccion(glm::vec3(1.0f, 0.0f, 0.0f));
+        //luz puntual
+        luces[2].setLuzAplicador(tipoLuzAplicacion::_luzPuntual);
+        luces[2].setPosicion(glm::vec3(10.0f, 0.0f, 0.0f));
+        //luz ambiente
+        luces[3].setLuzAplicador(tipoLuzAplicacion::_luzAmbiente);
+
+        for(Luz& luz : luces)
+            luz.setVision(camara->TransformacionMVision());
     }
 
     /**
@@ -42,6 +59,10 @@ namespace PAG {
         // - Le decimos a OpenGL que tenga en cuenta la profundidad a la hora de dibujar.
         // No tiene por qué ejecutarse en cada paso por el ciclo de eventos.
         glEnable ( GL_DEPTH_TEST );
+        //PR8
+        glDepthFunc(GL_LEQUAL);
+        glEnable(GL_MULTISAMPLE);
+        glEnable(GL_BLEND);
     }
 
     /**
@@ -73,15 +94,29 @@ namespace PAG {
         location = glGetUniformLocation ( shaders->getIdSP(), "projection");
         a = (camara->TransformacionMProyeccion());
         glUniformMatrix4fv(location , 1, GL_FALSE, &a[0][0]);
-        //PR6
-        for(Modelo &modelo: modelos) {
-            location = glGetUniformLocation(shaders->getIdSP(), "model");
-            glUniformMatrix4fv(location , 1, GL_FALSE, &modelo.getMatrizTransformacion()[0][0]);
-            //PR7
-            location = glGetUniformLocation(shaders->getIdSP(), "colorDifuso");
-            glUniform3f(location, modelo.getMaterial()->getDifusa().x, modelo.getMaterial()->getDifusa().y, modelo.getMaterial()->getDifusa().z);
-            //
-            modelo.dibujarModelo();
+
+        //PR8
+        for(int i = 0; i < luces.size(); i++) {
+            glBlendFunc(GL_SRC_ALPHA, (i == 0) ? GL_ONE_MINUS_SRC_ALPHA : GL_ONE);
+
+            luces[i].aplicarSubrutina(*shaders);
+            luces[i].aplicarLuz(*shaders);
+            //PR6
+            for(Modelo &modelo: modelos) {
+                shaders->aplicarUniform("model", modelo.getMatrizTransformacion());
+                //PR7
+                shaders->aplicarUniform("colorDifuso", modelo.getMaterial()->getDifusa());
+                //
+                //PR8
+                shaders->aplicarUniform("Ka", modelo.getMaterial()->getAmbiente());
+                shaders->aplicarUniform("Ks", modelo.getMaterial()->getEspecular());
+                shaders->aplicarUniform("Kd", modelo.getMaterial()->getDifusa());
+                shaders->aplicarUniform("brillo", modelo.getMaterial()->getExpBrillo());
+                //
+                modelo.dibujarModelo();
+
+            }
+
         }
     }
 
@@ -264,6 +299,9 @@ namespace PAG {
                 camara->orbit(static_cast<float>(izquierda + derecha) * 3.0f, -static_cast<float>(arriba + abajo) * 3.0f);
             break;
         }
+        //PR8
+        for(Luz& luz : luces)
+            luz.setVision(camara->TransformacionMVision());
     }
 
     Camara& Renderer::getCamara() {
@@ -406,6 +444,85 @@ namespace PAG {
     }
     void Renderer::setMallaTriangulos(bool mallaTriangulos) {
         this->mallaTriangulos = mallaTriangulos;
+    }
+
+
+    //PR8
+    const glm::vec3& Renderer::getLuzDifusa() {
+        if(luzSeleccionada < 0)
+            return glm::vec3(0.0f);
+
+        luces[luzSeleccionada].getID();
+    }
+    const glm::vec3& Renderer::getLuzAmbiente() {
+        if(luzSeleccionada < 0)
+            return glm::vec3(0.0f);
+
+        luces[luzSeleccionada].getIA();
+    }
+    const glm::vec3& Renderer::getLuzEspecular() {
+        if(luzSeleccionada < 0)
+            return glm::vec3(0.0f);
+
+        luces[luzSeleccionada].getIS();
+    }
+    float Renderer::getLuzGamma() {
+        if(luzSeleccionada < 0)
+            return 0.0f;
+
+        luces[luzSeleccionada].getGamma();
+    }
+    float Renderer::getLuzAtenuacion() {
+        if(luzSeleccionada < 0)
+            return 0.0f;
+
+        luces[luzSeleccionada].getAtenuacion();
+    }
+
+    int Renderer::getLuzSeleccionada() const {
+        return luzSeleccionada;
+    }
+
+    void Renderer::setLuzDifusa(const float* diff) {
+        if(luzSeleccionada < 0)
+            return;
+
+        luces[luzSeleccionada].setID(glm::vec3(diff[0], diff[1], diff[2]));
+    }
+
+    void Renderer::setLuzAmbiente(const float* amb) {
+        if(luzSeleccionada < 0)
+            return;
+
+        luces[luzSeleccionada].setIA(glm::vec3(amb[0], amb[1], amb[2]));
+    }
+
+    void Renderer::setLuzEspecular(const float* espec) {
+        if(luzSeleccionada < 0)
+            return;
+
+        luces[luzSeleccionada].setIS(glm::vec3(espec[0], espec[1], espec[2]));
+    }
+
+    void Renderer::setLuzGamma(float gamma) {
+        if(luzSeleccionada < 0)
+            return;
+
+        luces[luzSeleccionada].setGamma(gamma);
+    }
+
+    void Renderer::setLuzAtenuacion(float s) {
+        if(luzSeleccionada < 0)
+            return;
+
+        luces[luzSeleccionada].setAtenuacion(s);
+    }
+
+
+    bool Renderer::setLuzSeleccionada(int seleccionada)  {
+        bool diff = (seleccionada != luzSeleccionada);
+        luzSeleccionada = seleccionada;
+        return diff;
     }
 
 }

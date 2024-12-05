@@ -13,6 +13,7 @@
 #include "../Camara/Camara.h"
 #include "../GUI/GUI.h"
 #include "../Modelo/Modelo.h"
+#include "../Luz/Luz.h"
 
 namespace PAG {
     class Renderer {
@@ -37,6 +38,9 @@ namespace PAG {
         modeloMovimiento movimientoModelo;
         //PR7
         bool mallaTriangulos = false;
+        //PR8
+        int luzSeleccionada = -1;
+        std::array<Luz, 4> luces;
     public:
         static Renderer& getInstancia();
         virtual ~Renderer();
@@ -75,6 +79,20 @@ namespace PAG {
         void setAmbienteModelo(const float* amb);
         void setEspecularModelo(const float* espec);
         void setBrilloModelo(float brillo);
+
+        //PR8
+        const glm::vec3& getLuzDifusa();
+        const glm::vec3& getLuzAmbiente();
+        const glm::vec3& getLuzEspecular();
+        float getLuzGamma();
+        float getLuzAtenuacion();
+        int getLuzSeleccionada() const;
+        void setLuzDifusa(const float* diff);
+        void setLuzAmbiente(const float* amb);
+        void setLuzEspecular(const float* espec);
+        void setLuzGamma(float gamma);
+        void setLuzAtenuacion(float s);
+        bool setLuzSeleccionada(int seleccionada);
     };
 }
 

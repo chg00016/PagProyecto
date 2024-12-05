@@ -18,6 +18,6 @@ namespace PAG {
     }
 
     void LuzAmbienteAplicador::aplicarLuz(PAG::PropiedadesLuz &properties, const glm::mat4& vision, PAG::ShaderPrograms& shaderProgram) {
-        shaderProgram.aplicarUniform("Ia", properties._aI);
+        shaderProgram.aplicarUniform("Ia", properties._IA);
     }
 }

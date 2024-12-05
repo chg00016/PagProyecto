@@ -14,7 +14,7 @@
 namespace PAG {
     enum tipoLuzAplicacion {
         _ninguna = -1,
-        _uzPuntual = 0,
+        _luzPuntual = 0,
         _luzFocal,
         _luzDireccional,
         _luzAmbiente
