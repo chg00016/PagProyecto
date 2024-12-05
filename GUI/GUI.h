@@ -142,6 +142,17 @@ namespace PAG{
         int getNumeroLuces() const;
         void setLuzSeleccionada(int luzSeleccionada);
         void setNumeroLuces(int numeroLuces);
+
+        const float* getLuzDifusa() const;
+        const float* getLuzAmbiente() const;
+        const float* getLuzEspecular() const;
+        float getGamma() const;
+        float getAtenuacion() const;
+        void setLuzDifusa(const glm::vec3 &a);
+        void setLuzAmbiente(const glm::vec3 &a);
+        void setLuzEspecular(const glm::vec3 &a);
+        void setGamma(float gamma);
+        void setAtenuacion(float s);
     };
 }
 

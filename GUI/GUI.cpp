@@ -604,12 +604,52 @@ namespace PAG {
     }
 
     //PR8
+    const float* GUI::getLuzDifusa() const {
+        return luzDifusa;
+    }
+
+    const float* GUI::getLuzAmbiente() const {
+        return luzAmbiente;
+    }
+
+    const float* GUI::getLuzEspecular() const {
+        return luzEspecular;
+    }
+
+    float GUI::getGamma() const {
+        return gamma;
+    }
+
+    float GUI::getAtenuacion() const {
+        return s;
+    }
     int GUI::getLuzSeleccionada() const {
         return luzSeleccionada;
     }
 
     int GUI::getNumeroLuces() const {
         return numeroLuces;
+    }
+    void GUI::setLuzDifusa(const glm::vec3 &a) {
+        luzDifusa[0] = a.x;
+        luzDifusa[1] = a.y;
+        luzDifusa[2] = a.z;
+    }
+    void GUI::setLuzAmbiente(const glm::vec3 &a) {
+        luzAmbiente[0] = a.x;
+        luzAmbiente[1] = a.y;
+        luzAmbiente[2] = a.z;
+    }
+    void GUI::setLuzEspecular(const glm::vec3 &a) {
+        luzEspecular[0] = a.x;
+        luzEspecular[1] = a.y;
+        luzEspecular[2] = a.z;
+    }
+    void GUI::setGamma(float gamma) {
+        this->gamma = gamma;
+    }
+    void GUI::setAtenuacion(float s) {
+        this->s = s;
     }
 
     void GUI::setLuzSeleccionada(int luzSeleccionada) {

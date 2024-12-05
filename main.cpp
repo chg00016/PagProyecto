@@ -164,6 +164,9 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
     PAG::Shader *shader = new PAG::Shader;
     PAG::ShaderPrograms *shaderPrograms = new PAG::ShaderPrograms;
     PAG::Renderer::getInstancia().setShaderProgram(*shaderPrograms);
+    //PR8
+    PAG::GUI::getInstancia().setNumeroLuces(4);
+    //
 
     int width, height;
     glfwGetWindowSize ( window, &width, &height );
@@ -208,7 +211,20 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         PAG::Renderer::getInstancia().setDifusaModelo(PAG::GUI::getInstancia().getComponenteDifuso());
         PAG::Renderer::getInstancia().setEspecularModelo(PAG::GUI::getInstancia().getComponenteEspecular());
         PAG::Renderer::getInstancia().setBrilloModelo(PAG::GUI::getInstancia().getComponenteBrillo());
+        //PR8
+        if(PAG::Renderer::getInstancia().setLuzSeleccionada(PAG::GUI::getInstancia().getLuzSeleccionada())) {
+            PAG::GUI::getInstancia().setLuzAmbiente(PAG::Renderer::getInstancia().getLuzAmbiente());
+            PAG::GUI::getInstancia().setLuzDifusa(PAG::Renderer::getInstancia().getLuzDifusa());
+            PAG::GUI::getInstancia().setLuzEspecular(PAG::Renderer::getInstancia().getLuzEspecular());
+            PAG::GUI::getInstancia().setGamma(PAG::Renderer::getInstancia().getLuzGamma());
+            PAG::GUI::getInstancia().setAtenuacion(PAG::Renderer::getInstancia().getLuzAtenuacion());
+        }
 
+        PAG::Renderer::getInstancia().setLuzAmbiente(PAG::GUI::getInstancia().getLuzAmbiente());
+        PAG::Renderer::getInstancia().setLuzDifusa(PAG::GUI::getInstancia().getLuzDifusa());
+        PAG::Renderer::getInstancia().setLuzEspecular(PAG::GUI::getInstancia().getLuzEspecular());
+        PAG::Renderer::getInstancia().setLuzAtenuacion(PAG::GUI::getInstancia().getAtenuacion());
+        PAG::Renderer::getInstancia().setLuzGamma(PAG::GUI::getInstancia().getGamma());
         //PR3 y PR4
         if(PAG::GUI::getInstancia().getbuttonPressed()) {
             try{

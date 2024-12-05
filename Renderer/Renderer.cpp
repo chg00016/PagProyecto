@@ -254,6 +254,9 @@ namespace PAG {
         }
         xOldPos = xoffset;
         yOldPos = yoffset;
+        //PR8
+        for(Luz& luz : luces)
+            luz.setVision(camara->TransformacionMVision());
     }
     void Renderer::setClickIzquierdo(bool clickIzquierdo) {
         this->clickIzquierdo = clickIzquierdo;
