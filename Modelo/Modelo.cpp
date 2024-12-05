@@ -34,6 +34,7 @@ namespace PAG {
         this->vertices = orig.vertices;
         this->indices = orig.indices;
         this->mTransformacion = orig.mTransformacion;
+        this->material = orig.material;
     }
 
     void Modelo::crearModelo(std::string &ruta) {
@@ -58,9 +59,12 @@ namespace PAG {
         //vertices
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), nullptr);
         glEnableVertexAttribArray(0);
-        //normales
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), (const void *) offsetof(Vertice, vNormal));
+        //colores
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), (const void *) offsetof(Vertice, vColor));
         glEnableVertexAttribArray(1);
+        //normales
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertice), (const void *) offsetof(Vertice, vNormal));
+        glEnableVertexAttribArray(2);
 
         //IBO
         glGenBuffers ( 1, &idIBO );
@@ -150,7 +154,7 @@ namespace PAG {
 
 
     Modelo::~Modelo() {
-
+        this->material = nullptr;
     }
 
     //PR7

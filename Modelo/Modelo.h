@@ -29,6 +29,7 @@ namespace PAG {
         Vertice(aiVector3t<ai_real> posicion, aiVector3t<ai_real> normal);
         glm::vec3 posicion;
         glm::vec3 vNormal;
+        glm::vec3 vColor;
     };
 
     class Modelo {

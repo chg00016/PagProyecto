@@ -79,7 +79,9 @@ namespace PAG {
     * Método para hacer el refresco de la escena
     */
     void Renderer::refrescar (){
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(clearColor[0],clearColor[1], clearColor[2],clearColor[3]);
         //PR3
         if(!shaders->exito())
             return;
@@ -208,16 +210,6 @@ namespace PAG {
         this->clearColor = glm::vec4(r,g,b,t);
     }
 
-     /**
-      * @Brief Método para renderizar
-      */
-     void Renderer::render() {
-        glClearColor(clearColor[0],clearColor[1], clearColor[2],clearColor[3]);
-        //PR3
-        glEnable ( GL_DEPTH_TEST );
-        glEnable ( GL_MULTISAMPLE );
-
-     }
 
     //PR4
     void Renderer::setShaderProgram(ShaderPrograms& shaderPrograms) {

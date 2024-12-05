@@ -4,7 +4,6 @@
 
 #include "GUI.h"
 
-#include "../Camara/Camara.h"
 
 namespace PAG {
     GUI* GUI::instancia = nullptr;

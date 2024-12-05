@@ -51,7 +51,6 @@ namespace PAG {
         std::string getInforme();
         glm::vec4 getClearColor();
         void setClearColor(float r, float g, float b, float t);
-        void render();
         //PR3
         //PR4
         void setShaderProgram(ShaderPrograms& shaderPrograms);

@@ -258,7 +258,7 @@ std::cout << "Starting Application PAG - Prueba 01" << std::endl;
         //PR5
         PAG::GUI::getInstancia().resetBotonCamara();
         //
-        PAG::Renderer::getInstancia().render();
+
         PAG::Renderer::getInstancia().refrescar();
         // - se dibuja la interfaz con imgui
         PAG::GUI::getInstancia().render();

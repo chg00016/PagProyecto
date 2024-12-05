@@ -14,7 +14,7 @@
 
 #include "../Camara/Camara.h"
 #include "imfilebrowser.h"
-
+#include <glm\vec3.hpp>
 namespace PAG{
     enum direccionCamara {
         izquierda = 0,
