@@ -217,6 +217,41 @@ namespace PAG {
             ImGui::Checkbox("Malla de triangulos", &mallaTriangulos);
         }
         ImGui::End();
+
+        //PR8
+        ImGui::SetNextWindowPos(ImVec2(ImVec2(40, 0)), ImGuiCond_Once);
+        if(ImGui::Begin("Lighting")) { // La ventana está desplegada
+            //ImGui::SetWindowSize(ImVec2(_windowsSize[0],_windowsSize[1]), ImGuiWindowFlags_None);
+            ImGui::SetWindowFontScale(1.0f); // Escalamos el texto si fuera necesario
+            // Pintamos los controles
+            ImGui::Text("Luz seleccionada: ");
+
+            for(int i = 0; i < numeroLuces; i++) {
+                if(ImGui::Button(std::to_string(i).c_str()))
+                    luzSeleccionada = i;
+
+                ImGui::SameLine();
+            }
+
+            switch(luzSeleccionada) {
+                case 0:
+                    LuzFocalSetup();
+                break;
+                case 1: {
+                    ImGui::Text("Propiedades luz puntual:");
+                    LuzDireccionalPuntualSetup();
+                    break;
+                }
+                case 2: {
+                    ImGui::Text("Propiedades direccional:");
+                    LuzDireccionalPuntualSetup();
+                    break;
+                } case 3:
+                    LuzAmbienteSetup();
+                break;
+            }
+        }
+        ImGui::End();
     }
 
     bool GUI::getbuttonPressed() {
@@ -568,6 +603,89 @@ namespace PAG {
         return mallaTriangulos;
     }
 
+    //PR8
+    int GUI::getLuzSeleccionada() const {
+        return luzSeleccionada;
+    }
+
+    int GUI::getNumeroLuces() const {
+        return numeroLuces;
+    }
+
+    void GUI::setLuzSeleccionada(int luzSeleccionada) {
+       this->luzSeleccionada = luzSeleccionada;
+    }
+
+    void GUI::setNumeroLuces(int numeroLuces) {
+        this->numeroLuces = numeroLuces;
+    }
+
+
+    void GUI::LuzFocalSetup() {
+        ImGui::Text("Propiedades luz focal:");
+        int nColumns = 4;
+
+        ImGui::Columns(nColumns);
+        ImGui::Text("Intensidad difusa"); ImGui::NextColumn();
+        ImGui::Text("Intensidad Especular"); ImGui::NextColumn();
+        ImGui::Text("Atenuacion"); ImGui::NextColumn();
+        ImGui::Text("Angulo"); ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &luzDifusa[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i + 3);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &luzEspecular[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        ImGui::VSliderFloat("##v1", ImVec2(18, 160), &s, 0.0f, 500.0f, "");
+        ImGui::NextColumn();
+
+        ImGui::VSliderFloat("##v2", ImVec2(35, 160), &gamma, 0.0f, 90.0f, "%.2f");
+        ImGui::NextColumn();
+    }
+    void GUI::LuzDireccionalPuntualSetup() {
+        int nColumns = 2;
+
+        ImGui::Columns(nColumns);
+        ImGui::Text("Intensidad difusa"); ImGui::NextColumn();
+        ImGui::Text("Intensidad Especular"); ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &luzDifusa[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i + 3);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &luzEspecular[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+        ImGui::NextColumn();
+    }
+    void GUI::LuzAmbienteSetup() {
+        ImGui::Text("Propiedades luz ambiente:");
+        ImGui::Text("Intensidad ambiente");
+        for(int i = 0; i < 3; i++) {
+            if (i > 0) ImGui::SameLine();
+            ImGui::PushID(i);
+            ImGui::VSliderFloat("##v", ImVec2(15, 160), &luzAmbiente[i], 0.0f, 1.0f, "");
+            ImGui::PopID();
+        }
+    }
 
 }
 

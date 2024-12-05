@@ -77,6 +77,17 @@ namespace PAG{
         float componeneteAmbiente[3];
         float componenteEspecular[3];
         float componenteBrillo;
+        //PR8
+        float luzDifusa[3];
+        float luzAmbiente[3];
+        float luzEspecular[3];
+        float gamma;
+        float s;
+        int numeroLuces = 0;
+        int luzSeleccionada = -1;
+        void LuzFocalSetup();
+        void LuzDireccionalPuntualSetup();
+        void LuzAmbienteSetup();
     public:
         static GUI& getInstancia();
         virtual ~GUI();
@@ -126,6 +137,11 @@ namespace PAG{
         void materialSubWindow();
         void moveConfigSubWindow();
         bool getmallaTriangulos() const;
+        //PR8
+        int getLuzSeleccionada() const;
+        int getNumeroLuces() const;
+        void setLuzSeleccionada(int luzSeleccionada);
+        void setNumeroLuces(int numeroLuces);
     };
 }
 
