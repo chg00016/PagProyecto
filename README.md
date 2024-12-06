@@ -273,3 +273,51 @@ del modelo (malla o relleno); por defecto está en modo relleno.
 La representación en UML tras los cambios realizados en esta práctica:
 <br></br>
 <img src=img\UML-prac07.png>
+# *Práctica 8*
+#### Luz
+Siguiendo el patrón estrategia la luz se divide en:
+#####  Clase Luz
+Aplica la luz y la subrutina necesaria según el tipo de aplicador de luz
+Sus atributos:
+- PropiedadesLuz _propiedades: puntero a la clase propiedadesLuz
+- glm::mat4 _vision: para poder obtener la posición y la direccion de la luz para que esta, esté dentro del sistema de coordenadas de la cámara 
+- std::array<LuzAplicador*, 4> _aplicadores: Según los distintos tipos de luces se aplica 
+- tipoLuzAplicacion _aplicadorSeleccionado: Para saber que luz está seleccionada
+#####  Clase PropiedadesLuz
+Se trata de un struct que contiene las propiedades de una luz:
+- glm::vec3 _ID: Intensidad difusa
+- glm::vec3 _IA: Intensidad ambiente
+- glm::vec3 _IS: Intensidad especular
+- glm::vec3 _p: posición de la fuente de luz
+- glm::vec3 _d: dirección de la luz
+- float _gamma: ángulo del foco
+- float _s: atenuación de la luz
+#####  Clase LuzAplicador
+Es una interfaz que permite identificar que tipo de luz es la que se va ha usar, para ello se ha creado un enum con cada tipo de luz.
+Los metodos más importantes son:
+- virtual void aplicarSubrutina(ShaderPrograms& shaderProgram): Para seleccionar la subrutina ha aplicar
+- virtual void aplicarLuz(PropiedadesLuz& properties, const glm::mat4& vision, ShaderPrograms& shaderProgram): Para que la luz se asigne al shaderProgram
+El resto de clases de lainterfaz que definen los métodos según el tipo de aplicador de luz son:
+- LuzAmbienteAplicador
+- LuzDireccionalAplicador
+- LuzFocalAplicador
+- LuzPuntualAplicador
+#### Renderer
+Se realiza un renderizado multipasada, es decir, se renderiza la escena entera con cada luz(focal, puntual, ambiente y direccional).
+Los atributos nuevos son:
+- int luzSeleccionada 
+- array<Luz, 4> luces
+Los métodos nuevos son:
+- Los getters y setters de los atributos de la luz.
+#### GUI
+Se ha añadido una nueva ventana para poder modificar las propiedades de las luces.
+#### ShaderPrograms
+Se ha añadido las siguientes funciones para asignar las variables al shaderProgram mejorando el descoplamiento.
+- void aplicarUniform(const std::string &uniform, float var)
+- void aplicarUniform(const std::string &uniform, const glm::vec3 &vec)
+- void aplicarUniform(const std::string &uniform, const glm::mat4 &mat)
+
+<br></br>
+La representación en UML tras los cambios realizados en esta práctica:
+<br></br>
+<img src=img\UMLPAG-prac08.jpg>
